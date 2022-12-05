@@ -1,0 +1,83 @@
+@use "../../styles/vars.scss" as *;
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    flex-direction: row;
+    width: fit-content;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 0.3em;
+    cursor: pointer;
+    background-color: #fff;
+
+    &[type="primary"] {
+        background-color: $main-primary-color;
+        color: white;
+        &:hover {
+            background-color: $first-dark-primary-color;
+        }
+        &:active {
+            background-color: $second-dark-primary-color;
+        }
+    }
+
+    &[type="secondary"] {
+        outline: solid 0.1em $main-primary-color;
+        color: $main-primary-color;
+        &:hover {
+            background-color: $light-primary-color;
+        }
+        &:active {
+            background-color: $light-grey-color;
+        }
+    }
+
+    &[type="danger"] {
+        outline: solid 0.1em $danger-color;
+        color: $danger-color;
+        &:hover {
+            background-color: $danger-color;
+            color: #fff;
+        }
+        &:active {
+            background-color: $light-danger-color;
+        }
+    }
+
+    // &[isaccessible="false"],
+    &[isloading] {
+        background-color: $grey-color;
+        cursor: not-allowed;
+    }
+
+    &[iconposition="righticon"] {
+        flex-direction: row-reverse;
+    }
+}
+
+.loadingIcon {
+    color: #fff;
+    -webkit-animation: spin 1s linear infinite;
+    -moz-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+    transition: animation ease-in 1s;
+}
+
+@-webkit-keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+@-moz-keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
