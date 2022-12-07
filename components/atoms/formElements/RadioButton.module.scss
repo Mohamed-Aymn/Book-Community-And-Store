@@ -1,3 +1,80 @@
-.radioButton {
-    display: block;
-}
+@use "../../../styles/vars.scss" as *;
+
+// .radioButtonContainer {
+//     position: relative;
+// }
+
+// .radioButton {
+//     position: absolute;
+//     width: 0.7em;
+//     height: 0.7em;
+
+//     &::before {
+//         content: "";
+//         position: absolute;
+//         inset: 0;
+//         width: 0.7em;
+//         height: 0.7em;
+//         background-color: #fff;
+//         outline: 0.15em solid $main-primary-color;
+//         border-radius: 100%;
+//     }
+
+//     &:checked::before {
+//         content: "";
+//         position: absolute;
+//         inset: 0;
+//         width: 0.7em;
+//         height: 0.7em;
+//         background-color: transparent;
+//         border: $main-primary-color 0.2em solid;
+//         outline: $main-primary-color 0.1em solid;
+//         border-radius: 50%;
+//     }
+// }
+
+// .styledRadioButton + .radioButton {
+//     position: absolute;
+//     width: 0.7em;
+//     height: 0.7em;
+//     background-color: red;
+//     border-radius: 100%;
+// }
+
+// .radioButtonContainer {
+//     position: relative;
+// }
+
+// .radioItemInput {
+//     display: none;
+//     position: relative;
+// }
+// .radioItemInput:checked ~ .radioItemLabel::before {
+//     outline: #3992ff 0.1em solid;
+//     background-color: #3992ff;
+// }
+// .radioItemInput:checked + .radioItemLabel::after {
+//     background-color: #3992ff;
+//     outline: border;
+//     display: inline;
+// }
+// .radioItemLabel {
+//     position: relative;
+//     padding-left: 1.3em;
+//     cursor: pointer;
+// }
+// .radioItemLabel::before {
+//     content: "";
+//     width: 0.6em;
+//     height: 0.6em;
+//     position: absolute;
+//     left: -0.02em;
+//     top: 0.15em;
+//     background-color: transparent;
+//     border: #121316 0.2em solid;
+//     outline: #a3a3a3 0.1em solid;
+//     border-radius: 50%;
+// }
+// .radioItemLabel:hover::before {
+//     outline: #3992ff 0.1em solid;
+// }

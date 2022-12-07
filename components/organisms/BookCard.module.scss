@@ -1,0 +1,17 @@
+@use "../../styles/vars.scss" as *;
+
+.mainContainer {
+}
+
+.photoContainer {
+    padding: 2em;
+    background-color: $grey-color;
+    width: fit-content;
+}
+
+.image {
+    width: 10em;
+    height: 15em;
+    object-fit: cover;
+    object-position: center center;
+}

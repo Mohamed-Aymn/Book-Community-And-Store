@@ -14,7 +14,7 @@ isAccessible (disabled/enabled)
 isLoading (true, flase)
 */
 import styles from "./Button.module.scss";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import Loading from "../atoms/icons/Loading";
 
 export default function (props: any) {
     let { type, text, Icon, iconposition, isaccessible, isloading } = props;
@@ -23,12 +23,9 @@ export default function (props: any) {
         <button className={styles.button} {...props}>
             <>
                 {Icon && !isloading ? (
-                    <Icon />
+                    <Icon fill="#FFF" />
                 ) : isloading ? (
-                    <AiOutlineLoading3Quarters
-                        className={styles.loadingIcon}
-                        fill="#fff"
-                    />
+                    <Loading />
                 ) : null}
             </>
             {text}

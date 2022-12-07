@@ -1,0 +1,28 @@
+@use "../../styles/vars.scss" as *;
+
+.mainContainer {
+    .title {
+        display: flex;
+        flex-direction: column;
+
+        .firstTitleLine {
+            font-size: 5rem;
+            margin-left: -0.07em;
+            font-weight: 300;
+        }
+        .secondTitleLine {
+            margin-top: -0.6em;
+            font-size: 3rem;
+            font-weight: 700;
+            color: $main-primary-color;
+        }
+    }
+
+    .image {
+        width: 100%;
+        height: calc(100vh - 13em);
+        object-fit: cover;
+        object-position: right center;
+        border-radius: 0.7em;
+    }
+}

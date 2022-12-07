@@ -1,0 +1,24 @@
+import style from "./footer.module.scss";
+import { BsFacebook } from "react-icons/bs";
+import { AiFillTwitterCircle } from "react-icons/ai";
+
+export default function Footer() {
+    return (
+        <footer className={style.footer}>
+            <div className={style.content}>
+                <div>
+                    <BsFacebook />
+                    <AiFillTwitterCircle />
+                </div>
+
+                <div className={style.text}>
+                    <div>Develped using * technologies</div>
+                    <div className={style.license}>
+                        <div>copyRight reserverd</div>
+                        <div>licensed with bla license</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    );
+}

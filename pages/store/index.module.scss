@@ -1,0 +1,12 @@
+.productDetails {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.112);
+    z-index: 1;
+
+    .content {
+        position: absolute;
+        inset: 0 0 0 45%;
+        background-color: skyblue;
+    }
+}

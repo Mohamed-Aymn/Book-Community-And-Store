@@ -1,0 +1,28 @@
+@use "../../../styles/vars.scss" as *;
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    padding: 0.7em 1.7em;
+    background-color: #fff;
+
+    .routs {
+        display: flex;
+        gap: 1em;
+        list-style: none;
+        .link {
+            text-decoration: none;
+            color: $black;
+        }
+    }
+
+    .auth {
+        display: flex;
+        gap: 0.5em;
+    }
+}
