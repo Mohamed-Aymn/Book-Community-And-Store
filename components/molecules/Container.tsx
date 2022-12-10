@@ -1,44 +1,72 @@
-import { ReactNode } from "react";
 import styles from "./Container.module.scss";
 
 export default function (props: any) {
-    // this is wrong i must define their types in the function argument
-    // defining the normal arguments of the flex will be not clean with scss attribute seletor (align-items: center, end , start ...)
-
-    /*
-    also make title poistin control if it will be displayed as flex with the content or not
-    */
-
     let {
         children,
         margin,
+        titleLevel,
+
         padding,
         title,
-        titleposition,
         indentation,
         display,
-        justifycontent,
-        alignitems,
-        flow,
-        gap,
     }: {
-        children: ReactNode;
-        margin: number;
-        padding: number;
+        // --------------------------------------------- common
+        children: any;
+
+        margin: string;
+        // big / small
+
+        padding: string;
+        // big / small
+
         title: string;
-        titleposition: string;
-        indentation: number;
-        display: string;
-        justifycontent: string;
-        alignitems: string;
-        flow: string;
-        gap: number;
+        // object {value: "title", level: "h1", position: "center"}
+
+        titleLevel: number;
+
+        indentation: string;
+
+        // --------------------------------------------- display (flex, +grid in the future)
+        display: any;
+        // {value: "flex", justifyContent: "center"}
+        // and same for align items and flow
+        // but gap is only big and samll
     } = props;
 
+    // console.log(display.value);
+    // console.log(title);
+
+    // console.log(props.titlePosition);
+
     return (
-        <div className={styles.container} {...props}>
-            {title ? <h1 className={styles.title}>{title}</h1> : null}
-            {children}
-        </div>
+        <>
+            {title ? (
+                <div
+                    className={styles.container}
+                    padding={padding}
+                    margin={margin}
+                    indentation={indentation}
+                >
+                    {titleLevel === 0 ? (
+                        <div className={styles.title}>{title}</div>
+                    ) : titleLevel === 1 ? (
+                        <h1 className={styles.title}>{title}</h1>
+                    ) : titleLevel === 2 ? (
+                        <h2 className={styles.title}>{title}</h2>
+                    ) : null}
+                    {/* <h1 className={styles.title}>{title}</h1> */}
+                    <div
+                        className={styles.content}
+                        // display={`${display.value}`}
+                    >
+                        {children}
+                    </div>
+                </div>
+            ) : (
+                // distructuring props like that will not work as not all of values are on the first level
+                <div className={styles.container}>{children}</div>
+            )}
+        </>
     );
 }

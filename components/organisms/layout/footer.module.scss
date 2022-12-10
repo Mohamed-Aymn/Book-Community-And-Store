@@ -1,8 +1,10 @@
+@use "../../../styles/main.scss" as *;
+
 .footer {
     position: sticky;
     top: 100%;
 
-    background-color: #f5f3ef;
+    background-color: $secondary-dark-beige-color;
     border-radius: 0.7em;
     margin: 1.7em;
 

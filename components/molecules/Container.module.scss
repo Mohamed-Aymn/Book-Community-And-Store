@@ -6,6 +6,11 @@
         text-align: center;
     }
 
+    &[display="flex"] {
+        display: flex;
+        gap: 1em;
+    }
+
     &[titleposition="left"] .title {
         text-align: left;
     }
@@ -15,11 +20,6 @@
     }
     &[margin="big"] {
         margin: 3em 0;
-    }
-
-    &[display="flex"] {
-        display: flex;
-        gap: 1em;
     }
 
     &[indentation="1"] {
@@ -33,5 +33,12 @@
     }
     &[indentation="4"] {
         margin-left: 4em;
+    }
+}
+
+.content {
+    &[display="flex"] {
+        display: flex;
+        gap: 1em;
     }
 }

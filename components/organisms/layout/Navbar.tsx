@@ -1,36 +1,89 @@
 import Link from "next/link";
-import { BiBookBookmark } from "react-icons/bi";
+import { BiBookBookmark, BiMenu } from "react-icons/bi";
 import Button from "../../molecules/Button";
-import style from "./navbar.module.scss";
+import styles from "./navbar.module.scss";
+import { useRouter } from "next/router";
 
 export default function Navbar() {
+    let router = useRouter();
+
     return (
-        <nav className={style.nav}>
-            <Link href="/">
+        <nav className={styles.nav}>
+            {/* logo */}
+            <Link href="/about" className={styles.logo}>
                 <BiBookBookmark fill="#03a66f" />
             </Link>
-            <div className={style.routs}>
-                <Link className={style.link} href="/">
+
+            <div className={styles.mobileNav}>
+                <BiMenu />
+            </div>
+
+            {/* routes */}
+            <div className={styles.routs}>
+                <Link
+                    className={
+                        router.pathname === "/"
+                            ? styles.currentLink
+                            : styles.link
+                    }
+                    href="/"
+                >
                     Home
                 </Link>
-                <Link className={style.link} href="/store">
+                <Link
+                    className={
+                        router.pathname.includes("/store")
+                            ? styles.currentLink
+                            : styles.link
+                    }
+                    href="/store"
+                >
                     Store
                 </Link>
-                <Link className={style.link} href="/profile">
+                <Link
+                    className={
+                        router.pathname.includes("/profile")
+                            ? styles.currentLink
+                            : styles.link
+                    }
+                    href="/profile"
+                >
                     profile
                 </Link>
-                <Link className={style.link} href="/cart">
+                <Link
+                    className={
+                        router.pathname.includes("/cart")
+                            ? styles.currentLink
+                            : styles.link
+                    }
+                    href="/cart"
+                >
                     cart
                 </Link>
-                <Link className={style.link} href="/about">
+                <Link
+                    className={
+                        router.pathname.includes("/about")
+                            ? styles.currentLink
+                            : styles.link
+                    }
+                    href="/about"
+                >
                     About us
                 </Link>
             </div>
-            <div className={style.auth}>
-                <Link href={"/authentication"}>
+
+            {/* auth buttons */}
+            <div className={styles.auth}>
+                <Link
+                    href={"/authentication"}
+                    style={{ textDecoration: "none" }}
+                >
                     <Button text="Login" type="primary" />
                 </Link>
-                <Link href={"/authentication"}>
+                <Link
+                    href={"/authentication"}
+                    style={{ textDecoration: "none" }}
+                >
                     <Button text="Signup" type="secondary" />
                 </Link>
             </div>

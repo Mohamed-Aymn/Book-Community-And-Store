@@ -1,0 +1,19 @@
+.searchResults {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, calc((130ch - 3.4em) / 4));
+    justify-content: center;
+    margin: 1em 0;
+}
+
+.searchContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.genres {
+    display: flex;
+    gap: 0.5em;
+    margin: 0.5em 0;
+}

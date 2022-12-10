@@ -1,0 +1,25 @@
+@use "../../styles/utils/variables" as *;
+
+.mainContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: $primary-color;
+    border-radius: 1.7em;
+    padding: 1.7em;
+    .image {
+        width: 5em;
+        height: 5em;
+        border-radius: 100%;
+        margin: 1em 0;
+    }
+    .userName {
+        color: $secondary-light-beige-color;
+        font-weight: 500;
+    }
+
+    p {
+        color: $secondary-dark-beige-color;
+    }
+}

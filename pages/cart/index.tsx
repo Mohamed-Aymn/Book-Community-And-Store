@@ -1,11 +1,14 @@
 import Button from "../../components/molecules/Button";
+import SearchBar from "../../components/molecules/SearchBar";
 
 export default function () {
     return (
         <main>
             <h1>Cart</h1>
 
-            <table>
+            <SearchBar />
+
+            <table className="cartTable">
                 <thead>
                     <tr>
                         <th>product</th>
@@ -15,18 +18,23 @@ export default function () {
                 </thead>
                 <tbody>
                     <tr>
-                        <td>item</td>
-                        <td>item</td>
-                        <td>item</td>
+                        <td>name</td>
+                        <td>99</td>
+                        <td>3</td>
                     </tr>
                 </tbody>
             </table>
 
-            <div>Sub-total : X</div>
-            <div>Shipping : x</div>
-            <div>Total: x</div>
+            <div className="orderDetails">
+                <div>
+                    <div>Order summary</div>
+                    <div>Sub-total : X</div>
+                    <div>Shipping : x</div>
+                </div>
 
-            <Button text="Place order" type="primary" />
+                <div>Total: x</div>
+                <Button text="Checkout" type="primary" />
+            </div>
         </main>
     );
 }

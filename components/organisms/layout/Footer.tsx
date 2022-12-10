@@ -1,14 +1,12 @@
 import style from "./footer.module.scss";
-import { BsFacebook } from "react-icons/bs";
-import { AiFillTwitterCircle } from "react-icons/ai";
+import { BsGithub } from "react-icons/bs";
 
 export default function Footer() {
     return (
         <footer className={style.footer}>
             <div className={style.content}>
                 <div>
-                    <BsFacebook />
-                    <AiFillTwitterCircle />
+                    <BsGithub />
                 </div>
 
                 <div className={style.text}>

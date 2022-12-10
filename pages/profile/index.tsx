@@ -1,34 +1,54 @@
 import Button from "../../components/molecules/Button";
-import Container from "../../components/molecules/Container";
-import styles from "./index.module.scss";
+import Image from "next/image";
+import img from "../../assets/mainPhoto.jpg";
+import Reviews from "../../components/organisms/Reviews";
 
 export default function () {
     return (
-        <main>
-            <Container display="flex">
-                <div className={styles.image} />
-                <Container title="user name">
-                    <div>fast bio</div>
-                    <Button text="connect" type="primary" />
-                </Container>
-            </Container>
-
-            <Container display="flex">
-                <Container>
-                    profile info
+        <main className="profileMainContainer">
+            <div className="profileHeader">
+                <div className="mainInfo">
+                    <Image
+                        className="image"
+                        src={img}
+                        alt="Picture of the author"
+                    />
                     <div>
-                        <div>X connections</div>
+                        <div className="userName">User Name</div>
+                        <div className="userTitle">writer/reader</div>
+                        <div className="bio">
+                            detialed bio, Lorem ipsum dolor, sit amet
+                            consectetur adipisicing elit. Tenetur ab et
+                            explicabo itaque, amet, natus ipsam, fugiat maiores
+                            expedita{" "}
+                        </div>
+                    </div>
+                </div>
+                <Button text="connect" type="primary" />
+            </div>
+
+            <div className="profileBody">
+                <div className="profileInfo">
+                    <div>
+                        <b>Favourite genres</b>
+                        <div>scienfific hello</div>
+                    </div>
+                    <div>
+                        <b>Books read</b>
+                        <div>Rich Dad Poor Dad</div>
+                    </div>
+                    <div>
+                        <div>
+                            <b>X connections</b>
+                        </div>
                         <div>connections sample</div>
                     </div>
-                    <div>detialed bio</div>
-                    <div>read books</div>
-                </Container>
-                <Container>
-                    newsfeed
-                    <div>review about something</div>
-                    <div>announcment</div>
-                </Container>
-            </Container>
+                </div>
+                <div>
+                    <h2>Reviews</h2>
+                    <Reviews />
+                </div>
+            </div>
         </main>
     );
 }

@@ -1,69 +1,96 @@
-import LandingConatiner from "../components/organisms/LandingContainer";
-import styles from "./index.module.scss";
-import Container from "../components/molecules/Container";
-import Button from "../components/molecules/Button";
 import BookCard from "../components/organisms/BookCard";
+import LandingConatiner from "../components/organisms/LandingContainer";
+import mainPhoto from "../assets/mainPhoto.jpg";
+import CustomersFeedback from "../components/organisms/CustomersFeedback";
+import Button from "../components/molecules/Button";
 
 export default function Home() {
     return (
-        <main>
+        <>
             <LandingConatiner />
+            <main>
+                <section className="section">
+                    <h1 className="title">Best Seller Books</h1>
+                    <div className="homeSlider">
+                        <BookCard
+                            title="Awesome book"
+                            price="100"
+                            info="this is info about this book"
+                            img={mainPhoto}
+                        />
+                        <BookCard
+                            title="Awesome book"
+                            price="100"
+                            info="this is info about this book"
+                            img={mainPhoto}
+                        />
+                        <BookCard
+                            title="Awesome book"
+                            price="100"
+                            info="this is info about this book"
+                            img={mainPhoto}
+                        />
+                    </div>
+                </section>
 
-            <Container
-                title="Best Seller Books"
-                titleposition="center"
-                margin="big"
-            >
-                <Container display="flex">
-                    <BookCard title="myBook" anotherInfo="cool" />
-                </Container>
-            </Container>
+                <section className="section">
+                    <h1 className="title">Free Books</h1>
+                    <div className="homeSlider">
+                        <BookCard
+                            title="Awesome book"
+                            price="100"
+                            info="this is info about this book"
+                            img={mainPhoto}
+                        />
+                        <BookCard
+                            title="Awesome book"
+                            price="100"
+                            info="this is info about this book"
+                            img={mainPhoto}
+                        />
+                        <BookCard
+                            title="Awesome book"
+                            price="100"
+                            info="this is info about this book"
+                            img={mainPhoto}
+                        />
+                    </div>
+                </section>
 
-            <Container title="Free Books" titleposition="center" margin="big">
-                <div>side slider</div>
-            </Container>
+                <section className="section">
+                    <h1 className="title">Electronic Books</h1>
+                    <div className="homeSlider">
+                        <BookCard
+                            title="Awesome book"
+                            price="100"
+                            info="this is info about this book"
+                            img={mainPhoto}
+                        />
+                        <BookCard
+                            title="Awesome book"
+                            price="100"
+                            info="this is info about this book"
+                            img={mainPhoto}
+                        />
+                        <BookCard
+                            title="Awesome book"
+                            price="100"
+                            info="this is info about this book"
+                            img={mainPhoto}
+                        />
+                    </div>
+                </section>
 
-            {/* this is an advertising section */}
-            <div className={styles.advertisingContainer}>advertising area</div>
-
-            <Container
-                title="Electronic Books"
-                titleposition="center"
-                margin="big"
-            >
-                <div>side slider</div>
-            </Container>
-
-            <Container
-                title="Our Customers"
-                titleposition="center"
-                margin="big"
-            >
-                <div>Customers cards</div>
-                <Button type="primary" text="Join Us!" />
-            </Container>
-
-            {/*.
-
-            <section className={styles.section}>
-                <h1 className={styles.title}>Trending</h1>
-                <div>side slider</div>
-            </section>
-
-            <section className={styles.section}>
-                <h1 className={styles.title}>Free-books</h1>
-                <div>side slider</div>
-            </section>
-
-            <section className={styles.section}>
-                <h1 className={styles.title}>E-books</h1>
-                <div>side slider</div>
-            </section>
-
-            <section className={styles.section}>
-                <h1 className={styles.title}>Our Customers</h1>
-                <OurClients />
-            </section> */}
-        </main>
+                <section className="section feedbackSection">
+                    <h1 className="title">Our Customers</h1>
+                    <div className="FeedbackContainer">
+                        <CustomersFeedback img={mainPhoto} />
+                        <CustomersFeedback img={mainPhoto} />
+                        <CustomersFeedback img={mainPhoto} />
+                    </div>
+                    <Button text="join us" type="primary" />
+                </section>
+            </main>
+        </>
     );
 }

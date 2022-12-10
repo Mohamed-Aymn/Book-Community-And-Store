@@ -1,24 +1,25 @@
-@use "./breakPoints.scss" as *;
-@use "./vars.scss" as *;
+@use "./main.scss" as *;
 
 // html,
 body {
-    color: $black;
+    color: $dark-greyscale-color;
+    background-color: $secondary-light-beige-color;
     padding: 0;
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
         Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    overflow-y: scroll;
 }
 * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    //     background-color: rgba(255, 0, 0, 0.259);
+    // background-color: rgba(255, 0, 0, 0.259);
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-}
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6 {
+// }

@@ -1,4 +1,4 @@
-@use "../../styles/vars.scss" as *;
+@use "../../styles/main.scss" as *;
 
 .button {
     display: flex;
@@ -15,42 +15,53 @@
     text-decoration: none;
 
     &[type="primary"] {
-        background-color: $main-primary-color;
+        background-color: $primary-color;
         color: white;
         &:hover {
-            background-color: $first-dark-primary-color;
+            background-color: $secondary-dark-green-color;
         }
         &:active {
-            background-color: $second-dark-primary-color;
+            background-color: $secondary-dark-green-color;
         }
     }
 
     &[type="secondary"] {
-        outline: solid 0.1em $main-primary-color;
-        color: $main-primary-color;
+        outline: solid 0.1em $primary-color;
+        color: $primary-color;
         &:hover {
-            background-color: $light-primary-color;
+            background-color: $secondary-dark-beige-color;
         }
         &:active {
-            background-color: $light-grey-color;
+            background-color: $secondary-dark-beige-color;
+        }
+    }
+
+    &[type="tertiary"] {
+        outline: solid 0.1em $grey-greyscale-color;
+        color: $dark-greyscale-color;
+        &:hover {
+            background-color: $light-greyscale-color;
+        }
+        &:active {
+            background-color: $grey-greyscale-color;
         }
     }
 
     &[type="danger"] {
-        outline: solid 0.1em $danger-color;
-        color: $danger-color;
+        outline: solid 0.1em $repeler-color;
+        color: $repeler-color;
         &:hover {
-            background-color: $danger-color;
+            background-color: $repeler-color;
             color: #fff;
         }
         &:active {
-            background-color: $light-danger-color;
+            background-color: $repeler-color;
         }
     }
 
     // &[isaccessible="false"],
     &[isloading] {
-        background-color: $grey-color;
+        background-color: $grey-greyscale-color;
         cursor: not-allowed;
     }
 

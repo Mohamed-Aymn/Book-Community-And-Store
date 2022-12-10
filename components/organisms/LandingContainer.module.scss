@@ -1,20 +1,26 @@
-@use "../../styles/vars.scss" as *;
+@use "../../styles/main.scss" as *;
 
 .mainContainer {
+    margin: 0 1.7em;
+
     .title {
         display: flex;
         flex-direction: column;
+        text-decoration: none;
+        text-align: left;
+        width: fit-content;
 
         .firstTitleLine {
             font-size: 5rem;
             margin-left: -0.07em;
             font-weight: 300;
+            color: $dark-greyscale-color;
         }
         .secondTitleLine {
             margin-top: -0.6em;
             font-size: 3rem;
             font-weight: 700;
-            color: $main-primary-color;
+            color: $primary-color;
         }
     }
 

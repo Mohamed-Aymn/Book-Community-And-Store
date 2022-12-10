@@ -6,19 +6,11 @@ import styles from "./LandingContainer.module.scss";
 export default function () {
     return (
         <div className={styles.mainContainer}>
-            <Link href="/about">
-                <div className={styles.title}>
-                    <div className={styles.firstTitleLine}>Book</div>
-                    <div className={styles.secondTitleLine}>Store</div>
-                </div>
+            <Link href="/about" className={styles.title}>
+                <div className={styles.firstTitleLine}>Book</div>
+                <div className={styles.secondTitleLine}>Store</div>
             </Link>
-            <div className={styles.imageContainer}>
-                <Image
-                    src={MainPhoto}
-                    alt="Main photo"
-                    className={styles.image}
-                />
-            </div>
+            <Image src={MainPhoto} alt="Main photo" className={styles.image} />
         </div>
     );
 }

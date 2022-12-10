@@ -1,0 +1,62 @@
+@use "../utils/variables" as *;
+
+.profileMainContainer {
+    border: 0.05em solid $primary-color;
+    border-radius: 1.5em;
+    // padding: 1.5em 2em;
+}
+
+.profileHeader {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5em;
+    background-color: $primary-color;
+    border: solid 0.1em $primary-color;
+    padding: 1.5em 2em;
+    border-radius: 1.5em;
+
+    .mainInfo {
+        display: flex;
+        gap: 1em;
+    }
+
+    .image {
+        background-color: grey;
+        border-radius: 100%;
+        width: 5em;
+        height: 5em;
+        border: solid 0.2em $secondary-light-beige-color;
+    }
+
+    .userName {
+        color: $secondary-light-beige-color;
+        font-weight: 600;
+        font-size: 1.3rem;
+    }
+
+    .userTitle {
+        color: $secondary-dark-beige-color;
+        font-size: 0.8rem;
+    }
+
+    .bio {
+        margin-top: 1em;
+        color: $secondary-dark-beige-color;
+        max-width: 50%;
+    }
+}
+
+.profileBody {
+    display: flex;
+    gap: 2em;
+    padding: 1.5em 2em;
+    .profileInfo {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1.5em;
+        width: 40%;
+        padding-right: 2em;
+        border-right: 0.1em solid $grey-greyscale-color;
+    }
+}

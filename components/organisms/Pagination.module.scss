@@ -1,0 +1,10 @@
+.mainConatiner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.3em;
+    .pagesNumbers {
+        display: flex;
+        gap: 0.3em;
+    }
+}

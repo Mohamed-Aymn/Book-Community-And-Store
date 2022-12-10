@@ -1,0 +1,10 @@
+// pages
+@forward "./pages/authentication";
+@forward "./pages/cart";
+@forward "./pages/home";
+@forward "./pages/profile";
+@forward "./pages/store";
+
+// utils
+@forward "./utils/breakPoints";
+@forward "./utils/variables";

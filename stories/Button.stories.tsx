@@ -1,6 +1,7 @@
 import Button from "../components/molecules/Button";
 import { AiFillLike } from "react-icons/ai";
 import { MdOutlineNavigateNext } from "react-icons/md";
+import { FaFilter } from "react-icons/fa";
 
 export default {
     title: "Button",
@@ -19,6 +20,12 @@ export const secondary = Template.bind({});
 secondary.args = {
     text: "Secondary",
     type: "secondary",
+};
+
+export const tertiary = Template.bind({});
+tertiary.args = {
+    type: "tertiary",
+    Icon: FaFilter,
 };
 
 export const Danger = Template.bind({});

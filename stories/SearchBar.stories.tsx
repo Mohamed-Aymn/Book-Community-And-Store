@@ -8,4 +8,7 @@ export default {
 const Template: any = (args: any) => <SearchBar {...args} />;
 
 export const primary = Template.bind({});
-primary.args = { placeholder: "hello" };
+primary.args = {
+    placeholder: "hello",
+    config: "true",
+};

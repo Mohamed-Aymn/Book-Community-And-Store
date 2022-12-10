@@ -1,17 +1,38 @@
-@use "../../styles/vars.scss" as *;
+@use "../../styles/main.scss" as *;
 
 .mainContainer {
+    padding: 0.7em;
+    border: none;
+    // border-radius: 0.7em;
+    background-color: $light-greyscale-color;
+    &:hover {
+        background-color: $primary-color;
+        color: #fff;
+        cursor: pointer;
+    }
 }
 
-.photoContainer {
-    padding: 2em;
-    background-color: $grey-color;
-    width: fit-content;
+.firstInfoLine {
+    display: flex;
+    justify-content: space-between;
+    .price {
+        font-weight: bold;
+    }
+}
+.info {
+    text-align: left;
 }
 
 .image {
-    width: 10em;
-    height: 15em;
+    width: 11em;
+    height: 17em;
     object-fit: cover;
     object-position: center center;
+    margin-bottom: 0.5em;
+    border-radius: 0.7em;
+}
+
+.about {
+    text-align: center;
+    margin: 1em 0;
 }

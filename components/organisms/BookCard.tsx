@@ -1,23 +1,54 @@
-import Container from "../molecules/Container";
 import Image from "next/image";
-import mainPhoto from "../../assets/mainPhoto.jpg";
 import styles from "./BookCard.module.scss";
+import { useQuery } from "react-query";
+import { layoutStore } from "../../clientState/layoutStore";
+import Button from "../molecules/Button";
+import Link from "next/link";
+import BookDetailsModal from "./BookDetailsModal";
 
-export default function ({ image, title, anotherInfo, click }: any) {
+export default function ({ img, title, click, price, info }: any) {
+    const isDisplayingBookDetails = layoutStore(
+        (state: any) => state.isDisplayingBookDetails
+    );
+
+    const switchDisplayingBookDetails = layoutStore(
+        (state: any) => state.switchDisplayingBookDetails
+    );
+
+    let { isLoading, error, data } = useQuery("booksData", async () => {
+        let res = await fetch(
+            `https://www.googleapis.com/books/v1/volumes?q=${title}&orderBy=newest`
+        );
+        return res.json();
+    });
+
+    let clickHandler = () => {
+        switchDisplayingBookDetails(isDisplayingBookDetails);
+    };
+
     return (
-        <button onClick={click}>
-            <div className={styles.photoContainer}>
+        <>
+            {isDisplayingBookDetails && (
+                <BookDetailsModal
+                    click={clickHandler}
+                    img={img}
+                    title={title}
+                    info={info}
+                />
+            )}
+
+            <button className={styles.mainContainer} onClick={clickHandler}>
                 <Image
                     className={styles.image}
-                    src={mainPhoto}
+                    src={img}
                     alt="Picture of the author"
-                    width={500}
-                    height={500}
                 />
-            </div>
-            <Container title={title} margin="" titleposition="left">
-                <div>{anotherInfo}</div>
-            </Container>
-        </button>
+                <div className={styles.firstInfoLine}>
+                    <div className={styles.title}>{title}</div>
+                    <div className={styles.price}>{price}$</div>
+                </div>
+                <div className={styles.info}>{info}</div>
+            </button>
+        </>
     );
 }
