@@ -1,8 +1,43 @@
+@use "../../styles/utils/breakPoints" as *;
+@use "../../styles/utils/variables" as *;
+
+.store {
+    background-color: white;
+}
+
+.newSearchContainer {
+    margin: 1.7em 0 0.9em 0;
+}
+
+.storeSearch {
+    // position: sticky;
+    // top: 5.3em;
+}
+
 .searchResults {
     display: grid;
-    grid-template-columns: repeat(auto-fit, calc((130ch - 3.4em) / 4));
+    grid-template-columns: repeat(7, 1fr);
     justify-content: center;
-    margin: 1em 0;
+    gap: 1em 0;
+    margin: 2em 0;
+    @include media("<=1250px") {
+        grid-template-columns: repeat(6, 1fr);
+    }
+    @include media("<=1080px") {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    @include media("<=940px") {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    @include media("<=755px") {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    @include media("<=590px") {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @include media("<=390px") {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }
 
 .searchContainer {
@@ -15,5 +50,4 @@
 .genres {
     display: flex;
     gap: 0.5em;
-    margin: 0.5em 0;
 }

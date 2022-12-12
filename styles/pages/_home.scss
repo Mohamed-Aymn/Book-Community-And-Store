@@ -1,6 +1,3 @@
-// this will not work here because iam import main file that include this _home.scss file.
-// @use "../main.scss";
-
 @use "../utils/breakPoints" as *;
 @use "../utils/variables" as *;
 
@@ -9,15 +6,12 @@
 }
 
 .homeSlider {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
     justify-content: center;
-    align-items: center;
-    gap: 2em;
-    flex-wrap: wrap;
-}
-
-.title {
-    text-align: center;
+    // margin: 1em auto;
+    padding: 1.7em 0;
+    overflow: hidden;
 }
 
 .advertisingContainer {
@@ -44,4 +38,74 @@
     flex-direction: column;
     align-items: center;
     gap: 1em;
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: -1.7em;
+}
+
+.sliderControllers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.7em;
+}
+
+.linkButton {
+    text-decoration: none;
+}
+
+.newSearchContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .filterIcon {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        color: $secondary-dark-blue-color;
+    }
+}
+
+.mainSearchConatiener {
+    padding: 0.7em;
+    background-color: $secondary-dark-blue-color;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1.7em;
+    input {
+        background-color: $secondary-dark-blue-color;
+        width: 100%;
+        border: none;
+    }
+    button {
+        background-color: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        cursor: pointer;
+    }
+}
+
+.genres {
+    overflow: hidden;
+    button {
+        min-width: 5em;
+        height: 2em;
+    }
+}
+
+.joinus {
+    margin: 1em 0;
+    padding: 0.5em 4em;
+    font-size: 1.3rem;
+    background-color: $secondary-green-color;
+    border: none;
+    color: $primary-color;
+    cursor: pointer;
 }

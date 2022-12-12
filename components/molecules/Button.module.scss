@@ -18,10 +18,10 @@
         background-color: $primary-color;
         color: white;
         &:hover {
-            background-color: $secondary-dark-green-color;
+            background-color: $secondary-dark-blue-color;
         }
         &:active {
-            background-color: $secondary-dark-green-color;
+            background-color: $secondary-dark-blue-color;
         }
     }
 
@@ -29,22 +29,24 @@
         outline: solid 0.1em $primary-color;
         color: $primary-color;
         &:hover {
-            background-color: $secondary-dark-beige-color;
+            background-color: $secondary-dark-blue-color;
         }
         &:active {
-            background-color: $secondary-dark-beige-color;
+            background-color: $secondary-dark-blue-color;
         }
     }
 
-    &[type="tertiary"] {
-        outline: solid 0.1em $grey-greyscale-color;
-        color: $dark-greyscale-color;
-        &:hover {
-            background-color: $light-greyscale-color;
-        }
-        &:active {
-            background-color: $grey-greyscale-color;
-        }
+    &[type="tag"] {
+        outline: solid 0.1em $primary-color;
+        color: $primary-color;
+        border-radius: 3em;
+        font-weight: 700;
+        // &:hover {
+        //     background-color: $secondary-dark-blue-color;
+        // }
+        // &:active {
+        //     background-color: $secondary-dark-blue-color;
+        // }
     }
 
     &[type="danger"] {
@@ -61,7 +63,7 @@
 
     // &[isaccessible="false"],
     &[isloading] {
-        background-color: $grey-greyscale-color;
+        background-color: $secondary-dark-blue-color;
         cursor: not-allowed;
     }
 

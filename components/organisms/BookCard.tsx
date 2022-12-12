@@ -2,11 +2,9 @@ import Image from "next/image";
 import styles from "./BookCard.module.scss";
 import { useQuery } from "react-query";
 import { layoutStore } from "../../clientState/layoutStore";
-import Button from "../molecules/Button";
-import Link from "next/link";
 import BookDetailsModal from "./BookDetailsModal";
 
-export default function ({ img, title, click, price, info }: any) {
+export default function ({ img, title, click, price, author }: any) {
     const isDisplayingBookDetails = layoutStore(
         (state: any) => state.isDisplayingBookDetails
     );
@@ -33,7 +31,7 @@ export default function ({ img, title, click, price, info }: any) {
                     click={clickHandler}
                     img={img}
                     title={title}
-                    info={info}
+                    author={author}
                 />
             )}
 
@@ -43,11 +41,18 @@ export default function ({ img, title, click, price, info }: any) {
                     src={img}
                     alt="Picture of the author"
                 />
-                <div className={styles.firstInfoLine}>
-                    <div className={styles.title}>{title}</div>
-                    <div className={styles.price}>{price}$</div>
+                <div className={styles.title}>{title}</div>
+                <hr className={styles.divider} />
+                <div className={styles.detailedInfo}>
+                    <div className={styles.infoContainer}>
+                        <div className={styles.writerTitle}>Writer</div>
+                        <div className={styles.author}>{author}</div>
+                    </div>
+                    <div className={styles.infoContainer}>
+                        <div className={styles.buyNowTitle}>Buy now</div>
+                        <div className={styles.price}>{price} $</div>
+                    </div>
                 </div>
-                <div className={styles.info}>{info}</div>
             </button>
         </>
     );

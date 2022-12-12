@@ -10,12 +10,12 @@ export default function Navbar() {
     return (
         <nav className={styles.nav}>
             {/* logo */}
-            <Link href="/about" className={styles.logo}>
-                <BiBookBookmark fill="#03a66f" />
+            <Link href="/" className={styles.logo}>
+                <BiBookBookmark fill="#fff" />
             </Link>
 
             <div className={styles.mobileNav}>
-                <BiMenu />
+                <BiMenu fill="#738198" />
             </div>
 
             {/* routes */}
@@ -48,7 +48,7 @@ export default function Navbar() {
                     }
                     href="/profile"
                 >
-                    profile
+                    Profile
                 </Link>
                 <Link
                     className={
@@ -58,7 +58,7 @@ export default function Navbar() {
                     }
                     href="/cart"
                 >
-                    cart
+                    Cart
                 </Link>
                 <Link
                     className={

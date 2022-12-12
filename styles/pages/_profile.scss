@@ -1,22 +1,20 @@
 @use "../utils/variables" as *;
-
-.profileMainContainer {
-    border: 0.05em solid $primary-color;
-    border-radius: 1.5em;
-    // padding: 1.5em 2em;
-}
+@use "../utils/breakPoints" as *;
 
 .profileHeader {
     display: flex;
     justify-content: space-between;
     gap: 1.5em;
-    background-color: $primary-color;
-    border: solid 0.1em $primary-color;
-    padding: 1.5em 2em;
+    // background-color: $primary-color;
+    // border: solid 0.1em $primary-color;
+    padding: 2em 0;
     border-radius: 1.5em;
+    // margin-top: 0.7em;
 
     .mainInfo {
         display: flex;
+        justify-content: center;
+        align-items: center;
         gap: 1em;
     }
 
@@ -25,38 +23,54 @@
         border-radius: 100%;
         width: 5em;
         height: 5em;
-        border: solid 0.2em $secondary-light-beige-color;
+        border: solid 0.2em $secondary-grey-blue-color;
     }
 
     .userName {
-        color: $secondary-light-beige-color;
+        color: $secondary-dark-blue-color;
         font-weight: 600;
         font-size: 1.3rem;
     }
 
     .userTitle {
-        color: $secondary-dark-beige-color;
+        color: $secondary-dark-blue-color;
         font-size: 0.8rem;
+        margin-top: -0.1em;
     }
 
     .bio {
         margin-top: 1em;
-        color: $secondary-dark-beige-color;
+        color: $secondary-dark-blue-color;
         max-width: 50%;
     }
 }
 
 .profileBody {
-    display: flex;
-    gap: 2em;
-    padding: 1.5em 2em;
-    .profileInfo {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        gap: 1.5em;
-        width: 40%;
-        padding-right: 2em;
-        border-right: 0.1em solid $grey-greyscale-color;
+    .infoContent {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2em;
+        margin-left: 0.5em;
+        @include media("<desktop") {
+            grid-template-columns: repeat(1, 100%);
+        }
     }
+}
+
+.infoContentChild {
+    background-color: $secondary-light-blue-color;
+    padding: 0 2em;
+}
+
+.tagsList,
+.booksList {
+    display: flex;
+}
+
+.tagsList {
+    gap: 0.5em;
+}
+
+.reviews {
+    margin-left: 2em;
 }

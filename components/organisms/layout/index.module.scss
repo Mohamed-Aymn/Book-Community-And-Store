@@ -1,19 +1,12 @@
-// @use "../../../styles/breakPoints.scss" as *;
 @use "../../../styles/main.scss" as *;
 
 .layout {
     min-height: 100vh;
-    // position: relative;
     main {
-        max-width: calc(130ch - 3.4em);
-        // max-width: calc(100% - 3.4em);
+        max-width: 140ch;
         margin: 0 auto;
-        // position: relative;
-        @include media("<desktop") {
-            // margin: 0 1.7em;
+        @include media("<1253px") {
+            margin: 0 1.7em;
         }
-        // @include media(">=LGdesktop") {
-        //     max-width: calc(150ch - 3.4em);
-        // }
     }
 }

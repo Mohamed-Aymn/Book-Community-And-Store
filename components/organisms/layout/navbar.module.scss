@@ -1,5 +1,4 @@
 @use "../../../styles/main.scss" as *;
-// @use "../../../styles/utils/variables" as *;
 
 .mobileNav {
     @include media(">tablet") {
@@ -16,7 +15,7 @@
     z-index: 1;
     width: 100%;
     padding: 0.9em 1.7em;
-    background-color: $secondary-light-beige-color;
+    background-color: $primary-color;
 
     .logo,
     .auth {
@@ -29,13 +28,13 @@
         list-style: none;
         .link {
             text-decoration: none;
-            color: $dark-greyscale-color;
+            color: $secondary-grey-blue-color;
+            padding-bottom: 0.3em;
         }
         .currentLink {
             text-decoration: none;
-            color: $dark-greyscale-color;
-            border-bottom: $primary-color solid 0.2em;
-            font-weight: 500;
+            color: $secondary-light-blue-color;
+            border-bottom: $secondary-grey-blue-color solid 0.05em;
         }
         @include media("<tablet") {
             display: none;

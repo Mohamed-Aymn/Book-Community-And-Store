@@ -1,23 +1,47 @@
-// main primary color
-$primary-color: #325230;
+$primary-color: #0f1219;
 
-// secondary colors
-$secondary-light-green-color: #476a43;
-$secondary-dark-green-color: #3b5c36;
-//
-$secondary-beige-color: #f9ca7b;
-$secondary-light-beige-color: #fffae6;
-$secondary-dark-beige-color: #faf6db;
+$secondary-green-color: #a2eeb2;
+$secondary-dark-blue-color: #2d3341;
+$secondary-grey-blue-color: #738198;
+$secondary-light-blue-color: #f4f8fb;
 
+$repeler-color: #b95573;
+$attractor-color: #ddfd62;
+
+/*
+main concept
+----------
+
+
+-   the main aim is to make it clean for store usage and the power point will be simplicity of compolex things thins and animations
+what about this simple and greate color pallete https://dribbble.com/shots/19262105-Nook-Members-Settings as it will support dark mode, or this https://dribbble.com/shots/18462998-Company-profile-settings-Untitled-UI
+, just choice colored bgc or white and colored content
 // Repeler and attractors (biggest contrast with this color pallete + color physyology concept)
-$repeler-color: #bd1b4c;
-//
-$attractor-color: #ff8b1f;
 
-// grey scale
-$dark-greyscale-color: #171717;
-$grey-greyscale-color: #d1d1d1;
-$light-greyscale-color: #f9f9f9;
+*/
+
+//---------------------------------------------------------------------- old color pallete 2
+
+// main primary color
+// $primary-color: #325230;
+
+// // secondary colors
+// $secondary-light-green-color: #476a43;
+// $secondary-dark-green-color: #3b5c36;
+// //
+// $secondary-beige-color: #f9ca7b;
+// $secondary-light-beige-color: #fffae6;
+// $secondary-dark-beige-color: #faf6db;
+
+// // Repeler and attractors (biggest contrast with this color pallete + color physyology concept)
+// $repeler-color: #bd1b4c;
+// //
+// $attractor-color: #ff8b1f;
+
+// // grey scale
+// $dark-greyscale-color: #171717;
+// $grey-greyscale-color: #d1d1d1;
+// $light-greyscale-color: #f9f9f9;
 
 /*
 color pallete
@@ -36,7 +60,7 @@ color pallete
 - Repeler and attractors (biggest contrast with this color pallete + color physyology concept) (must be not repetitve, use it to attract or repel the user from special unrepetitve things)
 */
 
-//---------------------------------- old color pallete
+//---------------------------------------------------------------------- old color pallete 1
 
 // $main-primary-color: #03a670;
 // $first-dark-primary-color: #007950;

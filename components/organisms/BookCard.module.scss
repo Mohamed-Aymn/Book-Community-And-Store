@@ -1,26 +1,60 @@
 @use "../../styles/main.scss" as *;
 
 .mainContainer {
-    padding: 0.7em;
+    padding: 1.5em 1em 1em 1em;
+    margin: 0 auto;
     border: none;
     // border-radius: 0.7em;
-    background-color: $light-greyscale-color;
+    background-color: transparent;
+    cursor: pointer;
     &:hover {
-        background-color: $primary-color;
-        color: #fff;
-        cursor: pointer;
+        box-shadow: 0 0 30px #ccc;
+
+        // box-shadow: 4px 4px 4px 4px 1 #000000;
+        // background-color: $primary-color;
+        // color: #fff;
+    }
+
+    &:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s;
     }
 }
 
-.firstInfoLine {
+.title {
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: -0.3em;
+    max-height: 16px;
+    // height: 32px;
+}
+
+.author,
+.price {
+    font-size: 0.7rem;
+    font-weight: 600;
+    // color: $grey-greyscale-color;
+}
+
+.detailedInfo {
     display: flex;
     justify-content: space-between;
-    .price {
-        font-weight: bold;
-    }
+    align-items: center;
+    margin-top: -0.3em;
 }
-.info {
+
+.writerTitle {
     text-align: left;
+}
+
+.buyNowTitle {
+    text-align: right;
+}
+
+.writerTitle,
+.buyNowTitle {
+    font-size: 0.6rem;
+    color: $secondary-dark-blue-color;
 }
 
 .image {
@@ -28,11 +62,15 @@
     height: 17em;
     object-fit: cover;
     object-position: center center;
-    margin-bottom: 0.5em;
-    border-radius: 0.7em;
+    margin-bottom: 0.7em;
+    border-radius: 0.3em;
 }
 
 .about {
     text-align: center;
     margin: 1em 0;
+}
+
+.price {
+    margin-right: -1em;
 }
