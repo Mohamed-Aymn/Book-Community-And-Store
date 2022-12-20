@@ -9,17 +9,14 @@
     margin: 1.7em 0 0.9em 0;
 }
 
-.storeSearch {
-    // position: sticky;
-    // top: 5.3em;
-}
-
 .searchResults {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     justify-content: center;
     gap: 1em 0;
     margin: 2em 0;
+
+    min-height: calc(100vh - 31em);
     @include media("<=1250px") {
         grid-template-columns: repeat(6, 1fr);
     }
@@ -50,4 +47,28 @@
 .genres {
     display: flex;
     gap: 0.5em;
+}
+
+.mainSearchConatiener {
+    padding: 0.7em;
+    background-color: $secondary-light-blue-color;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1.7em;
+    input {
+        background-color: $secondary-light-blue-color;
+        width: 100%;
+        border: none;
+        outline: none;
+    }
+    button {
+        background-color: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        cursor: pointer;
+    }
 }

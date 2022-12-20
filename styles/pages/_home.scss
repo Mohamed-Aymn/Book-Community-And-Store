@@ -8,10 +8,9 @@
 .homeSlider {
     display: grid;
     grid-template-columns: repeat(15, 1fr);
-    justify-content: center;
-    // margin: 1em auto;
     padding: 1.7em 0;
     overflow: hidden;
+    scroll-behavior: smooth;
 }
 
 .advertisingContainer {
@@ -66,37 +65,6 @@
         border: none;
         cursor: pointer;
         color: $secondary-dark-blue-color;
-    }
-}
-
-.mainSearchConatiener {
-    padding: 0.7em;
-    background-color: $secondary-dark-blue-color;
-    width: 40%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 1.7em;
-    input {
-        background-color: $secondary-dark-blue-color;
-        width: 100%;
-        border: none;
-    }
-    button {
-        background-color: transparent;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: none;
-        cursor: pointer;
-    }
-}
-
-.genres {
-    overflow: hidden;
-    button {
-        min-width: 5em;
-        height: 2em;
     }
 }
 

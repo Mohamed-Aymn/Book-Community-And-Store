@@ -13,16 +13,22 @@ export default function ({ img, title, click, price, author }: any) {
         (state: any) => state.switchDisplayingBookDetails
     );
 
-    let { isLoading, error, data } = useQuery("booksData", async () => {
-        let res = await fetch(
-            `https://www.googleapis.com/books/v1/volumes?q=${title}&orderBy=newest`
-        );
-        return res.json();
-    });
+    // let { isLoading, error, data } = useQuery("booksData", async () => {
+    //     let res = await fetch(
+    //         `https://www.googleapis.com/books/v1/volumes?q=${title}&orderBy=newest`
+    //     );
+    //     return res.json();
+    // });
 
     let clickHandler = () => {
         switchDisplayingBookDetails(isDisplayingBookDetails);
     };
+
+    author === undefined
+        ? (author = "Unknown")
+        : typeof author == "object"
+        ? (author = `${author[0]} and more`)
+        : null;
 
     return (
         <>
@@ -40,6 +46,8 @@ export default function ({ img, title, click, price, author }: any) {
                     className={styles.image}
                     src={img}
                     alt="Picture of the author"
+                    width={500}
+                    height={500}
                 />
                 <div className={styles.title}>{title}</div>
                 <hr className={styles.divider} />
