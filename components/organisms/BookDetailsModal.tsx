@@ -21,6 +21,8 @@ export default function ({ img, title, click }: any) {
                             className={styles.image}
                             src={img}
                             alt="Picture of the author"
+                            width={20}
+                            height={20}
                         />
                     </div>
                     <div className={styles.title}>{title}</div>

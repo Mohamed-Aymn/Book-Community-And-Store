@@ -1,6 +1,5 @@
 import Image from "next/image";
 import styles from "./BookCard.module.scss";
-import { useQuery } from "react-query";
 import { layoutStore } from "../../clientState/layoutStore";
 import BookDetailsModal from "./BookDetailsModal";
 
@@ -12,13 +11,6 @@ export default function ({ img, title, click, price, author }: any) {
     const switchDisplayingBookDetails = layoutStore(
         (state: any) => state.switchDisplayingBookDetails
     );
-
-    // let { isLoading, error, data } = useQuery("booksData", async () => {
-    //     let res = await fetch(
-    //         `https://www.googleapis.com/books/v1/volumes?q=${title}&orderBy=newest`
-    //     );
-    //     return res.json();
-    // });
 
     let clickHandler = () => {
         switchDisplayingBookDetails(isDisplayingBookDetails);

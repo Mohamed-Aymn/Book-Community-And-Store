@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useQuery, dehydrate, QueryClient } from "react-query";
 
 let searchResult = async (search: any) => {
-    return await fetch(`http://localhost:3000/api/books?book=${search}`).then(
+    return await fetch(`http://localhost:3000/api/books?search=${search}`).then(
         async (res) => {
             let data = await res.json();
             return data.data.items;
@@ -41,7 +41,7 @@ export default function () {
         ["suggestions", { search }],
         async () => {
             return await fetch(
-                `http://localhost:3000/api/books?book=${search}`
+                `http://localhost:3000/api/books/${search}`
             ).then(async (res) => {
                 let data = await res.json();
                 return data.data.items;
@@ -100,7 +100,7 @@ export default function () {
                     <div className="mainSearchConatiener">
                         <input
                             type="text"
-                            placeholder="Genre, author or book name"
+                            placeholder="search by book name"
                             value={search}
                             onChange={(e) => {
                                 setSearch(e.target.value);

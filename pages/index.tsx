@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useQuery, dehydrate, QueryClient } from "react-query";
 
 let getFreeBooks = async () => {
-    return fetch("http://localhost:3000/api/books?random=free-ebooks").then(
+    return fetch("http://localhost:3000/api/books?collection=free-ebooks").then(
         async (res) => {
             let data = await res.json();
             return data.data.items;
@@ -16,7 +16,7 @@ let getFreeBooks = async () => {
     );
 };
 let getEbooks = async () => {
-    return fetch("http://localhost:3000/api/books?random=ebooks").then(
+    return fetch("http://localhost:3000/api/books?collection=ebooks").then(
         async (res) => {
             let data = await res.json();
             return data.data.items;

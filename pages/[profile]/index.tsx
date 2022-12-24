@@ -4,16 +4,35 @@ import img from "../../assets/mainPhoto.jpg";
 import Reviews from "../../components/organisms/Reviews";
 import BookCard from "../../components/organisms/BookCard";
 import mainPhoto from "../../assets/mainPHoto.jpg";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { BsFillTriangleFill } from "react-icons/bs";
+import { useQuery, dehydrate, QueryClient } from "react-query";
+
+let getUserData = async () => {
+    return await fetch(
+        `http://localhost:3000/api/users/63a61276d9c9028b77dfac6c`
+    ).then(async (res) => {
+        let data = await res.json();
+        return data.data;
+    });
+};
+
+export async function getServerSideProps() {
+    const queryClient = new QueryClient();
+
+    await queryClient.prefetchQuery("user data", getUserData);
+    return {
+        props: {
+            dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+        },
+    };
+}
 
 export default function () {
     let [isInfoOpened, setIsInfoOpened] = useState(true);
     let [isReviewsOpened, setIsReviewsOpened] = useState(false);
 
-    useEffect(() => {
-        console.log(isReviewsOpened);
-    }, [isReviewsOpened]);
+    const { data, isFetching, refetch } = useQuery("user data", getUserData);
 
     return (
         <main>
@@ -25,8 +44,8 @@ export default function () {
                         alt="Picture of the author"
                     />
                     <div>
-                        <div className="userName">User Name</div>
-                        <div className="userTitle">writer/reader</div>
+                        <div className="userName">{data.name}</div>
+                        <div className="userTitle">{data.title}</div>
                     </div>
                 </div>
                 <Button text="connect" type="primary" />
@@ -52,19 +71,7 @@ export default function () {
                         <div className="infoContentChild">
                             <div>
                                 <h3>About</h3>
-                                <div className="bio">
-                                    Lorem ipsum dolor sit amet consectetur,
-                                    adipisicing elit. Dignissimos in expedita,
-                                    placeat quas eius, aliquid maiores est rem
-                                    illum omnis blanditiis minima at delectus
-                                    nisi corporis! Similique cumque quis
-                                    pariatur. Lorem ipsum dolor sit amet
-                                    consectetur, adipisicing elit. Maxime
-                                    possimus non nisi suscipit excepturi, illum
-                                    odit aperiam eum deserunt qui velit harum,
-                                    rerum quod quos in ab iure placeat
-                                    doloremque.
-                                </div>
+                                <div className="bio">{data.about}</div>
                             </div>
                             <div>
                                 <h3>Favourite genres</h3>
