@@ -1,14 +1,6 @@
 @use "../../styles/utils/breakPoints" as *;
 @use "../../styles/utils/variables" as *;
 
-.store {
-    background-color: white;
-}
-
-.newSearchContainer {
-    margin: 1.7em 0 0.9em 0;
-}
-
 .searchResults {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -37,38 +29,17 @@
     }
 }
 
-.searchContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
 .genres {
     display: flex;
     gap: 0.5em;
 }
 
-.mainSearchConatiener {
-    padding: 0.7em;
-    background-color: $secondary-light-blue-color;
-    width: 40%;
+.messageCards {
+    margin-top: 1em;
+    height: calc(100vh - 13em);
     display: flex;
     justify-content: center;
     align-items: center;
+    border: $secondary-grey-blue-color solid 0.05em;
     border-radius: 1.7em;
-    input {
-        background-color: $secondary-light-blue-color;
-        width: 100%;
-        border: none;
-        outline: none;
-    }
-    button {
-        background-color: transparent;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: none;
-        cursor: pointer;
-    }
 }

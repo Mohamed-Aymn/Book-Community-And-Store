@@ -57,18 +57,18 @@ export default function Home() {
                                 <Button text="View All" type="primary" />
                             </Link>
                             <Button
-                                Icon={MdOutlineNavigateBefore}
+                                icon={<MdOutlineNavigateBefore />}
                                 type="primary"
-                                click={() => {
+                                onClick={() => {
                                     let slider =
                                         document.getElementById("eBooksSlider");
                                     slider.scrollBy(-175, 0);
                                 }}
                             />
                             <Button
-                                Icon={MdOutlineNavigateNext}
+                                icon={<MdOutlineNavigateNext />}
                                 type="primary"
-                                click={() => {
+                                onClick={() => {
                                     let slider =
                                         document.getElementById("eBooksSlider");
                                     slider.scrollBy(175, 0);
@@ -78,13 +78,14 @@ export default function Home() {
                     </div>
                     <div className="homeSlider" id="eBooksSlider">
                         {ebooksData &&
-                            ebooksData.map((book: any, i: number) => {
+                            ebooksData.map((book: any) => {
                                 return (
                                     <BookCard
-                                        key={i}
+                                        key={book.id}
+                                        id={book.id}
                                         title={book.volumeInfo.title}
                                         author={book.volumeInfo.authors}
-                                        price={"99"}
+                                        price="99"
                                         img={
                                             book.volumeInfo.imageLinks
                                                 ?.thumbnail || mainPhoto
@@ -103,9 +104,9 @@ export default function Home() {
                                 <Button text="View All" type="primary" />
                             </Link>
                             <Button
-                                Icon={MdOutlineNavigateBefore}
+                                icon={<MdOutlineNavigateBefore />}
                                 type="primary"
-                                click={() => {
+                                onClick={() => {
                                     let slider =
                                         document.getElementById(
                                             "freeBooksSlider"
@@ -114,9 +115,9 @@ export default function Home() {
                                 }}
                             />
                             <Button
-                                Icon={MdOutlineNavigateNext}
+                                icon={<MdOutlineNavigateNext />}
                                 type="primary"
-                                click={() => {
+                                onClick={() => {
                                     let slider =
                                         document.getElementById(
                                             "freeBooksSlider"
@@ -128,15 +129,17 @@ export default function Home() {
                     </div>
                     <div className="homeSlider" id="freeBooksSlider">
                         {freeBooksData &&
-                            freeBooksData.map((book: any, i: number) => {
+                            freeBooksData.map((book: any) => {
                                 return (
                                     <BookCard
-                                        key={i}
+                                        key={book.id}
+                                        id={book.id}
                                         title={book.volumeInfo.title}
                                         author={book.volumeInfo.authors}
-                                        price={"99"}
+                                        price="99"
                                         img={
-                                            book.volumeInfo.imageLinks.thumbnail
+                                            book.volumeInfo.imageLinks
+                                                ?.thumbnail
                                         }
                                     />
                                 );
@@ -160,8 +163,8 @@ export default function Home() {
                             name="Houston Rickie"
                         />
                     </div>
-                    <button className="joinus">Join Us</button>
-                    {/* <Button text="join us" type="primary" /> */}
+                    {/* <button className="joinus">Join Us</button> */}
+                    <Button text="Join Us!" type="catchy" />
                 </section>
             </main>
         </>

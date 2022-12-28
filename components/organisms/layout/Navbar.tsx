@@ -74,16 +74,10 @@ export default function Navbar() {
 
             {/* auth buttons */}
             <div className={styles.auth}>
-                <Link
-                    href={"/authentication"}
-                    style={{ textDecoration: "none" }}
-                >
+                <Link href={"/login"} style={{ textDecoration: "none" }}>
                     <Button text="Login" type="primary" />
                 </Link>
-                <Link
-                    href={"/authentication"}
-                    style={{ textDecoration: "none" }}
-                >
+                <Link href={"/signup"} style={{ textDecoration: "none" }}>
                     <Button text="Signup" type="secondary" />
                 </Link>
             </div>

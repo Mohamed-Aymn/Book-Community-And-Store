@@ -2,15 +2,28 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./BookDetailsModal.module.scss";
 import Button from "../molecules/Button";
+import { layoutStore } from "../../clientState/layoutStore";
 
-export default function ({ img, title, click }: any) {
+export default function () {
+    const setDisplayingBookDetails = layoutStore(
+        (state: any) => state.setDisplayingBookDetails
+    );
+    const bookDetails = layoutStore((state: any) => state.bookDetails);
+
     return (
         <div className={styles.productDetails}>
             <div className={styles.content}>
                 <div className={styles.contentHeader}>
-                    <Button type="primary" text="X" click={click} />
-                    <Link href="/store/book">
-                        open in a new window to display full detials
+                    <Button
+                        type="primary"
+                        text="X"
+                        onClick={() => setDisplayingBookDetails(false)}
+                    />
+                    <Link href={`/store/${bookDetails.id}`}>
+                        <Button
+                            text="open in a new window to display full detials"
+                            onClick={() => setDisplayingBookDetails(false)}
+                        />
                     </Link>
                 </div>
 
@@ -19,13 +32,13 @@ export default function ({ img, title, click }: any) {
                     <div className={styles.imageContainer}>
                         <Image
                             className={styles.image}
-                            src={img}
+                            src={bookDetails.img}
                             alt="Picture of the author"
                             width={20}
                             height={20}
                         />
                     </div>
-                    <div className={styles.title}>{title}</div>
+                    <div className={styles.title}>{bookDetails.title}</div>
                     <div className={styles.author}>author</div>
                     <div className={styles.subDetialsContainer}>
                         <div className={styles.subDetail}>

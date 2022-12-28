@@ -22,12 +22,6 @@ secondary.args = {
     type: "secondary",
 };
 
-export const tertiary = Template.bind({});
-tertiary.args = {
-    type: "tertiary",
-    Icon: FaFilter,
-};
-
 export const Danger = Template.bind({});
 Danger.args = {
     text: "Danger",
@@ -52,4 +46,16 @@ export const icon = Template.bind({});
 icon.args = {
     type: "primary",
     Icon: MdOutlineNavigateNext,
+};
+
+export const catchy = Template.bind({});
+catchy.args = {
+    text: "Join Us!",
+    type: "catchy",
+};
+
+export const tag = Template.bind({});
+tag.args = {
+    text: "scientific",
+    type: "tag",
 };

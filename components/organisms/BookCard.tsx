@@ -1,20 +1,14 @@
 import Image from "next/image";
 import styles from "./BookCard.module.scss";
 import { layoutStore } from "../../clientState/layoutStore";
-import BookDetailsModal from "./BookDetailsModal";
 
-export default function ({ img, title, click, price, author }: any) {
-    const isDisplayingBookDetails = layoutStore(
-        (state: any) => state.isDisplayingBookDetails
+export default function (props: any) {
+    let { img, title, price, author } = props;
+
+    const setDisplayingBookDetails = layoutStore(
+        (state: any) => state.setDisplayingBookDetails
     );
-
-    const switchDisplayingBookDetails = layoutStore(
-        (state: any) => state.switchDisplayingBookDetails
-    );
-
-    let clickHandler = () => {
-        switchDisplayingBookDetails(isDisplayingBookDetails);
-    };
+    const setBookDetials = layoutStore((state: any) => state.setBookDetials);
 
     author === undefined
         ? (author = "Unknown")
@@ -24,20 +18,17 @@ export default function ({ img, title, click, price, author }: any) {
 
     return (
         <>
-            {isDisplayingBookDetails && (
-                <BookDetailsModal
-                    click={clickHandler}
-                    img={img}
-                    title={title}
-                    author={author}
-                />
-            )}
-
-            <button className={styles.mainContainer} onClick={clickHandler}>
+            <button
+                className={styles.mainContainer}
+                onClick={() => {
+                    setBookDetials(props);
+                    setDisplayingBookDetails(true);
+                }}
+            >
                 <Image
                     className={styles.image}
                     src={img}
-                    alt="Picture of the author"
+                    alt="Book image"
                     width={500}
                     height={500}
                 />
@@ -50,7 +41,7 @@ export default function ({ img, title, click, price, author }: any) {
                     </div>
                     <div className={styles.infoContainer}>
                         <div className={styles.buyNowTitle}>Buy now</div>
-                        <div className={styles.price}>{price} $</div>
+                        <div className={styles.price}>${price}</div>
                     </div>
                 </div>
             </button>

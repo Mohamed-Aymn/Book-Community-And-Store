@@ -9,6 +9,6 @@ const Template: any = (args: any) => <SearchBar {...args} />;
 
 export const primary = Template.bind({});
 primary.args = {
-    placeholder: "hello",
-    config: "true",
+    placeholder: "Search by book name",
+    config: true,
 };

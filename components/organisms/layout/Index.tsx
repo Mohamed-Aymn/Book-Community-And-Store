@@ -8,9 +8,15 @@ export default function Layout({ children }: any) {
 
     return (
         <div className={style.layout}>
-            {router.pathname.includes("/authentication") ? null : <Navbar />}
+            {router.pathname.includes("/login") ||
+            router.pathname.includes("/signup") ? null : (
+                <Navbar />
+            )}
             {children}
-            {router.pathname.includes("/authentication") ? null : <Footer />}
+            {router.pathname.includes("/login") ||
+            router.pathname.includes("/signup") ? null : (
+                <Footer />
+            )}
         </div>
     );
 }

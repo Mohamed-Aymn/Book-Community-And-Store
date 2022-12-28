@@ -1,5 +1,4 @@
 import BookCard from "../components/organisms/BookCard";
-import mainPhoto from "../assets/mainPhoto.jpg";
 
 export default {
     title: "Book card",
@@ -10,8 +9,8 @@ const Template: any = (args: any) => <BookCard {...args} />;
 
 export const primary = Template.bind({});
 primary.args = {
-    title: "Awesome Book",
-    price: 50,
-    info: "this is a great book",
-    mainPhoto,
+    title: "Rich Dad Poor Dad",
+    price: Math.floor(Math.random() * 52) + 98,
+    author: "robert kiyosaki",
+    // img: "http://books.google.com/books/content?id=K7ypwAEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
 };

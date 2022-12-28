@@ -2,17 +2,25 @@ import create from "zustand";
 
 export const layoutStore = create((set) => ({
     isDisplayingBookDetails: false,
-    storeSearchBar: "",
+    bookDetails: null,
+    id: "newId",
 
-    setStoreSearchBar: (value: any) => {
-        set(() => ({ storeSearchBar: value }));
-    },
-    switchDisplayingBookDetails: (isDisplayingBookDetails: any) => {
-        set((state: any) => ({
-            isDisplayingBookDetails: !state.isDisplayingBookDetails,
+    setId: (newId: any) => {
+        set(() => ({
+            id: newId,
         }));
-        isDisplayingBookDetails
-            ? (document.body.style.overflowY = "scroll")
-            : (document.body.style.overflow = "hidden");
+    },
+    setBookDetials: (props: any) => {
+        set(() => ({
+            bookDetails: props,
+        }));
+    },
+    setDisplayingBookDetails: (value: any) => {
+        set(() => ({
+            isDisplayingBookDetails: value,
+        }));
+        value
+            ? (document.body.style.overflowY = "hidden")
+            : (document.body.style.overflowY = "scroll");
     },
 }));

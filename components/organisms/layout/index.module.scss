@@ -2,6 +2,8 @@
 
 .layout {
     min-height: 100vh;
+    // display: grid;
+    // grid-template-rows: 4em min(calc(100vh - 4em)) auto;
     main {
         max-width: 140ch;
         margin: 0 auto;

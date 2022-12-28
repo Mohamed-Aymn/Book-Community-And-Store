@@ -17,13 +17,25 @@ import styles from "./Button.module.scss";
 import Loading from "../atoms/icons/Loading";
 
 export default function (props: any) {
-    let { type, text, Icon, iconposition, isaccessible, isloading, click } =
-        props;
+    let {
+        type,
+        text,
+        icon,
+        iconposition,
+        isaccessible,
+        isloading,
+        click,
+        size,
+    } = props;
 
     return (
         <button className={styles.button} onClick={click} {...props}>
             <>
-                {Icon && !isloading ? <Icon /> : isloading ? <Loading /> : null}
+                {icon && !isloading ? (
+                    <> {icon}</>
+                ) : isloading ? (
+                    <Loading />
+                ) : null}
             </>
             {text}
         </button>

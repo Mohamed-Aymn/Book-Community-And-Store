@@ -24,35 +24,41 @@
 .title {
     text-align: left;
     font-weight: bold;
-    margin-bottom: -0.3em;
-    max-height: 16px;
-    // height: 32px;
+    height: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 19ch;
 }
 
 .author,
 .price {
     font-size: 0.7rem;
     font-weight: 600;
-    // color: $grey-greyscale-color;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 13ch;
 }
 
+.writerTitle,
 .author {
     text-align: left;
 }
 
+.buyNowTitle,
+.price {
+    text-align: right;
+}
+
 .detailedInfo {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: calc((100% / 3) * 2) calc((100% / 3) * 1);
     margin-top: -0.3em;
 }
 
 .writerTitle {
     text-align: left;
-}
-
-.buyNowTitle {
-    text-align: right;
 }
 
 .writerTitle,
@@ -75,6 +81,6 @@
     margin: 1em 0;
 }
 
-.price {
-    margin-right: -1em;
-}
+// .price {
+//     margin-right: -1em;
+// }
