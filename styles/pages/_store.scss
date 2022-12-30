@@ -36,10 +36,16 @@
 
 .messageCards {
     margin-top: 1em;
-    height: calc(100vh - 13em);
+    height: calc(100vh - 11em);
     display: flex;
     justify-content: center;
     align-items: center;
     border: $secondary-grey-blue-color solid 0.05em;
     border-radius: 1.7em;
+}
+
+.searchContainer {
+    position: sticky;
+    top: 0em;
+    background-color: #fff;
 }

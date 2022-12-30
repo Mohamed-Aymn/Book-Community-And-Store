@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { FaSearch, FaFilter } from "react-icons/fa";
 import styles from "./SearchBar.module.scss";
+import { RiSettings5Fill } from "react-icons/ri";
 
 export default function (props: any) {
     let router = useRouter();
@@ -43,15 +44,15 @@ export default function (props: any) {
                     {props.config && (
                         <>
                             <div className={styles.verticalDivider} />
+
                             <button
-                                className={styles.filterIcon}
-                                onClick={async () => {
-                                    props.configState
-                                        ? props.setConfigState(false)
-                                        : props.setConfigState(true);
+                                onClick={() => {
+                                    props.buttonOneState
+                                        ? props.setButtonOneState(false)
+                                        : props.setButtonOneState(true);
                                 }}
                             >
-                                <FaFilter />
+                                <RiSettings5Fill />
                             </button>
                         </>
                     )}
