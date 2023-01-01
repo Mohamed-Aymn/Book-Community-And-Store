@@ -2,7 +2,9 @@
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
+import Review from "../../../models/Review";
 import User from "../../../models/User";
+import Book from "../../../models/Book";
 
 // type Data = {
 //     name: string;
@@ -22,13 +24,25 @@ export default async function handler(
     switch (method) {
         case "GET" /* get a user by his specific id */:
             try {
-                const user = await User.findById(id);
-                res.status(200).json({ success: true, data: user });
-                if (!User) {
-                    return res.status(400).json({ success: false });
-                }
-            } catch (error) {
-                res.status(400).json({ success: false });
+                const user = await User.findById(id)
+                    .populate({
+                        path: "reviews",
+                        modle: Review,
+                        select: "bookid stars comment",
+                    })
+                    // i don't need to populate book data as i don't have it's data in mongodb
+                    // .populate({
+                    //     path: "books",
+                    //     modle: Book,
+                    //     select: "_id",
+                    // })
+                    .exec();
+
+                res.status(200).json({
+                    user,
+                });
+            } catch (error: any) {
+                res.status(500).json({ error: error.message });
             }
             break;
         case "PUT" /* Edit a model by its ID */:

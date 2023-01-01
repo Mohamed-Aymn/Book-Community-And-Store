@@ -71,7 +71,22 @@ export default function ({ img }: any) {
 
             <div>
                 <h2>Reviews</h2>
-                <Reviews />
+                <div>
+                    {data?.reviews &&
+                        data.reviews.map((review: any, i: any) => {
+                            return (
+                                <Reviews
+                                    key={i}
+                                    reviewer={review.reviewer}
+                                    stars={review.stars}
+                                    comment={review.comment}
+                                />
+                            );
+                        })}
+                    {!data?.reviews && (
+                        <div>there are no reviews for this book</div>
+                    )}
+                </div>
             </div>
         </main>
     );

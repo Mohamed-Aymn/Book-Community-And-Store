@@ -19,8 +19,23 @@ const UserSchema = new mongoose.Schema({
     about: {
         type: String,
     },
-    reviews: [{ type: Schema.Types.ObjectId, ref: "Book" }],
+    books: [
+        {
+            // as books have string google books id
+            type: String,
+            ref: "Book",
+        },
+    ],
+    reviews: [
+        {
+            // as reviews have normal object id
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Review",
+        },
+    ],
 });
 
 // i need to understand what is this or statment used for
 export default mongoose.models.User || mongoose.model("User", UserSchema);
+
+// export const User = mongoose.model("User", UserSchema);

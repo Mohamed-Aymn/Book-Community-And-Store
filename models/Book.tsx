@@ -1,29 +1,26 @@
-import mongoose, { isObjectIdOrHexString, Schema } from "mongoose";
+import mongoose from "mongoose";
 
 const BookSchema = new mongoose.Schema({
     _id: {
+        // as i will take google books api id
         type: String,
     },
-    // it should be an array of reviews, this means that i need to make a nested model inside this.
     reviews: [
         {
-            _id: {
-                type: Schema.Types.ObjectId,
-            },
-            reviewer: {
-                type: Schema.Types.ObjectId,
-                ref: "User",
-            },
-            stars: {
-                type: Number,
-                required: [true, "Please provide rating"],
-            },
-            comment: {
-                type: String,
-            },
+            // as reviews id is monsoose object
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Review",
+        },
+    ],
+    // as i may need to reach users from a specific book, not vice versa
+    readers: [
+        {
+            // as users have normal object id
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
         },
     ],
 });
 
-// i need to understand what is this or statment used for
 export default mongoose.models.Book || mongoose.model("Book", BookSchema);
+// export const Book = mongoose.model("Book", BookSchema);

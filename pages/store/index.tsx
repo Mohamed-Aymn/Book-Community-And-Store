@@ -1,16 +1,36 @@
 import BookCard from "../../components/organisms/BookCard";
 import Pagination from "../../components/organisms/Pagination";
 import mainPhoto from "../../assets/mainPhoto.jpg";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery, dehydrate, QueryClient } from "react-query";
 import SearchBar from "../../components/molecules/SearchBar";
 import TagList from "../../components/molecules/TagList";
-import { useRouter } from "next/router";
+import Button from "../../components/molecules/Button";
+import Link from "next/link";
+import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
+
+let getFreeBooks = async () => {
+    return fetch("http://localhost:3000/api/books?collection=free-ebooks").then(
+        async (res) => {
+            let data = await res.json();
+            return data.data.items;
+        }
+    );
+};
+let getEbooks = async () => {
+    return fetch("http://localhost:3000/api/books?collection=ebooks").then(
+        async (res) => {
+            let data = await res.json();
+            return data.data.items;
+        }
+    );
+};
 
 let searchResult = async (
     search: any,
     searchQueries: any,
-    searchFilters: any
+    searchFilters: any,
+    page: number
 ) => {
     let urlQuery;
     searchQueries.inTitle
@@ -22,16 +42,18 @@ let searchResult = async (
         : (urlQuery = "search");
 
     return await fetch(
-        `http://localhost:3000/api/books?${urlQuery}=${search}&lang=${searchFilters.lang}`
+        `http://localhost:3000/api/books?${urlQuery}=${search}&lang=${searchFilters.lang}&page=${page}`
     ).then(async (res) => {
         let data = await res.json();
-        return data.data.items;
+        return data.data;
     });
 };
 
 export async function getStaticProps() {
     const queryClient = new QueryClient();
     await queryClient.prefetchQuery("store-search", searchResult);
+    await queryClient.prefetchQuery("free-books", getFreeBooks);
+    await queryClient.prefetchQuery("E-books", getEbooks);
     return {
         props: {
             dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
@@ -42,6 +64,13 @@ export async function getStaticProps() {
 export default function () {
     let [search, setSearch] = useState("");
     let [searchConfig, setSearchConfig] = useState(false);
+
+    const { data: freeBooksData } = useQuery("free-books", getFreeBooks, {
+        staleTime: 60 * 1000,
+    });
+    const { data: ebooksData } = useQuery("E-books", getEbooks, {
+        staleTime: 60 * 1000,
+    });
 
     // search queries
     let [searchQueries, setSearchQueries] = useState({
@@ -54,11 +83,12 @@ export default function () {
     });
 
     //
+    let [page, setPage] = useState(1);
 
     // search result query (server side)
     const { data, isFetching, refetch } = useQuery(
-        ["store-search", { search, searchQueries, searchFilters }],
-        () => searchResult(search, searchQueries, searchFilters),
+        ["store-search", { search, searchQueries, searchFilters, page }],
+        () => searchResult(search, searchQueries, searchFilters, page),
         { enabled: false }
     );
 
@@ -80,17 +110,152 @@ export default function () {
         return (
             <>
                 {!data && (
-                    <div className="messageCards">
-                        {!isFetching && <div>There is nothing to show yet</div>}
+                    <div>
+                        {!isFetching && (
+                            <>
+                                <section className="section">
+                                    <div className="sectionHeader">
+                                        <h1 className="title">E-Books</h1>
+                                        <div className="sliderControllers">
+                                            <Button
+                                                text="View All"
+                                                type="primary"
+                                                // type on click logic here to fetch specific data (genre , print type and etc)
+                                            />
+                                            <Button
+                                                icon={
+                                                    <MdOutlineNavigateBefore />
+                                                }
+                                                type="primary"
+                                                onClick={() => {
+                                                    let slider =
+                                                        document.getElementById(
+                                                            "eBooksSlider"
+                                                        );
+                                                    slider.scrollBy(-175, 0);
+                                                }}
+                                            />
+                                            <Button
+                                                icon={<MdOutlineNavigateNext />}
+                                                type="primary"
+                                                onClick={() => {
+                                                    let slider =
+                                                        document.getElementById(
+                                                            "eBooksSlider"
+                                                        );
+                                                    slider.scrollBy(175, 0);
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div
+                                        className="homeSlider"
+                                        id="eBooksSlider"
+                                    >
+                                        {ebooksData &&
+                                            ebooksData.map((book: any) => {
+                                                return (
+                                                    <BookCard
+                                                        key={book.id}
+                                                        id={book.id}
+                                                        title={
+                                                            book.volumeInfo
+                                                                .title
+                                                        }
+                                                        author={
+                                                            book.volumeInfo
+                                                                .authors
+                                                        }
+                                                        price="99"
+                                                        img={
+                                                            book.volumeInfo
+                                                                .imageLinks
+                                                                ?.thumbnail ||
+                                                            mainPhoto
+                                                        }
+                                                    />
+                                                );
+                                            })}
+                                    </div>
+                                </section>
 
-                        {isFetching && <div>Loading ..</div>}
+                                <section className="section">
+                                    <div className="sectionHeader">
+                                        <h1 className="title">Free-Books</h1>
+                                        <div className="sliderControllers">
+                                            <Link href="/store">
+                                                <Button
+                                                    text="View All"
+                                                    type="primary"
+                                                />
+                                            </Link>
+                                            <Button
+                                                icon={
+                                                    <MdOutlineNavigateBefore />
+                                                }
+                                                type="primary"
+                                                onClick={() => {
+                                                    let slider =
+                                                        document.getElementById(
+                                                            "freeBooksSlider"
+                                                        );
+                                                    slider.scrollBy(-175, 0);
+                                                }}
+                                            />
+                                            <Button
+                                                icon={<MdOutlineNavigateNext />}
+                                                type="primary"
+                                                onClick={() => {
+                                                    let slider =
+                                                        document.getElementById(
+                                                            "freeBooksSlider"
+                                                        );
+                                                    slider.scrollBy(175, 0);
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div
+                                        className="homeSlider"
+                                        id="freeBooksSlider"
+                                    >
+                                        {freeBooksData &&
+                                            freeBooksData.map((book: any) => {
+                                                return (
+                                                    <BookCard
+                                                        key={book.id}
+                                                        id={book.id}
+                                                        title={
+                                                            book.volumeInfo
+                                                                .title
+                                                        }
+                                                        author={
+                                                            book.volumeInfo
+                                                                .authors
+                                                        }
+                                                        price="99"
+                                                        img={
+                                                            book.volumeInfo
+                                                                .imageLinks
+                                                                ?.thumbnail
+                                                        }
+                                                    />
+                                                );
+                                            })}
+                                    </div>
+                                </section>
+                            </>
+                        )}
+
+                        {isFetching && (
+                            <div className="messageCards">Loading ..</div>
+                        )}
                     </div>
                 )}
                 {data && (
                     <>
                         <div className="searchResults">
-                            total items: x
-                            {data.map((item: any) => {
+                            {data?.items?.map((item: any) => {
                                 return (
                                     <BookCard
                                         key={item.id}
@@ -106,7 +271,14 @@ export default function () {
                                 );
                             })}
                         </div>
-                        <Pagination />
+                        <Pagination
+                            page={page}
+                            setPage={setPage}
+                            fetchFunction={refetch}
+                            // total items are statically typed due to google books api totalItems error
+                            totalItems={300}
+                            itemsPerPage={28}
+                        />
                     </>
                 )}
             </>

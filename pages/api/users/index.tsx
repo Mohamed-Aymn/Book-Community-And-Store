@@ -1,12 +1,6 @@
-// this will handle all users logic http://localhost:3000/api/users
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../models/User";
-
-// type Data = {
-//     name: string;
-// };
 
 export default async function handler(
     req: NextApiRequest,
@@ -23,7 +17,7 @@ export default async function handler(
                     {}
                 ); /* find all the data in our database */
                 res.status(200).json({ success: true, data: users });
-            } catch (error) {
+            } catch (error: any) {
                 res.status(400).json({ error: error.message });
             }
             break;
@@ -33,7 +27,7 @@ export default async function handler(
                     req.body
                 ); /* create a new model in the database */
                 res.status(201).json({ success: true, data: users });
-            } catch (error) {
+            } catch (error: any) {
                 res.status(400).json({ error: error.message });
             }
             break;
