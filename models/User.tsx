@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema({
     about: {
         type: String,
     },
-    books: [
+    readBooks: [
         {
             // as books have string google books id
             type: String,

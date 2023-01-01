@@ -20,6 +20,7 @@ const BookSchema = new mongoose.Schema({
             ref: "User",
         },
     ],
+    trial: String,
 });
 
 export default mongoose.models.Book || mongoose.model("Book", BookSchema);
