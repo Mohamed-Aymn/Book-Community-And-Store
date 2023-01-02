@@ -16,18 +16,16 @@ export default async function handler(
         // get all reviews
         case "GET":
             try {
-                Review.find({})
+                let reviews = await Review.find({})
                     .populate({ path: "reviewer", select: "name", model: User })
-                    .exec(function (err, reviews) {
-                        if (err) throw new Error(err.message);
-                        let totalItems = reviews.length;
-                        res.status(200).json({
-                            data: {
-                                totalItems,
-                                reviews,
-                            },
-                        });
-                    });
+                    .exec();
+                let totalItems = reviews.length;
+                res.status(200).json({
+                    data: {
+                        totalItems,
+                        reviews,
+                    },
+                });
             } catch (error: any) {
                 res.status(500).json({ error: error.message });
             }

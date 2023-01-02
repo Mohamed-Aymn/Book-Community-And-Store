@@ -18,18 +18,15 @@ export default async function handler(
         // get a single user by id
         case "GET":
             try {
-                User.findById(id)
+                let user = await User.findById(id)
                     .populate({
                         path: "reviews",
                         model: Review,
                         select: "bookid stars comment",
                     })
-                    .exec(function (err, user) {
-                        if (err) throw new Error(err.message);
-                        res.status(200).json({
-                            user,
-                        });
-                    });
+                    .exec();
+
+                res.status(200).json({ user });
             } catch (error: any) {
                 res.status(500).json({ error: error.message });
             }
