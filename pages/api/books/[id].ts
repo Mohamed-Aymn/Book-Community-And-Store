@@ -28,7 +28,7 @@ export default async function handler(
                 let book = await Book.findOne({ _id: id })
                     .populate({
                         path: "reviews",
-                        modle: Review,
+                        model: Review,
                         select: "-bookid",
                         populate: {
                             path: "reviewer",
@@ -38,24 +38,24 @@ export default async function handler(
                     })
                     .populate({
                         path: "readers",
-                        modle: User,
+                        model: User,
                         select: "name email",
                     })
-                    .exec();
+                    .exec(function (err, result) {
+                        if (err) throw new Error();
 
-                let totalReviews = book.reviews.length;
-                let totalReaders = book.readers.length;
-                if (book) {
-                    data.reviews = {
-                        totalReviews,
-                        data: book.reviews,
-                    };
-                    data.readers = {
-                        totalReaders,
-                        data: book.readers,
-                    };
-                }
-                res.status(200).json({ data });
+                        let totalReviews = result.reviews.length;
+                        let totalReaders = result.readers.length;
+                        data.reviews = {
+                            totalItems: totalReviews,
+                            data: result.reviews,
+                        };
+                        data.readers = {
+                            totalItems: totalReaders,
+                            data: result.readers,
+                        };
+                        res.status(200).json({ data });
+                    });
             } catch {
                 (err: any) => res.status(500).json({ error: err.message });
             }

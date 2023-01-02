@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
     email: {
@@ -21,21 +21,16 @@ const UserSchema = new mongoose.Schema({
     },
     readBooks: [
         {
-            // as books have string google books id
             type: String,
             ref: "Book",
         },
     ],
     reviews: [
         {
-            // as reviews have normal object id
             type: mongoose.Schema.Types.ObjectId,
             ref: "Review",
         },
     ],
 });
 
-// i need to understand what is this or statment used for
 export default mongoose.models.User || mongoose.model("User", UserSchema);
-
-// export const User = mongoose.model("User", UserSchema);
