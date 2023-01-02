@@ -41,26 +41,24 @@ export default async function handler(
                         model: User,
                         select: "name email",
                     })
-                    .exec(function (err, result) {
-                        if (err) throw new Error();
-
-                        let totalReviews = result.reviews.length;
-                        let totalReaders = result.readers.length;
-                        data.reviews = {
-                            totalItems: totalReviews,
-                            data: result.reviews,
-                        };
-                        data.readers = {
-                            totalItems: totalReaders,
-                            data: result.readers,
-                        };
-                        res.status(200).json({ data });
-                    });
+                    .exec();
+                if (book) {
+                    let totalReviews = book?.reviews.length;
+                    let totalReaders = book?.readers.length;
+                    data.reviews = {
+                        totalItems: totalReviews,
+                        data: book.reviews,
+                    };
+                    data.readers = {
+                        totalItems: totalReaders,
+                        data: book.readers,
+                    };
+                }
+                res.status(200).json({ data });
             } catch {
                 (err: any) => res.status(500).json({ error: err.message });
             }
             break;
-
         default:
             res.status(400).json({ success: false });
             break;
