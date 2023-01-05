@@ -4,9 +4,15 @@ import Review from "../../../models/Review";
 import User from "../../../models/User";
 import Book from "../../../models/Book";
 
+interface Data {
+    error?: string;
+    data?: object;
+    message?: string;
+}
+
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse
+    res: NextApiResponse<Data>
 ) {
     const { method } = req;
 
@@ -26,8 +32,12 @@ export default async function handler(
                         reviews,
                     },
                 });
-            } catch (error: any) {
-                res.status(500).json({ error: error.message });
+            } catch (error) {
+                let result = (error as Error).message;
+                let name = (error as Error).name;
+                res.status(500).json({
+                    error: `${name}${name ? "/ " : null}${result}`,
+                });
             }
             break;
 
@@ -69,8 +79,12 @@ export default async function handler(
                     message: "review is successfully added to database",
                     data: review,
                 });
-            } catch (error: any) {
-                res.status(500).json({ error: error.message });
+            } catch (error) {
+                let message = (error as Error).message;
+                let name = (error as Error).name;
+                res.status(500).json({
+                    error: `${name}${name ? "/ " : null}${message}`,
+                });
             }
             break;
 
@@ -78,5 +92,6 @@ export default async function handler(
             res.status(500).json({
                 error: "some kind of error has occurred",
             });
+            break;
     }
 }

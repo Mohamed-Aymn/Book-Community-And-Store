@@ -2,11 +2,13 @@ import LandingConatiner from "../components/organisms/LandingContainer";
 import mainPhoto from "../assets/mainPhoto.jpg";
 import CustomersFeedback from "../components/organisms/CustomersFeedback";
 import Button from "../components/molecules/Button";
+import Link from "next/link";
 
 export default function Home() {
     return (
         <>
             <LandingConatiner />
+            <a href="/api/auth/login">login</a>
             <main>
                 <section>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.

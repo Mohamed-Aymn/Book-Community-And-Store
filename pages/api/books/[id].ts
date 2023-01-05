@@ -4,9 +4,15 @@ import Book from "../../../models/Book";
 import Review from "../../../models/Review";
 import User from "../../../models/User";
 
+interface Data {
+    error?: string;
+    data?: object;
+    message?: string;
+}
+
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse
+    res: NextApiResponse<Data>
 ) {
     const {
         query: { id },
@@ -55,12 +61,18 @@ export default async function handler(
                     };
                 }
                 res.status(200).json({ data });
-            } catch {
-                (err: any) => res.status(500).json({ error: err.message });
+            } catch (error) {
+                let message = (error as Error).message;
+                let name = (error as Error).name;
+                res.status(500).json({
+                    error: `${name}${name ? "/ " : null}${message}`,
+                });
             }
             break;
         default:
-            res.status(400).json({ success: false });
+            res.status(500).json({
+                error: "some kind of error has occurred",
+            });
             break;
     }
 }

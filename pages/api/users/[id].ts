@@ -3,9 +3,15 @@ import dbConnect from "../../../lib/dbConnect";
 import Review from "../../../models/Review";
 import User from "../../../models/User";
 
+interface Data {
+    error?: string;
+    data?: object;
+    message?: string;
+}
+
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse
+    res: NextApiResponse<Data>
 ) {
     const {
         query: { id },
@@ -26,30 +32,34 @@ export default async function handler(
                     })
                     .exec();
 
-                res.status(200).json({ user });
-            } catch (error: any) {
-                res.status(500).json({ error: error.message });
+                res.status(200).json({ data: user });
+            } catch (error) {
+                let message = (error as Error).message;
+                let name = (error as Error).name;
+                res.status(500).json({
+                    error: `${name}${name ? "/ " : null}${message}`,
+                });
             }
             break;
         // edit a single user by id
         case "PUT":
-            interface Update {
-                name?: string;
-                password?: string;
-                email?: string;
-                title?: string;
-                about?: string;
-                readbooks?: Array<String>;
-                reviews?: Array<String>;
+            interface IUser {
+                name: string;
+                password: string;
+                email: string;
+                title: string;
+                about: string;
+                readbooks: string[];
+                reviews: string[];
             }
 
-            let update: Update = {};
+            let update: Partial<IUser> = {};
             let book = "";
 
             // handling request data by removeing empty fields
             for (const key in req.body) {
                 if (req.body[key] !== "" && key !== "readBook") {
-                    update[key as keyof Update] = req.body[key];
+                    update[key as keyof Partial<IUser>] = req.body[key];
                 } else if (key == "readBook") {
                     book = req.body[key];
                 }
@@ -59,7 +69,7 @@ export default async function handler(
                 if (!user) throw new Error("can't find user");
 
                 for (const key of Object.keys(update)) {
-                    user[key] = update[key as keyof Update];
+                    user[key] = update[key as keyof Partial<IUser>];
                 }
 
                 if (book !== "") {
@@ -68,12 +78,15 @@ export default async function handler(
                 }
                 await user.save();
                 res.status(200).json({
-                    success: true,
                     message: "user is updated successfully",
                     data: user,
                 });
-            } catch (error: any) {
-                res.status(400).json({ error: error.message });
+            } catch (error) {
+                let message = (error as Error).message;
+                let name = (error as Error).name;
+                res.status(500).json({
+                    error: `${name}${name ? "/ " : null}${message}`,
+                });
             }
             break;
 
@@ -82,16 +95,21 @@ export default async function handler(
                 const user = await User.deleteOne({ _id: id });
                 if (!user) throw new Error("User is not deleted");
                 res.status(200).json({
-                    success: true,
                     message: "user is deleted successfully",
                 });
-            } catch (error: any) {
-                res.status(400).json({ error: error.message });
+            } catch (error) {
+                let message = (error as Error).message;
+                let name = (error as Error).name;
+                res.status(500).json({
+                    error: `${name}${name ? "/ " : null}${message}`,
+                });
             }
             break;
 
         default:
-            res.status(400).json({ success: false });
+            res.status(400).json({
+                error: "some kind of error has occurred",
+            });
             break;
     }
 }

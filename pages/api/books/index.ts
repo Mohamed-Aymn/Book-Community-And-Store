@@ -2,9 +2,15 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
 import Book from "../../../models/Book";
 
+interface Data {
+    error?: string;
+    data?: object;
+    message?: string;
+}
+
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse
+    res: NextApiResponse<Data>
 ) {
     const {
         query: { search, collection, genre, intitle, inauthor, lang, page },
@@ -53,8 +59,12 @@ export default async function handler(
                 const dataStream = await fetch(url);
                 const data = await dataStream.json();
                 res.status(200).json({ data });
-            } catch (err: any) {
-                res.status(400).json({ error: err.message });
+            } catch (error) {
+                let message = (error as Error).message;
+                let name = (error as Error).name;
+                res.status(500).json({
+                    error: `${name}${name ? "/ " : null}${message}`,
+                });
             }
             break;
         // create a new model in the database
@@ -65,13 +75,19 @@ export default async function handler(
                     message: "book created successfully",
                     data: book,
                 });
-            } catch (err: any) {
-                res.status(400).json({ error: err.message });
+            } catch (error) {
+                let message = (error as Error).message;
+                let name = (error as Error).name;
+                res.status(500).json({
+                    error: `${name}${name ? "/ " : null}${message}`,
+                });
             }
             break;
 
         default:
-            res.status(400).json({ success: false });
+            res.status(500).json({
+                error: "some kind of error has occurred",
+            });
             break;
     }
 }
