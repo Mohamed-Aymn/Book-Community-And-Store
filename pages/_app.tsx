@@ -6,16 +6,19 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { useState } from "react";
 import BookDetailsModal from "../components/organisms/BookDetailsModal";
 import { layoutStore } from "../clientState/layoutStore";
-import { UserProvider } from "@auth0/nextjs-auth0/client";
+import { SessionProvider } from "next-auth/react";
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+    Component,
+    pageProps: { session, ...pageProps },
+}: AppProps) {
     const [queryClient] = useState(() => new QueryClient());
     const isDisplayingBookDetails = layoutStore(
         (state: any) => state.isDisplayingBookDetails
     );
 
     return (
-        <UserProvider>
+        <SessionProvider session={session}>
             <QueryClientProvider client={queryClient}>
                 <Hydrate state={pageProps.dehydratedState}>
                     <Layout>
@@ -25,6 +28,6 @@ export default function App({ Component, pageProps }: AppProps) {
                 </Hydrate>
                 <ReactQueryDevtools initialIsOpen={false} />
             </QueryClientProvider>
-        </UserProvider>
+        </SessionProvider>
     );
 }

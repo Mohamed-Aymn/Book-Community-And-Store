@@ -7,6 +7,7 @@ import mainPhoto from "../../assets/mainPHoto.jpg";
 import { useState } from "react";
 import { BsFillTriangleFill } from "react-icons/bs";
 import { useQuery, dehydrate, QueryClient } from "react-query";
+import { getSession } from "next-auth/react";
 
 let getUserData = async () => {
     return await fetch(
@@ -17,13 +18,25 @@ let getUserData = async () => {
     });
 };
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req }: any) {
     const queryClient = new QueryClient();
 
+    const session = await getSession({ req });
     await queryClient.prefetchQuery("user data", getUserData);
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: "/auth/login",
+                permanent: false,
+            },
+        };
+    }
+
     return {
         props: {
             dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+            session,
         },
     };
 }
@@ -44,8 +57,8 @@ export default function () {
                         alt="Picture of the author"
                     />
                     <div>
-                        <div className="userName">{data.name}</div>
-                        <div className="userTitle">{data.title}</div>
+                        <div className="userName">userName</div>
+                        <div className="userTitle">reader</div>
                     </div>
                 </div>
                 <Button text="connect" type="primary" />
@@ -71,7 +84,14 @@ export default function () {
                         <div className="infoContentChild">
                             <div>
                                 <h3>About</h3>
-                                <div className="bio">{data.about}</div>
+                                <div className="bio">
+                                    Lorem ipsum dolor sit amet consectetur
+                                    adipisicing elit. Quia officia fugit
+                                    repudiandae voluptatibus praesentium quidem
+                                    fuga autem aspernatur blanditiis. Obcaecati
+                                    dicta facilis neque doloribus, modi
+                                    reiciendis minus maiores quisquam rem?
+                                </div>
                             </div>
                             <div>
                                 <h3>Favourite genres</h3>

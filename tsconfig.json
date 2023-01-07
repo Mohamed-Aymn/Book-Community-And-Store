@@ -19,7 +19,8 @@
         "next-env.d.ts",
         "**/*.ts",
         "**/*.tsx",
-        "pages/store/[details]"
+        "pages/store/[details]",
+        "custom.d.ts"
     ],
     "exclude": ["node_modules"]
 }

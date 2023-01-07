@@ -33,8 +33,18 @@ export default async function handler(
         // create a new model
         case "POST":
             try {
-                const user = await User.create(req.body);
+                if (!req.body)
+                    return res
+                        .status(404)
+                        .json({ message: "form data is requreied" });
+                const { email } = req.body;
+                const checkExisting = await User.findOne({ email });
+                if (checkExisting)
+                    return res
+                        .status(422)
+                        .json({ message: "user Already Exists" });
 
+                const user = await User.create(req.body);
                 res.status(200).json({
                     message: "users is successfully created",
                     data: user,

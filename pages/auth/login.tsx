@@ -1,10 +1,11 @@
 import Link from "next/link";
-import CustomersFeedback from "../../components/organisms/CustomersFeedback";
 import { BiBookBookmark } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { GrFacebook } from "react-icons/gr";
 import { useState } from "react";
 import Button from "../../components/molecules/Button";
+import { validateConfig } from "next/dist/server/config-shared";
+import { signIn } from "next-auth/react";
 
 export default function () {
     let [useEmail, setUseEmail] = useState(false);
@@ -41,6 +42,15 @@ export default function () {
         }
     };
 
+    let onEmailChange = (e: any) => {
+        if (e.target.value != "") {
+            setShowPassword(true);
+            setEmail(e.target.value);
+        } else {
+            setShowPassword(false);
+        }
+    };
+
     return (
         <div className="loginPage">
             <div className="loginContainer">
@@ -50,11 +60,25 @@ export default function () {
                 <div>Welcome Back</div>
                 <div className="authFormContent">
                     <div className="signinButtons">
-                        <button>
+                        <button
+                            onClick={async () => {
+                                await signIn("google", {
+                                    redirect: false,
+                                    callbackUrl: "/",
+                                });
+                            }}
+                        >
                             <FcGoogle />
                             login with gmail
                         </button>
-                        <button>
+                        <button
+                            onClick={async () => {
+                                await signIn("facebook", {
+                                    redirect: false,
+                                    callbackUrl: "/",
+                                });
+                            }}
+                        >
                             <GrFacebook />
                             login with facebook
                         </button>
@@ -64,23 +88,35 @@ export default function () {
                         <label>Email</label>
                         <input
                             type="email"
-                            onChange={(e) =>
-                                e.target.value != ""
-                                    ? setShowPassword(true)
-                                    : setShowPassword(false)
-                            }
+                            onChange={(e) => onEmailChange(e)}
+                            value={email}
                         />
                     </div>
                     {showPassword && (
                         <div>
                             <label>Password</label>
-                            <input type="password" />
+                            <input
+                                type="password"
+                                onChange={(e) => setPassword(e.target.value)}
+                                value={password}
+                            />
                         </div>
                     )}
-                    <Button type="primary" text="Log in" />
+                    <Button
+                        type="primary"
+                        text="Log in"
+                        onClick={async () => {
+                            await signIn("credentials", {
+                                redirect: false,
+                                email,
+                                password,
+                                callbackUrl: "/",
+                            });
+                        }}
+                    />
                     <div>
                         Don't have an account?{" "}
-                        <Link href="/signup">Sign up</Link> now!
+                        <Link href="/auth/signup">Sign up</Link> now!
                     </div>
                     <Link href="/terms">Terms</Link>
                     <Link href="/privacy">privacy</Link>

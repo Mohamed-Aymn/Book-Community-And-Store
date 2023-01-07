@@ -6,6 +6,7 @@ import { GrFacebook } from "react-icons/gr";
 import { useState } from "react";
 import Button from "../../components/molecules/Button";
 import TagList from "../../components/molecules/TagList";
+import { signIn, signOut } from "next-auth/react";
 
 export default function () {
     let [email, setEmail] = useState("");
@@ -54,14 +55,31 @@ export default function () {
             <div className="authFormContainer">
                 <h1>Sign up</h1>
 
-                <button>
+                <button
+                    onClick={async () => {
+                        await signIn("google", {
+                            redirect: false,
+                            callbackUrl: "/",
+                        });
+                    }}
+                >
                     <FcGoogle />
-                    login with gmail
+                    sign in with gmail
                 </button>
-                <button>
+                <button
+                    onClick={async () => {
+                        await signIn("facebook", {
+                            redirect: false,
+                            callbackUrl: "/",
+                        });
+                    }}
+                >
                     <GrFacebook />
-                    login with facebook
+                    sign in with facebook
                 </button>
+
+                <div>OR</div>
+
                 <div>
                     <label>Email</label>
                     <input
@@ -82,11 +100,15 @@ export default function () {
                     <label>re enter password</label>
                     <input type="password" />
                 </div>
-                <div>import your favourtie generes</div>
-                <TagList list={["bla", "bla", "bla"]} />
+
                 <Link href="/profile">
                     <Button type="primary" text="Create account" />
                 </Link>
+
+                <div>
+                    <span>have an account? </span>
+                    <Link href="/auth/login">Sign in</Link>
+                </div>
             </div>
         </div>
     );
