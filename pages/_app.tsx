@@ -7,6 +7,10 @@ import { useState } from "react";
 import BookDetailsModal from "../components/organisms/BookDetailsModal";
 import { layoutStore } from "../clientState/layoutStore";
 import { SessionProvider } from "next-auth/react";
+import { ThemeProvider } from "styled-components";
+import { lightTheme, darkTheme, GlobalStyles } from "../styles/ThemeConfig";
+import Button from "../components/molecules/Button";
+import { MdDarkMode } from "react-icons/md";
 
 export default function App({
     Component,
@@ -17,14 +21,38 @@ export default function App({
         (state: any) => state.isDisplayingBookDetails
     );
 
+    const theme = layoutStore((state: any) => state.theme);
+    const toggleTheme = layoutStore((state: any) => state.toggleTheme);
+    console.log(toggleTheme);
+
     return (
         <SessionProvider session={session}>
             <QueryClientProvider client={queryClient}>
                 <Hydrate state={pageProps.dehydratedState}>
-                    <Layout>
-                        {isDisplayingBookDetails && <BookDetailsModal />}
-                        <Component {...pageProps} />
-                    </Layout>
+                    <ThemeProvider
+                        theme={theme === "light" ? lightTheme : darkTheme}
+                    >
+                        <Layout>
+                            {isDisplayingBookDetails && <BookDetailsModal />}
+                            <Component {...pageProps} />
+                            <div
+                                style={{
+                                    position: "fixed",
+                                    right: "30px",
+                                    bottom: "30px",
+                                }}
+                            >
+                                <Button
+                                    icon={<MdDarkMode />}
+                                    onClick={() => {
+                                        toggleTheme(theme);
+                                        console.log("hello");
+                                    }}
+                                />
+                            </div>
+                        </Layout>
+                        <GlobalStyles />
+                    </ThemeProvider>
                 </Hydrate>
                 <ReactQueryDevtools initialIsOpen={false} />
             </QueryClientProvider>

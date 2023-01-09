@@ -2,8 +2,13 @@ import LandingConatiner from "../components/organisms/LandingContainer";
 import mainPhoto from "../assets/mainPhoto.jpg";
 import CustomersFeedback from "../components/organisms/CustomersFeedback";
 import Button from "../components/molecules/Button";
+import { layoutStore } from "../clientState/layoutStore";
+import Link from "next/link";
 
 export default function Home() {
+    const theme = layoutStore((state: any) => state.theme);
+    const toggleTheme = layoutStore((state: any) => state.toggleTheme);
+
     return (
         <>
             <LandingConatiner />
@@ -108,7 +113,9 @@ export default function Home() {
                             name="Houston Rickie"
                         />
                     </div>
-                    <Button text="Join Us!" type="catchy" />
+                    <Link href="auth/signup" style={{ textDecoration: "none" }}>
+                        <Button text="Join Us!" approach="catchy" size="big" />
+                    </Link>
                 </section>
             </main>
         </>

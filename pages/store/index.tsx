@@ -119,14 +119,14 @@ export default function () {
                                         <div className="sliderControllers">
                                             <Button
                                                 text="View All"
-                                                type="primary"
+                                                approach="primary"
                                                 // type on click logic here to fetch specific data (genre , print type and etc)
                                             />
                                             <Button
                                                 icon={
                                                     <MdOutlineNavigateBefore />
                                                 }
-                                                type="primary"
+                                                approach="primary"
                                                 onClick={() => {
                                                     let slider =
                                                         document.getElementById(
@@ -137,7 +137,7 @@ export default function () {
                                             />
                                             <Button
                                                 icon={<MdOutlineNavigateNext />}
-                                                type="primary"
+                                                approach="primary"
                                                 onClick={() => {
                                                     let slider =
                                                         document.getElementById(
@@ -186,14 +186,14 @@ export default function () {
                                             <Link href="/store">
                                                 <Button
                                                     text="View All"
-                                                    type="primary"
+                                                    approach="primary"
                                                 />
                                             </Link>
                                             <Button
                                                 icon={
                                                     <MdOutlineNavigateBefore />
                                                 }
-                                                type="primary"
+                                                approach="primary"
                                                 onClick={() => {
                                                     let slider =
                                                         document.getElementById(
@@ -204,7 +204,7 @@ export default function () {
                                             />
                                             <Button
                                                 icon={<MdOutlineNavigateNext />}
-                                                type="primary"
+                                                approach="primary"
                                                 onClick={() => {
                                                     let slider =
                                                         document.getElementById(

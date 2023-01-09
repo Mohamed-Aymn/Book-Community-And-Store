@@ -103,7 +103,7 @@ export default function () {
                         </div>
                     )}
                     <Button
-                        type="primary"
+                        approach="primary"
                         text="Log in"
                         onClick={async () => {
                             await signIn("credentials", {
@@ -113,6 +113,7 @@ export default function () {
                                 callbackUrl: "/",
                             });
                         }}
+                        width="full"
                     />
                     <div>
                         Don't have an account?{" "}

@@ -26,7 +26,7 @@ export default function Navbar() {
                 <>
                     <Image
                         src={photo}
-                        alt="user Photi"
+                        alt="user Photo"
                         width={25}
                         height={25}
                         onClick={() => setProfileMenu(!isProfileMenu)}
@@ -36,7 +36,12 @@ export default function Navbar() {
                             <Link href={`/${session.user?.name}`}>
                                 <button>view profile</button>
                             </Link>
-                            <button onClick={() => signOut()}>sign out</button>
+                            <Button
+                                approach="primary"
+                                onClick={() => signOut()}
+                            >
+                                sign out
+                            </Button>
                         </div>
                     )}
                 </>
@@ -45,16 +50,16 @@ export default function Navbar() {
             return (
                 <>
                     <Link
-                        href={"/auth/login"}
-                        style={{ textDecoration: "none" }}
-                    >
-                        <Button text="login" type="secondary" />
-                    </Link>
-                    <Link
                         href={"/auth/signup"}
                         style={{ textDecoration: "none" }}
                     >
-                        <Button text="Signup" type="secondary" />
+                        <Button approach="primary">Signup</Button>
+                    </Link>
+                    <Link
+                        href={"/auth/login"}
+                        style={{ textDecoration: "none" }}
+                    >
+                        <Button approach="secondary">login</Button>
                     </Link>
                 </>
             );

@@ -7,19 +7,7 @@ import img from "../../assets/mainPhoto.jpg";
 export default function () {
     return (
         <main>
-            <div className="storeSearch">
-                <div className="newSearchContainer">
-                    <div className="mainSearchConatiener">
-                        <input
-                            type="text"
-                            placeholder="Genre, author or book name"
-                        />
-                        <button>
-                            <FaSearch />
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <SearchBar placeholder={"Search for items in your cart"} />
 
             <table className="cartTable">
                 <thead>

@@ -4,7 +4,17 @@ export const layoutStore = create((set) => ({
     isDisplayingBookDetails: false,
     bookDetails: null,
     id: "newId",
+    theme: "light",
 
+    toggleTheme: (theme: string) => {
+        theme === "light"
+            ? set(() => ({
+                  theme: "dark",
+              }))
+            : set(() => ({
+                  theme: "light",
+              }));
+    },
     setId: (newId: any) => {
         set(() => ({
             id: newId,
