@@ -1,8 +1,64 @@
 import Image from "next/image";
 import Link from "next/link";
-import styles from "./BookDetailsModal.module.scss";
 import Button from "../atoms/Button";
 import { layoutStore } from "../../clientState/layoutStore";
+import styled from "styled-components";
+import { mediaQueryMin } from "../../styles/mediaQuery";
+
+const ModalBackground = styled.div`
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.055);
+    z-index: 1;
+`;
+
+const MobileBookDetailsModal = styled.div`
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.112);
+    z-index: 1;
+    ${mediaQueryMin("largeTablet")`
+        inset: 0 0 0 35%;
+    `}
+`;
+
+const ModalHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 2em;
+`;
+
+const About = styled.div`
+    text-align: center;
+`;
+
+const ImageContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 11em;
+    height: 17em;
+    margin: "1em 0";
+`;
+
+const Title = styled.div`
+    font-size: 1.5rem;
+    text-align: center;
+`;
+
+const Author = styled.div`
+    text-align: center;
+    opacity: 0.5;
+    font-size: 0.8rem;
+`;
+
+const SubDetailsContainer = styled.div`
+    margin: 1em 0;
+    span {
+        font-weight: bold;
+    }
+`;
 
 export default function () {
     const setDisplayingBookDetails = layoutStore(
@@ -11,55 +67,51 @@ export default function () {
     const bookDetails = layoutStore((state: any) => state.bookDetails);
 
     return (
-        <div className={styles.productDetails}>
-            <div className={styles.content}>
-                <div className={styles.contentHeader}>
+        <ModalBackground>
+            <MobileBookDetailsModal>
+                <ModalHeader>
                     <Button
-                        type="primary"
+                        approach="primary"
                         text="X"
                         onClick={() => setDisplayingBookDetails(false)}
                     />
                     <Link href={`/store/${bookDetails.id}`}>
                         <Button
+                            approach="primary"
                             text="open in a new window to display full detials"
                             onClick={() => setDisplayingBookDetails(false)}
                         />
                     </Link>
-                </div>
+                </ModalHeader>
 
-                <div className={styles.detailsContent}>
-                    <div className={styles.about}>About</div>
-                    <div className={styles.imageContainer}>
-                        <Image
-                            className={styles.image}
-                            src={bookDetails.img}
-                            alt="Picture of the author"
-                            width={20}
-                            height={20}
-                        />
-                    </div>
-                    <div className={styles.title}>{bookDetails.title}</div>
-                    <div className={styles.author}>author</div>
-                    <div className={styles.subDetialsContainer}>
-                        <div className={styles.subDetail}>
-                            <span> rate:</span> stars
-                        </div>
-                        <div className={styles.subDetail}>
-                            <span> avilability:</span> bla
-                        </div>
-                        <div className={styles.subDetail}>
-                            <span> type:</span> printed
-                        </div>
-                        <div className={styles.subDetail}>
-                            <span> genre:</span> bla
-                        </div>
-                    </div>
-                    <div>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        A delectus illum blanditiis iusto consequuntur ....
-                    </div>
+                <About>About</About>
+                <ImageContainer>
+                    <Image
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                            objectPosition: "center center",
+                        }}
+                        src={bookDetails.img}
+                        alt="Picture of the author"
+                        width={500}
+                        height={500}
+                    />
+                </ImageContainer>
+                <Title>{bookDetails.title}</Title>
+                <Author>author</Author>
+                <SubDetailsContainer>
+                    <span> rate:</span> stars
+                    <span> avilability:</span> bla
+                    <span> type:</span> printed
+                    <span> genre:</span> bla
+                </SubDetailsContainer>
+                <div>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. A
+                    delectus illum blanditiis iusto consequuntur ....
                 </div>
-            </div>
-        </div>
+            </MobileBookDetailsModal>
+        </ModalBackground>
     );
 }

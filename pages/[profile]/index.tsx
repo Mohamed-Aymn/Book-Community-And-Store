@@ -9,6 +9,7 @@ import { BsFillTriangleFill } from "react-icons/bs";
 import { useQuery, dehydrate, QueryClient } from "react-query";
 import { getSession } from "next-auth/react";
 import styled from "styled-components";
+import { mediaQueryMax } from "../../styles/mediaQuery";
 
 let getUserData = async () => {
     return await fetch(
@@ -42,8 +43,51 @@ export async function getServerSideProps({ req }: any) {
     };
 }
 
-const Hello = styled.div`
-    background-color: red;
+const ProfileHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5em;
+    padding: 2em 0;
+    border-radius: 1.5em;
+`;
+
+const MainInfo = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+`;
+
+const ImageContainer = styled.div`
+    width: 5em;
+    height: 5em;
+`;
+
+const UserName = styled.div`
+    color: ${(props) => props.theme.primaryText};
+    font-weight: 600;
+    font-size: 1.3rem;
+`;
+
+const UserTitle = styled.div`
+    color: ${(props) => props.theme.secondaryText};
+    font-size: 0.8rem;
+    margin-top: -0.1em;
+`;
+
+const InfoParentContainer = styled.div`
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2em;
+    margin-left: 0.5em;
+    ${mediaQueryMax("smallDesktop")`
+        grid-template-columns: repeat(1, 100%);
+    `}
+`;
+
+const InfoChildContainer = styled.div`
+    background-color: ${(props) => props.theme.secondary};
+    padding: 0 2em;
 `;
 
 export default function () {
@@ -54,22 +98,32 @@ export default function () {
 
     return (
         <main>
-            <div className="profileHeader">
-                <div className="mainInfo">
-                    <Image
-                        className="image"
-                        src={img}
-                        alt="Picture of the author"
-                    />
+            <ProfileHeader>
+                <MainInfo>
+                    <ImageContainer>
+                        <Image
+                            className="image"
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                borderRadius: "100%",
+                                border: "solid 0.2em #0f1219",
+                            }}
+                            src={img}
+                            alt="Picture of the author"
+                            width={500}
+                            height={500}
+                        />
+                    </ImageContainer>
                     <div>
-                        <div className="userName">userName</div>
-                        <div className="userTitle">reader</div>
+                        <UserName>userName</UserName>
+                        <UserTitle>reader</UserTitle>
                     </div>
-                </div>
-                <Button text="connect" type="primary" />
-            </div>
+                </MainInfo>
+                <Button text="connect" approach="primary" />
+            </ProfileHeader>
 
-            <div className="profileBody">
+            <div>
                 <button
                     style={{
                         backgroundColor: "transparent",
@@ -85,11 +139,11 @@ export default function () {
                     <h2>Info</h2>
                 </button>
                 {isInfoOpened && (
-                    <div className="infoContent">
-                        <div className="infoContentChild">
+                    <InfoParentContainer>
+                        <InfoChildContainer>
                             <div>
                                 <h3>About</h3>
-                                <div className="bio">
+                                <div>
                                     Lorem ipsum dolor sit amet consectetur
                                     adipisicing elit. Quia officia fugit
                                     repudiandae voluptatibus praesentium quidem
@@ -101,9 +155,9 @@ export default function () {
                             <div>
                                 <h3>Favourite genres</h3>
                                 <div className="tagsList">
-                                    <Button type="tag" text="scientific" />
-                                    <Button type="tag" text="historic" />
-                                    <Button type="tag" text="novel" />
+                                    <Button approach="tag" text="scientific" />
+                                    <Button approach="tag" text="historic" />
+                                    <Button approach="tag" text="novel" />
                                 </div>
                             </div>
                             <div>
@@ -112,38 +166,41 @@ export default function () {
                                     <BookCard img={mainPhoto} />
                                     <BookCard img={mainPhoto} />
                                     <BookCard img={mainPhoto} />
-                                    <Button text="View All" type="secondary" />
+                                    <Button
+                                        text="View All"
+                                        approach="secondary"
+                                    />
                                 </div>
                             </div>
-                        </div>
-                        <div className="infoContentChild">
+                        </InfoChildContainer>
+                        <InfoChildContainer>
                             <h3>Connections</h3>
                             <div>X connections</div>
                             <div>connections sample</div>
-                            <Button text="View All" type="secondary" />
-                        </div>
-                    </div>
+                            <Button text="View All" approach="secondary" />
+                        </InfoChildContainer>
+                    </InfoParentContainer>
                 )}
+            </div>
 
-                <div>
-                    <button
-                        style={{
-                            backgroundColor: "transparent",
-                            border: "none",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "0.7em",
-                        }}
-                        onClick={() => setIsReviewsOpened(!isReviewsOpened)}
-                    >
-                        <BsFillTriangleFill />
-                        <h2>Reviews</h2>
-                    </button>
-                    <div className="reviews">
-                        {isReviewsOpened && <Reviews />}
-                    </div>
-                </div>
+            <div>
+                <button
+                    style={{
+                        backgroundColor: "transparent",
+                        border: "none",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: "0.7em",
+                    }}
+                    onClick={() => setIsReviewsOpened(!isReviewsOpened)}
+                >
+                    <BsFillTriangleFill />
+                    <h2>Reviews</h2>
+                </button>
+                <InfoChildContainer>
+                    <div>{isReviewsOpened && <Reviews />}</div>
+                </InfoChildContainer>
             </div>
         </main>
     );

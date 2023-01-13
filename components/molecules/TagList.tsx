@@ -1,12 +1,35 @@
+import styled from "styled-components";
 import Button from "../atoms/Button";
-import styles from "./TagList.module.scss";
+// import styles from "./TagList.module.scss";
 
-export default function (props: any) {
+interface ITagList {
+    wrap?: boolean;
+    list?: any;
+}
+
+const TagList = styled.div<ITagList>`
+    display: flex;
+    gap: 0.5em;
+    max-width: 100%;
+    padding: 0.1em;
+
+    overflow-x: scroll;
+    scrollbar-width: none;
+
+    ${(props) => (props.wrap ? "flex-wrap: wrap" : "")}
+
+    // overflow-x: scroll;
+        &::-webkit-scrollbar {
+        display: none;
+    }
+`;
+
+export default function (props: ITagList) {
     return (
-        <div className={styles.container} wrap={"false"}>
+        <TagList>
             {props.list.map((item: string, i: number) => {
                 return <Button key={i} text={item} approach="tag" />;
             })}
-        </div>
+        </TagList>
     );
 }

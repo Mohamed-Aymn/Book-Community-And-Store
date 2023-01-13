@@ -28,6 +28,7 @@ const Nav = styled.nav`
     padding: 0 1.7em;
     padding-top: 1em;
     background-color: ${(props) => props.theme.primary};
+    z-index: 1em;
 `;
 
 export default function Navbar() {

@@ -1,7 +1,64 @@
 import { useRouter } from "next/router";
-import { FaSearch, FaFilter } from "react-icons/fa";
-import styles from "./SearchBar.module.scss";
+import { FaSearch } from "react-icons/fa";
 import { RiSettings5Fill } from "react-icons/ri";
+import styled from "styled-components";
+
+interface IInputBar {
+    suggestions: boolean;
+}
+
+const SearchBar = styled.div`
+    width: 60%;
+    margin: 1em auto;
+    position: sticky;
+    top: 5em;
+    z-index: 1;
+`;
+
+const InputBar = styled.div<IInputBar>`
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: ${(props) => props.theme.secondary};
+    align-items: center;
+    padding: 0.7em;
+    border-radius: 1.7em;
+    &:hover {
+        box-shadow: 0px 4px 8px 0 #02020252;
+    }
+
+    ${(props) =>
+        props.suggestions
+            ? `
+                box-shadow: 0px 4px 8px 0 #02020252;
+                border-radius: 1em 1em 0 0;
+            `
+            : null}
+`;
+
+const VerticalDivider = styled.div`
+    border-left: 0.05em solid rgb(226, 226, 226);
+    height: 16px;
+`;
+
+const Suggestions = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: ${(props) => props.theme.secondary};
+    border-radius: 0 0 1em 1em;
+    padding-bottom: 0.7em;
+    box-shadow: 0 4px 8px #ccc;
+    padding-top: 0.5em;
+    position: absolute;
+    & div {
+        padding: 0 0.7em;
+        &:hover {
+            background-color: rgb(226, 226, 226);
+            cursor: pointer;
+        }
+    }
+`;
 
 export default function (props: any) {
     let router = useRouter();
@@ -15,13 +72,18 @@ export default function (props: any) {
     };
 
     return (
-        <div className={styles.mainSearchContainer}>
-            <div
-                className={styles.upperBar}
-                suggestions={props.suggestions !== undefined ? "true" : null}
+        <SearchBar>
+            <InputBar
+                suggestions={props.suggestions !== undefined ? true : false}
             >
                 <input
                     type="text"
+                    style={{
+                        width: "100%",
+                        border: "none",
+                        outline: "none",
+                        backgroundColor: "transparent",
+                    }}
                     placeholder={props.placeholder}
                     value={props.searchState}
                     onChange={async (e) => {
@@ -34,16 +96,13 @@ export default function (props: any) {
                         e.key == "Enter" ? searchHanlder() : null;
                     }}
                 />
-                <div className={styles.buttonsGroup}>
-                    <button
-                        onClick={props.searchFunction}
-                        className={styles.searchIcon}
-                    >
+                <div style={{ display: "flex" }}>
+                    <button onClick={props.searchFunction}>
                         <FaSearch />
                     </button>
                     {props.config && (
                         <>
-                            <div className={styles.verticalDivider} />
+                            <VerticalDivider />
 
                             <button
                                 onClick={() => {
@@ -57,9 +116,9 @@ export default function (props: any) {
                         </>
                     )}
                 </div>
-            </div>
+            </InputBar>
             {props.suggestions !== undefined && (
-                <div className={styles.suggestionsContainer}>
+                <Suggestions>
                     {props.suggestions.map((suggestion: any, i: number) => {
                         return (
                             <div
@@ -75,8 +134,8 @@ export default function (props: any) {
                             </div>
                         );
                     })}
-                </div>
+                </Suggestions>
             )}
-        </div>
+        </SearchBar>
     );
 }

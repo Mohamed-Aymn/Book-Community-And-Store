@@ -25,7 +25,8 @@ export default function ({ children }: { children: JSX.Element }) {
                     <Footer />
                 )}
                 <FloatingComponents />
-                {isModal && <Modals />}
+                {/* i don't think that modals will ba handled like that */}
+                {/* {isModal && <Modals />} */}
                 <GlobalStyles />
             </ThemeProvider>
         </>

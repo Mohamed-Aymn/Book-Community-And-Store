@@ -2,6 +2,7 @@ import styles from "./Reviews.module.scss";
 import Image from "next/image";
 import mainPhoto from "../../assets/mainPhoto.jpg";
 import { useQuery, dehydrate, QueryClient } from "react-query";
+import styled from "styled-components";
 
 let getReviewerData = async (id: any) => {
     return fetch(`http://localhost:3000/api/users/${id}`).then(async (res) => {
@@ -20,6 +21,11 @@ export async function getStaticProps() {
     };
 }
 
+const ImageContainer = styled.div`
+    width: 5em;
+    height: 5em;
+`;
+
 export default function (props: any) {
     let reviewerId = props.reviewer;
 
@@ -34,11 +40,13 @@ export default function (props: any) {
     return (
         <div className={styles.mainContainer}>
             <div>
-                <Image
-                    className={styles.userImage}
-                    src={mainPhoto}
-                    alt="userImage"
-                />
+                <ImageContainer>
+                    <Image
+                        style={{ width: "100%", height: "100%" }}
+                        src={mainPhoto}
+                        alt="userImage"
+                    />
+                </ImageContainer>
                 <div>reviewer: {reviewer?.name}</div>
             </div>
             <div>

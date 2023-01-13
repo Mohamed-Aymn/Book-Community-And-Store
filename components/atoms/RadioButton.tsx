@@ -1,3 +1,5 @@
+import styles from "./RadioButton.module.scss";
+
 // @use "../../../styles/vars.scss" as *;
 
 // .radioButtonContainer {
@@ -78,3 +80,12 @@
 // .radioItemLabel:hover::before {
 //     outline: #3992ff 0.1em solid;
 // }
+
+export default function () {
+    return (
+        <div className={styles.radioButtonContainer}>
+            <input type="radio" className={styles.radioItemInput} />
+            <div className={styles.radioItemLabel} />
+        </div>
+    );
+}

@@ -25,7 +25,7 @@ export default async function handler(
             let url = "";
             // search by both book title and author name
             if (search) {
-                url = `https://www.googleapis.com/books/v1/volumes?q=${search}&maxResults=28`;
+                url = `https://www.googleapis.com/books/v1/volumes?q=${search}&maxResults=28&zoom=3`;
             }
             // search by print type
             else if (collection) {

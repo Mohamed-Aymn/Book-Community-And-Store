@@ -1,12 +1,9 @@
 import LandingConatiner from "../components/organisms/LandingContainer";
-import mainPhoto from "../assets/mainPhoto.jpg";
-import CustomersFeedback from "../components/organisms/CustomersFeedback";
-import Button from "../components/atoms/Button";
-import Link from "next/link";
+import FeedbackSection from "../components/organisms/FeedbackSection";
 
 export default function Home() {
     return (
-        <div>
+        <>
             <LandingConatiner />
             <main>
                 <section>
@@ -93,27 +90,8 @@ export default function Home() {
                     similique molestias dolores qui debitis tempore deleniti
                     quam!
                 </section>
-                <section className="section feedbackSection">
-                    <h1 className="title">Our Customers</h1>
-                    <div className="FeedbackContainer">
-                        <CustomersFeedback
-                            img={mainPhoto}
-                            name="Auston Nichola"
-                        />
-                        <CustomersFeedback
-                            img={mainPhoto}
-                            name="Agatha Christie"
-                        />
-                        <CustomersFeedback
-                            img={mainPhoto}
-                            name="Houston Rickie"
-                        />
-                    </div>
-                    <Link href="auth/signup" style={{ textDecoration: "none" }}>
-                        <Button text="Join Us!" approach="catchy" size="big" />
-                    </Link>
-                </section>
+                <FeedbackSection />
             </main>
-        </div>
+        </>
     );
 }

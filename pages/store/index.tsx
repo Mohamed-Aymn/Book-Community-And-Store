@@ -5,9 +5,19 @@ import { useState } from "react";
 import { useQuery, dehydrate, QueryClient } from "react-query";
 import SearchBar from "../../components/molecules/SearchBar";
 import TagList from "../../components/molecules/TagList";
-import Button from "../../components/atoms/Button";
-import Link from "next/link";
-import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
+import BookSlider from "../../components/organisms/BookSlider";
+import styled from "styled-components";
+import BookPage from "../../components/organisms/BookPage";
+
+const MesssgeCard = styled.div`
+    margin-top: 1em;
+    height: calc(100vh - 11em);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: ${(props) => props.theme.primary} solid 0.05em;
+    border-radius: 1.7em;
+`;
 
 let getFreeBooks = async () => {
     return fetch("http://localhost:3000/api/books?collection=free-ebooks").then(
@@ -17,6 +27,7 @@ let getFreeBooks = async () => {
         }
     );
 };
+
 let getEbooks = async () => {
     return fetch("http://localhost:3000/api/books?collection=ebooks").then(
         async (res) => {
@@ -82,7 +93,7 @@ export default function () {
         lang: "",
     });
 
-    //
+    // pagination
     let [page, setPage] = useState(1);
 
     // search result query (server side)
@@ -113,164 +124,20 @@ export default function () {
                     <div>
                         {!isFetching && (
                             <>
-                                <section className="section">
-                                    <div className="sectionHeader">
-                                        <h1 className="title">E-Books</h1>
-                                        <div className="sliderControllers">
-                                            <Button
-                                                text="View All"
-                                                approach="primary"
-                                                // type on click logic here to fetch specific data (genre , print type and etc)
-                                            />
-                                            <Button
-                                                icon={
-                                                    <MdOutlineNavigateBefore />
-                                                }
-                                                approach="primary"
-                                                onClick={() => {
-                                                    let slider =
-                                                        document.getElementById(
-                                                            "eBooksSlider"
-                                                        );
-                                                    slider.scrollBy(-175, 0);
-                                                }}
-                                            />
-                                            <Button
-                                                icon={<MdOutlineNavigateNext />}
-                                                approach="primary"
-                                                onClick={() => {
-                                                    let slider =
-                                                        document.getElementById(
-                                                            "eBooksSlider"
-                                                        );
-                                                    slider.scrollBy(175, 0);
-                                                }}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div
-                                        className="homeSlider"
-                                        id="eBooksSlider"
-                                    >
-                                        {ebooksData &&
-                                            ebooksData.map((book: any) => {
-                                                return (
-                                                    <BookCard
-                                                        key={book.id}
-                                                        id={book.id}
-                                                        title={
-                                                            book.volumeInfo
-                                                                .title
-                                                        }
-                                                        author={
-                                                            book.volumeInfo
-                                                                .authors
-                                                        }
-                                                        price="99"
-                                                        img={
-                                                            book.volumeInfo
-                                                                .imageLinks
-                                                                ?.thumbnail ||
-                                                            mainPhoto
-                                                        }
-                                                    />
-                                                );
-                                            })}
-                                    </div>
-                                </section>
-
-                                <section className="section">
-                                    <div className="sectionHeader">
-                                        <h1 className="title">Free-Books</h1>
-                                        <div className="sliderControllers">
-                                            <Link href="/store">
-                                                <Button
-                                                    text="View All"
-                                                    approach="primary"
-                                                />
-                                            </Link>
-                                            <Button
-                                                icon={
-                                                    <MdOutlineNavigateBefore />
-                                                }
-                                                approach="primary"
-                                                onClick={() => {
-                                                    let slider =
-                                                        document.getElementById(
-                                                            "freeBooksSlider"
-                                                        );
-                                                    slider.scrollBy(-175, 0);
-                                                }}
-                                            />
-                                            <Button
-                                                icon={<MdOutlineNavigateNext />}
-                                                approach="primary"
-                                                onClick={() => {
-                                                    let slider =
-                                                        document.getElementById(
-                                                            "freeBooksSlider"
-                                                        );
-                                                    slider.scrollBy(175, 0);
-                                                }}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div
-                                        className="homeSlider"
-                                        id="freeBooksSlider"
-                                    >
-                                        {freeBooksData &&
-                                            freeBooksData.map((book: any) => {
-                                                return (
-                                                    <BookCard
-                                                        key={book.id}
-                                                        id={book.id}
-                                                        title={
-                                                            book.volumeInfo
-                                                                .title
-                                                        }
-                                                        author={
-                                                            book.volumeInfo
-                                                                .authors
-                                                        }
-                                                        price="99"
-                                                        img={
-                                                            book.volumeInfo
-                                                                .imageLinks
-                                                                ?.thumbnail
-                                                        }
-                                                    />
-                                                );
-                                            })}
-                                    </div>
-                                </section>
+                                <BookSlider data={ebooksData} title="E-Books" />
+                                <BookSlider
+                                    data={freeBooksData}
+                                    title="Free-Books"
+                                />
                             </>
                         )}
 
-                        {isFetching && (
-                            <div className="messageCards">Loading ..</div>
-                        )}
+                        {isFetching && <MesssgeCard>Loading ..</MesssgeCard>}
                     </div>
                 )}
                 {data && (
                     <>
-                        <div className="searchResults">
-                            {data?.items?.map((item: any) => {
-                                return (
-                                    <BookCard
-                                        key={item.id}
-                                        id={item.id}
-                                        title={item.volumeInfo.title}
-                                        author={item.volumeInfo.authors}
-                                        img={
-                                            item.volumeInfo.imageLinks
-                                                ?.thumbnail || mainPhoto
-                                        }
-                                        price={99.9}
-                                    />
-                                );
-                            })}
-                        </div>
+                        <BookPage data={data} />
                         <Pagination
                             page={page}
                             setPage={setPage}
@@ -287,118 +154,116 @@ export default function () {
 
     return (
         <main>
-            <div className="searchContainer">
-                <SearchBar
-                    placeholder={"Search by book title or author name"}
-                    config
-                    buttonOneState={searchConfig}
-                    setButtonOneState={setSearchConfig}
-                    // buttonTwoState={searchFilter}
-                    // setButtonTwoState={setSearchFilter}
-                    //
-                    searchState={search}
-                    setSearchState={setSearch}
-                    //
-                    searchFunction={refetch}
-                    //
-                    suggestions={suggestions}
-                    suggestinosFunction={suggestionsRefetch}
-                />
+            <SearchBar
+                placeholder={"Search by book title or author name"}
+                config
+                buttonOneState={searchConfig}
+                setButtonOneState={setSearchConfig}
+                // buttonTwoState={searchFilter}
+                // setButtonTwoState={setSearchFilter}
+                //
+                searchState={search}
+                setSearchState={setSearch}
+                //
+                searchFunction={refetch}
+                //
+                suggestions={suggestions}
+                suggestinosFunction={suggestionsRefetch}
+            />
 
-                {searchConfig && (
+            {searchConfig && (
+                <div>
                     <div>
-                        <div>
-                            <b>Search by</b>
-                            <button>both book title and author name</button>
-                            <button
-                                onClick={() =>
-                                    setSearchQueries({
-                                        ...searchQueries,
-                                        inTitle: true,
-                                        inAuthor: false,
-                                        genre: false,
-                                    })
-                                }
-                            >
-                                Book title
-                            </button>
-                            <button
-                                onClick={() =>
-                                    setSearchQueries({
-                                        ...searchQueries,
-                                        inAuthor: true,
-                                        inTitle: false,
-                                        genre: false,
-                                    })
-                                }
-                            >
-                                author
-                            </button>
-                            <button
-                                onClick={() =>
-                                    setSearchQueries({
-                                        ...searchQueries,
-                                        genre: true,
-                                        inAuthor: false,
-                                        inTitle: false,
-                                    })
-                                }
-                            >
-                                genre
-                            </button>
-                            {searchQueries.genre && (
-                                <>
+                        <b>Search by</b>
+                        <button>both book title and author name</button>
+                        <button
+                            onClick={() =>
+                                setSearchQueries({
+                                    ...searchQueries,
+                                    inTitle: true,
+                                    inAuthor: false,
+                                    genre: false,
+                                })
+                            }
+                        >
+                            Book title
+                        </button>
+                        <button
+                            onClick={() =>
+                                setSearchQueries({
+                                    ...searchQueries,
+                                    inAuthor: true,
+                                    inTitle: false,
+                                    genre: false,
+                                })
+                            }
+                        >
+                            author
+                        </button>
+                        <button
+                            onClick={() =>
+                                setSearchQueries({
+                                    ...searchQueries,
+                                    genre: true,
+                                    inAuthor: false,
+                                    inTitle: false,
+                                })
+                            }
+                        >
+                            genre
+                        </button>
+                        {searchQueries.genre && (
+                            <>
+                                <div>
+                                    <div>Suggestion</div>
                                     <div>
-                                        <div>Suggestion</div>
-                                        <div>
-                                            you can search for more genres in
-                                            the search bar
-                                        </div>
+                                        you can search for more genres in the
+                                        search bar
                                     </div>
+                                </div>
 
-                                    <TagList
-                                        list={[
-                                            "Horror",
-                                            "SC-Fi",
-                                            "Comdey",
-                                            "Action",
-                                            "Novel",
-                                            "History",
-                                            "Drama",
-                                            "Poetry",
-                                            "Adventure",
-                                            "Romance",
-                                            "Detective & Mystery",
-                                            "Philosophy",
-                                            "Religion",
-                                            "something else",
-                                            "something else",
-                                            "something else",
-                                        ]}
-                                    />
-                                </>
-                            )}
-                        </div>
-
-                        <b>filter</b>
-                        <div>
-                            <div>lang</div>
-                            <select
-                                onChange={(e) =>
-                                    setSearchFilters({
-                                        ...searchFilters,
-                                        lang: e.target.value,
-                                    })
-                                }
-                            >
-                                <option value="" style={{ display: "none" }} />
-                                <option value="en">English</option>
-                                <option value="ar">arabic</option>
-                            </select>
-                        </div>
+                                <TagList
+                                    list={[
+                                        "Horror",
+                                        "SC-Fi",
+                                        "Comdey",
+                                        "Action",
+                                        "Novel",
+                                        "History",
+                                        "Drama",
+                                        "Poetry",
+                                        "Adventure",
+                                        "Romance",
+                                        "Detective & Mystery",
+                                        "Philosophy",
+                                        "Religion",
+                                        "something else",
+                                        "something else",
+                                        "something else",
+                                    ]}
+                                />
+                            </>
+                        )}
                     </div>
-                )}
-            </div>
+
+                    <b>filter</b>
+                    <div>
+                        <div>lang</div>
+                        <select
+                            onChange={(e) =>
+                                setSearchFilters({
+                                    ...searchFilters,
+                                    lang: e.target.value,
+                                })
+                            }
+                        >
+                            <option value="" style={{ display: "none" }} />
+                            <option value="en">English</option>
+                            <option value="ar">arabic</option>
+                        </select>
+                    </div>
+                </div>
+            )}
 
             {searchResults()}
         </main>

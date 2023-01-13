@@ -1,5 +1,5 @@
 import { layoutStore } from "../../clientState/layoutStore";
-import BookDetailsModal from "../organisms/BookDetailsModal";
+// import BookDetailsModal from "../organisms/BookDetailsModal";
 
 export default function () {
     const isDisplayingBookDetails = layoutStore(
@@ -20,7 +20,8 @@ export default function () {
 
     return (
         <>
-            {isDisplayingBookDetails && <BookDetailsModal />}
+            hello
+            {/* {isDisplayingBookDetails && <BookDetailsModal />} */}
             {/* {isNavbarMenu && <NavMenu />} */}
         </>
     );

@@ -6,6 +6,20 @@ import { useState } from "react";
 import Button from "../../components/atoms/Button";
 import { validateConfig } from "next/dist/server/config-shared";
 import { signIn } from "next-auth/react";
+import styled from "styled-components";
+
+const LoginPage = styled.div`
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(0, -2.5em);
+`;
+
+const FormContainer = styled.div`
+    padding: 1em;
+    border-radius: 0.1em solid $primary-color;
+`;
 
 export default function () {
     let [useEmail, setUseEmail] = useState(false);
@@ -52,14 +66,14 @@ export default function () {
     };
 
     return (
-        <div className="loginPage">
-            <div className="loginContainer">
+        <LoginPage>
+            <FormContainer>
                 <Link href="/">
                     <BiBookBookmark fill="green" />
                 </Link>
                 <div>Welcome Back</div>
-                <div className="authFormContent">
-                    <div className="signinButtons">
+                <div>
+                    <div>
                         <button
                             onClick={async () => {
                                 await signIn("google", {
@@ -124,7 +138,7 @@ export default function () {
                     <Link href="/security">Security</Link>
                     <Link href="/contact">Contact Book Store</Link>
                 </div>
-            </div>
-        </div>
+            </FormContainer>
+        </LoginPage>
     );
 }

@@ -3,42 +3,69 @@ import SearchBar from "../../components/molecules/SearchBar";
 import { FaSearch } from "react-icons/fa";
 import Image from "next/image";
 import img from "../../assets/mainPhoto.jpg";
+import { Table, Th, Tr, Td } from "../../components/atoms/Table";
+import styled from "styled-components";
+
+const OrderDetails = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+const ImageContainer = styled.div`
+    width: 2em;
+    height: 2.5em;
+`;
 
 export default function () {
     return (
         <main>
-            <SearchBar placeholder={"Search for items in your cart"} />
+            <SearchBar placeholder="Search for items in your cart" />
 
-            <table className="cartTable">
+            <Table>
                 <thead>
                     <tr>
-                        <th className="tableHeading">product</th>
-                        <th className="tableHeading">price</th>
-                        <th className="tableHeading">count</th>
+                        <Th>product</Th>
+                        <Th>price</Th>
+                        <Th>count</Th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr className="tableRow">
-                        <td className="productCell">
-                            <Image
-                                className="cartProductImage"
-                                src={img}
-                                alt="userImage"
-                            />
+                    <Tr>
+                        <Td>
+                            <ImageContainer>
+                                <Image
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        borderRadius: "0.7em",
+                                    }}
+                                    src={img}
+                                    alt="Product Image"
+                                    width={500}
+                                    height={500}
+                                />
+                            </ImageContainer>
                             book name
-                        </td>
-                        <td>99</td>
-                        <td>3</td>
-                        <td className="countCell">
-                            <Button type="secondary" text="+" />
-                            <Button type="secondary" text="-" />
-                            <Button type="danger" text="remove" />
-                        </td>
-                    </tr>
+                        </Td>
+                        <Td>99</Td>
+                        <Td>3</Td>
+                        <Td
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "0.5em",
+                            }}
+                        >
+                            <Button approach="secondary" text="+" />
+                            <Button approach="secondary" text="-" />
+                            <Button approach="danger" text="remove" />
+                        </Td>
+                    </Tr>
                 </tbody>
-            </table>
+            </Table>
 
-            <div className="orderDetails">
+            <OrderDetails>
                 <div>
                     <div>Order summary</div>
                     <div>Sub-total : X</div>
@@ -47,9 +74,9 @@ export default function () {
 
                 <div>
                     <div>Total: x</div>
-                    <Button text="Checkout" type="primary" />
+                    <Button text="Checkout" approach="primary" />
                 </div>
-            </div>
+            </OrderDetails>
         </main>
     );
 }

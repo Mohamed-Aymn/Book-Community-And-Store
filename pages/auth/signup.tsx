@@ -7,6 +7,33 @@ import { useState } from "react";
 import Button from "../../components/atoms/Button";
 import TagList from "../../components/molecules/TagList";
 import { signIn, signOut } from "next-auth/react";
+import styled from "styled-components";
+
+const FormContainer = styled.div`
+    padding: 2em;
+    width: 100%;
+`;
+
+const InspiringCard = styled.div`
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    background-color: ${(props) => props.theme.primary};
+    margin: 1em;
+    height: calc(100vh - 2em);
+    padding: 2em;
+    width: 40%;
+    border-radius: 1.7em;
+`;
+
+const InspiringTitle = styled.h1`
+    color: ${(props) => props.theme.secondaryText};
+`;
+
+const InspiringText = styled.p`
+    color: ${(props) => props.theme.secondaryText};
+    font-weight: 100;
+`;
 
 export default function () {
     let [email, setEmail] = useState("");
@@ -37,22 +64,22 @@ export default function () {
     };
 
     return (
-        <div className="mainAuthContainer">
-            <div className="textCard">
+        <div style={{ display: "flex" }}>
+            <InspiringCard>
                 <div>
                     <Link href="/about">
                         <BiBookBookmark fill="#fff" />
                     </Link>
-                    <h1 className="authTitle">Start your journey with us.</h1>
-                    <div className="authInspiringText">
+                    <InspiringTitle>Start your journey with us.</InspiringTitle>
+                    <InspiringText>
                         Discover the worlds's best comuunity of freelancers and
                         business owners.
-                    </div>
+                    </InspiringText>
                 </div>
                 <CustomersFeedback />
-            </div>
+            </InspiringCard>
 
-            <div className="authFormContainer">
+            <FormContainer>
                 <h1>Sign up</h1>
 
                 <button
@@ -102,14 +129,14 @@ export default function () {
                 </div>
 
                 <Link href="/profile">
-                    <Button type="primary" text="Create account" />
+                    <Button approach="primary" text="Create account" />
                 </Link>
 
                 <div>
                     <span>have an account? </span>
                     <Link href="/auth/login">Sign in</Link>
                 </div>
-            </div>
+            </FormContainer>
         </div>
     );
 }
