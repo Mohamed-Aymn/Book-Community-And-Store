@@ -5,7 +5,12 @@ export const layoutStore = create((set) => ({
     bookDetails: null,
     id: "newId",
     theme: "light",
+    isNavbarMenu: false,
+    modal: false,
 
+    toggleNavbarMenu: () => {
+        set((state: any) => ({ isNavbarMenu: !state.isNavbarMenu }));
+    },
     toggleTheme: (theme: string) => {
         theme === "light"
             ? set(() => ({

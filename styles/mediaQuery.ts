@@ -1,6 +1,11 @@
-export const mediaQuery = (key: keyof typeof screens) => {
+export const mediaQueryMax = (key: keyof typeof screens) => {
     return (style: TemplateStringsArray | String) =>
         `@media (max-width: ${screens[key]}px) { ${style} }`;
+};
+
+export const mediaQueryMin = (key: keyof typeof screens) => {
+    return (style: TemplateStringsArray | String) =>
+        `@media (min-width: ${screens[key]}px) { ${style} }`;
 };
 
 export const screens = {
@@ -12,5 +17,3 @@ export const screens = {
     mediumHandset: 360,
     smallHandset: 320,
 };
-
-export default mediaQuery;

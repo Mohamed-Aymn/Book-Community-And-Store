@@ -1,4 +1,4 @@
-import Button from "./molecules/Button";
+import Button from "./atoms/Button";
 import Box from "./Box";
 
 export default function () {

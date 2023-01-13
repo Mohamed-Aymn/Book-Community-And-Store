@@ -3,7 +3,7 @@ import { BiBookBookmark } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { GrFacebook } from "react-icons/gr";
 import { useState } from "react";
-import Button from "../../components/molecules/Button";
+import Button from "../../components/atoms/Button";
 import { validateConfig } from "next/dist/server/config-shared";
 import { signIn } from "next-auth/react";
 

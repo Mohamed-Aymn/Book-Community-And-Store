@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { mediaQueryMax } from "./mediaQuery";
 
 interface ITheme {
     body: string;
@@ -10,7 +11,7 @@ interface ITheme {
 }
 
 export const lightTheme: ITheme = {
-    body: "var(--white)",
+    body: "var(--white-color)",
     primaryText: "var(--dark-blue)",
     secondaryText: "var(--light-neutral-blue)",
     primary: "var(--dark-blue)",
@@ -46,10 +47,32 @@ body {
     background: ${({ theme }: { theme: ITheme }) => theme.body};
     transition: all 0.50s linear;
     color: ${({ theme }) => theme.secondaryText};
+    padding: 0;
+    margin: 0;
+    overflow-y: scroll;
+    /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+        Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
+    /* font-family: "Almarai", sans-serif; */
+}
+*{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 h1,h2,h3,h4,h5,h6{
     color: ${({ theme }) => theme.primaryText};
-}`;
+}
+main {
+    max-width: 140ch;
+    margin: 0 auto;
+    padding-top: 4.1em;
+    // 5em navbar height, 10em footer height, 1,7 footer margin
+    min-height: calc(100vh - (5em + 10em) + 1.7em);
+    ${mediaQueryMax("desktop")`
+        margin: 0 1.7em;
+    `}
+}
+`;
 /*
 ref:
 https://dribbble.com/shots/19262105-Nook-Members-Settings

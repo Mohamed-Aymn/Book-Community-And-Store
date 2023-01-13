@@ -1,4 +1,5 @@
-import Button from "../../components/molecules/Button";
+import Button from "../../components/atoms/Button";
+import Navbar from "../../components/organisms/Navbar";
 
 export default function () {
     return (

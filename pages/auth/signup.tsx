@@ -4,7 +4,7 @@ import { BiBookBookmark } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { GrFacebook } from "react-icons/gr";
 import { useState } from "react";
-import Button from "../../components/molecules/Button";
+import Button from "../../components/atoms/Button";
 import TagList from "../../components/molecules/TagList";
 import { signIn, signOut } from "next-auth/react";
 

@@ -1,4 +1,4 @@
-import Button from "../components/molecules/Button";
+import Button from "../components/atoms/Button";
 import { AiFillLike } from "react-icons/ai";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import { ThemeProvider } from "styled-components";

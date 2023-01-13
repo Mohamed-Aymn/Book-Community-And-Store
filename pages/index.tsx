@@ -1,16 +1,12 @@
 import LandingConatiner from "../components/organisms/LandingContainer";
 import mainPhoto from "../assets/mainPhoto.jpg";
 import CustomersFeedback from "../components/organisms/CustomersFeedback";
-import Button from "../components/molecules/Button";
-import { layoutStore } from "../clientState/layoutStore";
+import Button from "../components/atoms/Button";
 import Link from "next/link";
 
 export default function Home() {
-    const theme = layoutStore((state: any) => state.theme);
-    const toggleTheme = layoutStore((state: any) => state.toggleTheme);
-
     return (
-        <>
+        <div>
             <LandingConatiner />
             <main>
                 <section>
@@ -24,7 +20,7 @@ export default function Home() {
                     Odio animi magni, maiores ducimus dicta veritatis ipsum.
                     Nihil ut amet eligendi asperiores pariatur voluptatibus
                     accusantium a doloribus fugit dignissimos at ea ex facilis
-                    molestias explicabo corrupti dolore, minus totam illo,
+                    molestias explicabo corrupti dolore, minus totkam illo,
                     veritatis delectus sint. Deleniti asperiores ullam unde.
                     Quam iste voluptatem veniam omnis asperiores natus minima
                     non soluta hic cumque architecto, commodi doloremque
@@ -118,6 +114,6 @@ export default function Home() {
                     </Link>
                 </section>
             </main>
-        </>
+        </div>
     );
 }

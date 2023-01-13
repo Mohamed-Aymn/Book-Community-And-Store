@@ -1,4 +1,4 @@
-import Button from "../../components/molecules/Button";
+import Button from "../../components/atoms/Button";
 import SearchBar from "../../components/molecules/SearchBar";
 import { FaSearch } from "react-icons/fa";
 import Image from "next/image";

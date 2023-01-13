@@ -5,7 +5,10 @@ import styles from "./LandingContainer.module.scss";
 
 export default function () {
     return (
-        <div className={styles.mainContainer}>
+        <div
+            className={styles.mainContainer}
+            style={{ minHeight: "100vh", paddingTop: "4.1em" }}
+        >
             <Link href="/about" className={styles.title}>
                 <div className={styles.firstTitleLine}>Book</div>
                 <div className={styles.secondTitleLine}>Store</div>

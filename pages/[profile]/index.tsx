@@ -1,4 +1,4 @@
-import Button from "../../components/molecules/Button";
+import Button from "../../components/atoms/Button";
 import Image from "next/image";
 import img from "../../assets/mainPhoto.jpg";
 import Reviews from "../../components/organisms/Reviews";
@@ -8,6 +8,7 @@ import { useState } from "react";
 import { BsFillTriangleFill } from "react-icons/bs";
 import { useQuery, dehydrate, QueryClient } from "react-query";
 import { getSession } from "next-auth/react";
+import styled from "styled-components";
 
 let getUserData = async () => {
     return await fetch(
@@ -40,6 +41,10 @@ export async function getServerSideProps({ req }: any) {
         },
     };
 }
+
+const Hello = styled.div`
+    background-color: red;
+`;
 
 export default function () {
     let [isInfoOpened, setIsInfoOpened] = useState(true);

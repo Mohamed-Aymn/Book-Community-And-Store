@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import mediaQuery from "../../styles/mediaQuery";
 
 interface IButton {
     text?: string;
@@ -10,34 +9,35 @@ interface IButton {
     size?: "big" | "small";
     width?: "fit" | "full";
     onClick?: () => void;
+    // style is added here for animation purposes not to add custom styles from another components
+    style?: object;
 }
 
-export let Button = (props: IButton) => {
-    const StyledButton = styled.button<IButton>`
-        padding: 0.5em 1em;
-        border: none;
-        text-decoration: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 0.5em;
+const StyledButton = styled.button<IButton>`
+    padding: 0.5em 1em;
+    border: none;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
 
-        ${(props) =>
-            props.approach === "primary"
-                ? `
+    ${(props) =>
+        props.approach === "primary"
+            ? `
                     background-color: ${props.theme.primary};
                     color: var(--white-color);
                     &:hover {
-                        background-color: ${props.theme.secondary};
-                        color: ${props.theme.primary};
+                        outline: solid 0.1em ${props.theme.primary};
+                        color: ${props.theme.primaryText};
+                        background-color: transparent;
                     }
                     &:active{
-                        background-color: ${props.theme.tertiary};
-                        color: ${props.theme.primary};
+                        background-color: ${props.theme.secondary};
                     }
                 `
-                : props.approach === "secondary"
-                ? `
+            : props.approach === "secondary"
+            ? `
                     background-color: transparent;
                     outline: solid 0.1em ${props.theme.tertiary};
                     color: ${props.theme.tertiary};
@@ -50,8 +50,8 @@ export let Button = (props: IButton) => {
                         color: ${props.theme.primary};
                     } 
                 `
-                : props.approach === "catchy"
-                ? `
+            : props.approach === "catchy"
+            ? `
                     background-color: var(--attractor-color);
                     font-weight: bold;
                     &:hover {
@@ -62,8 +62,8 @@ export let Button = (props: IButton) => {
                         background-color: ${props.theme.tertiary}
                     }
                 `
-                : props.approach === "danger"
-                ? `
+            : props.approach === "danger"
+            ? `
                     outline: solid 0.1em var(--repeler-color);
                     color: var(--repeler-color);
                     background-color: transparent;
@@ -76,8 +76,8 @@ export let Button = (props: IButton) => {
                         outline: solid 0.1em ${props.theme.tertiary};
                     }
                 `
-                : props.approach === "tag"
-                ? `
+            : props.approach === "tag"
+            ? `
                     outline: solid 0.1em ${props.theme.secondaryBody};
                     color: ${props.theme.secondaryBody};
                     border-radius: 3em;
@@ -91,39 +91,40 @@ export let Button = (props: IButton) => {
                         color: var(--white-color);
                     }
                 `
-                : null}
+            : null}
 
-        // ------------------------- misc
+    // ------------------------- misc
         // isLodaing
         ${(props) =>
-            props.isLoading ? `cursor: not-allowed;` : `cursor: pointer;`}
+        props.isLoading ? `cursor: not-allowed;` : `cursor: pointer;`}
             
         // iconsPostion
         ${(props) =>
-            props.iconPosition === "left"
-                ? "flex-direction: row;"
-                : "flex-direction: row-reverse;"}
+        props.iconPosition === "left"
+            ? "flex-direction: row;"
+            : "flex-direction: row-reverse;"}
                 
         // size
         ${(props) =>
-            props.size === "big"
-                ? `
+        props.size === "big"
+            ? `
                     padding: 1.5em 3em;
                     font-weight: bold;
                     font-size: 1.2rem;
                     gap: 1em;
                 `
-                : null}
+            : null}
 
         // width
         ${(props) =>
-            props.width === "full"
-                ? `
+        props.width === "full"
+            ? `
                     width: 100%;
                 `
-                : `width: fit-content;`}
-    `;
+            : `width: fit-content;`}
+`;
 
+export let Button = (props: IButton) => {
     return (
         <StyledButton
             approach={props.approach}
@@ -132,6 +133,7 @@ export let Button = (props: IButton) => {
             size={props.size || "small"}
             onClick={props.onClick}
             width={props.width || "fit"}
+            style={props.style}
         >
             {props.icon ? <>{props.icon} </> : null}
             {props.text}

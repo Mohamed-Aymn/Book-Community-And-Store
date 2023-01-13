@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useQuery, dehydrate, QueryClient } from "react-query";
 import SearchBar from "../../components/molecules/SearchBar";
 import TagList from "../../components/molecules/TagList";
-import Button from "../../components/molecules/Button";
+import Button from "../../components/atoms/Button";
 import Link from "next/link";
 import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
 

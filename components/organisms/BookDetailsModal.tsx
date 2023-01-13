@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./BookDetailsModal.module.scss";
-import Button from "../molecules/Button";
+import Button from "../atoms/Button";
 import { layoutStore } from "../../clientState/layoutStore";
 
 export default function () {

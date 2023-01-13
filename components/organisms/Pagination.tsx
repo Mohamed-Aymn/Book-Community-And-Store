@@ -1,4 +1,4 @@
-import Button from "../molecules/Button";
+import Button from "../atoms/Button";
 import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
 import styles from "./Pagination.module.scss";
 
