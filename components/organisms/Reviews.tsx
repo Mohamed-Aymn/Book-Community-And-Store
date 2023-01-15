@@ -1,4 +1,3 @@
-import styles from "./Reviews.module.scss";
 import Image from "next/image";
 import mainPhoto from "../../assets/mainPhoto.jpg";
 import { useQuery, dehydrate, QueryClient } from "react-query";
@@ -38,7 +37,7 @@ export default function (props: any) {
     );
 
     return (
-        <div className={styles.mainContainer}>
+        <div>
             <div>
                 <ImageContainer>
                     <Image

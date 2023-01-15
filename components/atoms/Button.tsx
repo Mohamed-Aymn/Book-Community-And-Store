@@ -3,73 +3,75 @@ import styled from "styled-components";
 interface IButton {
     text?: string;
     icon?: JSX.Element;
-    approach?: "primary" | "secondary" | "catchy" | "danger" | "tag";
+    approach?: "primary" | "secondary" | "Tertiary" | "danger" | "tag";
     isLoading?: boolean;
     iconPosition?: "right" | "left";
     size?: "big" | "small";
     width?: "fit" | "full";
     onClick?: () => void;
-    // style is added here for animation purposes not to add custom styles from another components
-    style?: object;
 }
 
 const StyledButton = styled.button<IButton>`
-    padding: 0.5em 1em;
+    padding: 0.7em 1em;
     border: none;
     text-decoration: none;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0.5em;
+    font-weight: bold;
+    height: fit-content;
 
     ${(props) =>
         props.approach === "primary"
             ? `
-                    background-color: ${props.theme.primary};
-                    color: var(--white-color);
-                    &:hover {
-                        outline: solid 0.1em ${props.theme.primary};
-                        color: ${props.theme.primaryText};
-                        background-color: transparent;
-                    }
-                    &:active{
-                        background-color: ${props.theme.secondary};
-                    }
+                    background-color: var(--primary-color);
+                    color: var(--secondary-color);
+                    // &:hover {
+                    //     outline: solid 0.1em ${props.theme.primary};
+                    //     color: ${props.theme.primaryText};
+                    //     background-color: transparent;
+                    // }
+                    // &:active{
+                    //     background-color: ${props.theme.secondary};
+                    // }
                 `
             : props.approach === "secondary"
             ? `
-                    background-color: transparent;
-                    outline: solid 0.1em ${props.theme.tertiary};
-                    color: ${props.theme.tertiary};
-                    &:hover {
-                        background-color: ${props.theme.secondary};
-                        color: ${props.theme.primary};
-                    }  
-                    &:active{
-                        background-color: ${props.theme.tertiary};
-                        color: ${props.theme.primary};
-                    } 
+                    background-color: ${props.theme.neutral2};
+                    // outline: solid 0.1em ${props.theme.tertiary};
+                    color: ${props.theme.neutral1};
+                    // &:hover {
+                    //     background-color: ${props.theme.secondary};
+                    //     color: ${props.theme.primary};
+                    // }  
+                    // &:active{
+                    //     background-color: ${props.theme.tertiary};
+                    //     color: ${props.theme.primary};
+                    // } 
                 `
-            : props.approach === "catchy"
+            : props.approach === "Tertiary"
             ? `
-                    background-color: var(--attractor-color);
-                    font-weight: bold;
-                    &:hover {
-                        background-color: ${props.theme.primary};
-                        color: var(--attractor-color);
-                    }
-                    &:active{
-                        background-color: ${props.theme.tertiary}
-                    }
+            background-color: ${props.theme.neutral2};
+                    // outline: solid 0.1em ${props.theme.tertiary};
+                    color: ${props.theme.neutral3};
+                    // &:hover {
+                    //     background-color: ${props.theme.secondary};
+                    //     color: ${props.theme.primary};
+                    // }  
+                    // &:active{
+                    //     background-color: ${props.theme.tertiary};
+                    //     color: ${props.theme.primary};
+                    // } 
                 `
             : props.approach === "danger"
             ? `
-                    outline: solid 0.1em var(--repeler-color);
-                    color: var(--repeler-color);
+                    outline: solid 0.1em var(--danger-interaction-color);
+                    color: var(--danger-interaction-color);
                     background-color: transparent;
                     &:hover {
-                        background-color: var(--repeler-color);
-                        color: var(--white-color);
+                        background-color: var(--danger-interaction-color);
+                        color: var(--neutral-white-color);
                     }
                     &:active{
                         background-color: ${props.theme.tertiary};
@@ -78,8 +80,9 @@ const StyledButton = styled.button<IButton>`
                 `
             : props.approach === "tag"
             ? `
-                    outline: solid 0.1em ${props.theme.secondaryBody};
-                    color: ${props.theme.secondaryBody};
+                    background-color: transparent;
+                    outline: solid 0.1em ${props.theme.neutral3};
+                    color: ${props.theme.neutral3};
                     border-radius: 3em;
                     // font-weight: 700;
                     white-space: nowrap;
@@ -133,7 +136,6 @@ export let Button = (props: IButton) => {
             size={props.size || "small"}
             onClick={props.onClick}
             width={props.width || "fit"}
-            style={props.style}
         >
             {props.icon ? <>{props.icon} </> : null}
             {props.text}

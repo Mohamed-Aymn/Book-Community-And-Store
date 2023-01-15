@@ -27,8 +27,9 @@ const Nav = styled.nav`
     translate: 0 -1em;
     padding: 0 1.7em;
     padding-top: 1em;
-    background-color: ${(props) => props.theme.primary};
-    z-index: 1em;
+    background-color: var(--secondary-color);
+    z-index: 2;
+    border-bottom: solid 0.05em ${(props) => props.theme.neutral3};
 `;
 
 export default function Navbar() {

@@ -26,6 +26,10 @@ const BookCard = styled.button`
     }
 `;
 
+const Hr = styled.hr`
+    color: ${(props) => props.theme.neutral3};
+`;
+
 const BookImage = styled.div`
     width: 11em;
     height: 17em;
@@ -36,6 +40,7 @@ const BookImage = styled.div`
 `;
 
 const Title = styled.div`
+    color: ${(props) => props.theme.text};
     text-align: left;
     font-weight: bold;
     height: 16px;
@@ -55,7 +60,7 @@ const DetailsInfo = styled.div`
 const WriterTitle = styled.div`
     text-align: left;
     font-size: 0.6rem;
-    color: ${(props) => props.theme.primray};
+    color: ${(props) => props.theme.neutral3};
 `;
 
 const Author = styled.div`
@@ -66,14 +71,16 @@ const Author = styled.div`
     text-overflow: ellipsis;
     max-width: 13ch;
     text-align: left;
+    color: ${(props) => props.theme.neutral1};
 `;
 
 const BuyNowTitle = styled.div`
     text-align: right;
     font-size: 0.6rem;
-    color: ${(props) => props.theme.primray};
+    color: ${(props) => props.theme.neutral3};
 `;
 const Price = styled.div`
+    color: ${(props) => props.theme.neutral1};
     font-size: 0.7rem;
     font-weight: 600;
     white-space: nowrap;
@@ -118,7 +125,7 @@ export default function (props: Partial<IBookCard>) {
                     />
                 </BookImage>
                 <Title>{title}</Title>
-                <hr />
+                <Hr />
                 <DetailsInfo>
                     <div>
                         <WriterTitle>Writer</WriterTitle>

@@ -10,6 +10,7 @@ import { useQuery, dehydrate, QueryClient } from "react-query";
 import { getSession } from "next-auth/react";
 import styled from "styled-components";
 import { mediaQueryMax } from "../../styles/mediaQuery";
+import BookSlider from "../../components/organisms/BookSlider";
 
 let getUserData = async () => {
     return await fetch(
@@ -43,41 +44,58 @@ export async function getServerSideProps({ req }: any) {
     };
 }
 
-const ProfileHeader = styled.div`
-    display: flex;
-    justify-content: space-between;
-    gap: 1.5em;
-    padding: 2em 0;
-    border-radius: 1.5em;
+const ProfileHeaderBackground = styled.div`
+    background-color: var(--secondary-color);
+`;
+
+const ProfileHeaderContent = styled.div`
+    max-width: 140ch;
+    color: var(--neutral-white-color);
+    padding-top: calc(4em + 3em);
+    padding-bottom: 3em;
+    margin: 0 auto;
+    ${mediaQueryMax("desktop")`
+        margin: 0 1.7em;
+    `}
+`;
+
+const About = styled.p`
+    color: var(--neutral-dark-grey-color);
+    margin-left: 3.7em;
 `;
 
 const MainInfo = styled.div`
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
-    gap: 1em;
+    gap: 0.3em;
 `;
 
 const ImageContainer = styled.div`
-    width: 5em;
-    height: 5em;
+    width: 3.7em;
+    height: 3.7em;
+`;
+
+const NameAndTitleContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
 `;
 
 const UserName = styled.div`
-    color: ${(props) => props.theme.primaryText};
-    font-weight: 600;
-    font-size: 1.3rem;
+    color: var(--neutral-white-color);
+    font-size: 1.1rem;
 `;
 
 const UserTitle = styled.div`
-    color: ${(props) => props.theme.secondaryText};
+    color: var(--neutral-dark-grey-color);
     font-size: 0.8rem;
     margin-top: -0.1em;
 `;
 
-const InfoParentContainer = styled.div`
+const TwoColumnsInfo = styled.div`
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 2em;
     margin-left: 0.5em;
     ${mediaQueryMax("smallDesktop")`
@@ -85,7 +103,7 @@ const InfoParentContainer = styled.div`
     `}
 `;
 
-const InfoChildContainer = styled.div`
+const InfoContainer = styled.div`
     background-color: ${(props) => props.theme.secondary};
     padding: 0 2em;
 `;
@@ -97,74 +115,96 @@ export default function () {
     const { data, isFetching, refetch } = useQuery("user data", getUserData);
 
     return (
-        <main>
-            <ProfileHeader>
-                <MainInfo>
-                    <ImageContainer>
-                        <Image
-                            className="image"
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                                borderRadius: "100%",
-                                border: "solid 0.2em #0f1219",
-                            }}
-                            src={img}
-                            alt="Picture of the author"
-                            width={500}
-                            height={500}
-                        />
-                    </ImageContainer>
-                    <div>
-                        <UserName>userName</UserName>
-                        <UserTitle>reader</UserTitle>
+        <>
+            <ProfileHeaderBackground>
+                <ProfileHeaderContent>
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <MainInfo>
+                            <ImageContainer>
+                                <Image
+                                    className="image"
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        borderRadius: "100%",
+                                        border: "solid 0.2em #0f1219",
+                                    }}
+                                    src={img}
+                                    alt="Picture of the author"
+                                    width={500}
+                                    height={500}
+                                />
+                            </ImageContainer>
+                            <NameAndTitleContainer>
+                                <UserName>userName</UserName>
+                                <UserTitle>reader</UserTitle>
+                            </NameAndTitleContainer>
+                        </MainInfo>
+                        <div style={{ alignSelf: "flex-end" }}>
+                            <Button text="connect" approach="primary" />
+                        </div>
                     </div>
-                </MainInfo>
-                <Button text="connect" approach="primary" />
-            </ProfileHeader>
 
-            <div>
-                <button
-                    style={{
-                        backgroundColor: "transparent",
-                        border: "none",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        gap: "0.7em",
-                    }}
-                    onClick={() => setIsInfoOpened(!isInfoOpened)}
-                >
-                    <BsFillTriangleFill />
-                    <h2>Info</h2>
-                </button>
-                {isInfoOpened && (
-                    <InfoParentContainer>
-                        <InfoChildContainer>
-                            <div>
-                                <h3>About</h3>
+                    <About>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Quia officia fugit repudiandae voluptatibus praesentium
+                        quidem fuga autem aspernatur blanditiis. Obcaecati dicta
+                        facilis neque doloribus, modi reiciendis minus maiores
+                        quisquam rem?
+                    </About>
+                </ProfileHeaderContent>
+            </ProfileHeaderBackground>
+            <main>
+                <div>
+                    <button
+                        style={{
+                            backgroundColor: "transparent",
+                            border: "none",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            gap: "0.7em",
+                        }}
+                        onClick={() => setIsInfoOpened(!isInfoOpened)}
+                    >
+                        <BsFillTriangleFill />
+                        <h2>Info</h2>
+                    </button>
+                    {isInfoOpened && (
+                        <InfoContainer>
+                            <TwoColumnsInfo>
                                 <div>
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Quia officia fugit
-                                    repudiandae voluptatibus praesentium quidem
-                                    fuga autem aspernatur blanditiis. Obcaecati
-                                    dicta facilis neque doloribus, modi
-                                    reiciendis minus maiores quisquam rem?
+                                    <h3>Connections</h3>
+                                    <div>X connections</div>
+                                    <div>connections sample</div>
+                                    <Button
+                                        text="View All"
+                                        approach="secondary"
+                                    />
                                 </div>
-                            </div>
-                            <div>
-                                <h3>Favourite genres</h3>
-                                <div className="tagsList">
-                                    <Button approach="tag" text="scientific" />
-                                    <Button approach="tag" text="historic" />
-                                    <Button approach="tag" text="novel" />
+                                <div>
+                                    <h3>Favourite genres</h3>
+                                    <div className="tagsList">
+                                        <Button
+                                            approach="tag"
+                                            text="scientific"
+                                        />
+                                        <Button
+                                            approach="tag"
+                                            text="historic"
+                                        />
+                                        <Button approach="tag" text="novel" />
+                                    </div>
                                 </div>
-                            </div>
+                            </TwoColumnsInfo>
                             <div>
                                 <h3>Books read</h3>
                                 <div className="booksList">
-                                    <BookCard img={mainPhoto} />
-                                    <BookCard img={mainPhoto} />
                                     <BookCard img={mainPhoto} />
                                     <Button
                                         text="View All"
@@ -172,36 +212,30 @@ export default function () {
                                     />
                                 </div>
                             </div>
-                        </InfoChildContainer>
-                        <InfoChildContainer>
-                            <h3>Connections</h3>
-                            <div>X connections</div>
-                            <div>connections sample</div>
-                            <Button text="View All" approach="secondary" />
-                        </InfoChildContainer>
-                    </InfoParentContainer>
-                )}
-            </div>
+                        </InfoContainer>
+                    )}
+                </div>
 
-            <div>
-                <button
-                    style={{
-                        backgroundColor: "transparent",
-                        border: "none",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        gap: "0.7em",
-                    }}
-                    onClick={() => setIsReviewsOpened(!isReviewsOpened)}
-                >
-                    <BsFillTriangleFill />
-                    <h2>Reviews</h2>
-                </button>
-                <InfoChildContainer>
-                    <div>{isReviewsOpened && <Reviews />}</div>
-                </InfoChildContainer>
-            </div>
-        </main>
+                <div>
+                    <button
+                        style={{
+                            backgroundColor: "transparent",
+                            border: "none",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            gap: "0.7em",
+                        }}
+                        onClick={() => setIsReviewsOpened(!isReviewsOpened)}
+                    >
+                        <BsFillTriangleFill />
+                        <h2>Reviews</h2>
+                    </button>
+                    <InfoContainer>
+                        <div>{isReviewsOpened && <Reviews />}</div>
+                    </InfoContainer>
+                </div>
+            </main>
+        </>
     );
 }

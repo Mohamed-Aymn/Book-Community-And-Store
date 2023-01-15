@@ -3,12 +3,129 @@ import { mediaQueryMax } from "./mediaQuery";
 
 interface ITheme {
     body: string;
-    primaryText: string;
-    secondaryText: string;
-    primary: string;
-    secondary: string;
-    tertiary: string;
+    text: string;
+    neutral1: string;
+    neutral2: string;
+    neutral3: string;
 }
+
+export const lightTheme: ITheme = {
+    body: "var(--neutral-white-color)",
+    text: "var(--secondary-color)",
+    neutral1: "var(--neutral-darkest-blue-color)",
+    neutral2: "var(--neutral-light-blue-color)",
+    neutral3: "var(--neutral-light-grey-color)",
+};
+
+export const darkTheme: ITheme = {
+    body: "var(--secondary-color)",
+    text: "var(--neutral-white-color)",
+    neutral1: "var(--neutral-dark-grey-color)",
+    neutral2: "var(--neutral-dark-blue-color)",
+    neutral3: "var(--neutral-light-grey-color)",
+};
+
+export const GlobalStyles = createGlobalStyle`
+:root {
+    // ------------------------------------- colors
+    // main
+    --primary-color: #a0edb2;
+    --secondary-color: #0f1219;
+
+    // neutrals 
+    --neutral-white-color: #fff;
+    --neutral-light-grey-color: #6a7587;  
+    --neutral-dark-grey-color: #96a4b9;  
+    --neutral-darkest-blue-color: #0f1219;  
+    --neutral-dark-blue-color: #1a1f28;
+    --neutral-light-blue-color: #edf3f9;  
+    --neutral-new: #f3f5f7;
+
+    --Trial: #e8ebf2;
+
+    // interactions 
+    --success-interaction-color: #386f5e; 
+    --danger-interaction-color: #b95573;  
+
+    // ------------------------------------- spacings
+
+}
+body {
+    background: ${({ theme }: { theme: ITheme }) => theme.body};
+    transition: all 0.50s linear;
+    /* color: ${({ theme }) => theme.text}; */
+    padding: 0;
+    margin: 0;
+    overflow-y: scroll;
+    /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+        Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
+    /* font-family: "Almarai", sans-serif; */
+}
+*{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+h1,h2,h3,h4,h5,h6{
+    color: ${({ theme }) => theme.text};
+}
+main {
+    max-width: 140ch;
+    margin: 0 auto;
+    padding-top: 4.1em;
+    // 5em navbar height, 10em footer height, 1,7 footer margin
+    min-height: calc(100vh - (5em + 10em) + 1.7em);
+    ${mediaQueryMax("desktop")`
+        margin: 0 1.7em;
+    `}
+}
+`;
+
+// --------------------------------------------------- Existing
+/*
+Rule:-
+-----
+
+10% of the design should be your core brand color.
+30% of the design should be your secondary brand color.
+60% of your design should be a neutral color.
+
+ref: https://venngage.com/blog/brand-colors/#:~:text=10%25%20of%20the%20design%20should,should%20be%20a%20neutral%20color
+
+
+// primary 
+color: #a0edb2;
+
+// secondary 
+color: #0f1219;
+
+// neutral colors 
+color: #fff;    // white 
+color: #0f1219; // darkest blue 
+color: #f4f8fb; // light blue 
+color: #2d3341; // dark grey 
+color: #1a1f28; // dark blue 
+
+// interactions 
+color: #386f5e;  // success 
+color: #b95573;    // failer or danger 
+
+
+
+
+// ----------------------- map
+
+*                   light           dark
+body                #fff            #0f1219
+neutral1            #0f1219         #2d3341
+neutral2            #f4f8fb         #1a1f28
+neutral3                    #6a7587 
+
+*/
+
+// --------------------------------------------------- OLD
+
+/*
 
 export const lightTheme: ITheme = {
     body: "var(--white-color)",
@@ -43,36 +160,8 @@ export const GlobalStyles = createGlobalStyle`
     --repeler-color: #b95573;
     --attractor-color: #a2eeb2;
 }
-body {
-    background: ${({ theme }: { theme: ITheme }) => theme.body};
-    transition: all 0.50s linear;
-    color: ${({ theme }) => theme.secondaryText};
-    padding: 0;
-    margin: 0;
-    overflow-y: scroll;
-    /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-        Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
-    /* font-family: "Almarai", sans-serif; */
-}
-*{
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-h1,h2,h3,h4,h5,h6{
-    color: ${({ theme }) => theme.primaryText};
-}
-main {
-    max-width: 140ch;
-    margin: 0 auto;
-    padding-top: 4.1em;
-    // 5em navbar height, 10em footer height, 1,7 footer margin
-    min-height: calc(100vh - (5em + 10em) + 1.7em);
-    ${mediaQueryMax("desktop")`
-        margin: 0 1.7em;
-    `}
-}
-`;
+*/
+
 /*
 ref:
 https://dribbble.com/shots/19262105-Nook-Members-Settings

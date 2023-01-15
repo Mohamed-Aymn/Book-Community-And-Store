@@ -17,12 +17,13 @@ export const Route = styled.span<IRoute>`
     ${(props) =>
         props.active
             ? `
-                color: var(--white-color);
-                padding: 0.2em 0;
-                border-bottom: ${props.theme.secondary} solid 0.05em;
+                background-color: var(--primary-color);
+                color: var(--secondary-color);
+                padding: 0.7em 1em;
             `
             : `
-                color: ${props.theme.secondaryText};
+                background-color: transparent;
+                color: var(--neutral-dark-grey-color);
             `}
 `;
 
@@ -37,4 +38,35 @@ export const HamburgerButton = styled.div`
     ${mediaQueryMin("largeTablet")`
         display: none;
     `}
+`;
+
+interface INavButton {
+    approach?: "primary" | "secondary";
+    text?: string;
+    icon?: JSX.Element;
+    onClick?: () => void;
+}
+
+export const NavButton = (props: INavButton) => {
+    return (
+        <StyledNavButton approach={props.approach} onClick={props.onClick}>
+            {props.icon}
+            {props.text}
+        </StyledNavButton>
+    );
+};
+
+const StyledNavButton = styled.div<INavButton>`
+    padding: 0.7em 1em;
+    cursor: pointer;
+    ${(props) =>
+        props.approach === "primary"
+            ? `
+                background-color: #1a1f28;
+                color: #96a4b9;
+            `
+            : `
+                background-color: #1a1f28;
+                color: #6a7587;
+            `}
 `;

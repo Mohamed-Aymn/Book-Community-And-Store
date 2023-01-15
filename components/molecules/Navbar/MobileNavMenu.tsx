@@ -7,6 +7,7 @@ import { Route } from "./styles";
 import Button from "../../atoms/Button";
 import { signOut } from "next-auth/react";
 import { mediaQueryMin } from "../../../styles/mediaQuery";
+import { useEffect } from "react";
 
 const MobileNavMenu = styled.div`
     position: fixed;
@@ -22,9 +23,9 @@ const MobileNavMenu = styled.div`
     justify-content: center;
     align-items: center;
     gap: 1em;
-    ${mediaQueryMin("largeTablet")`
+    /* ${mediaQueryMin("largeTablet")`
         display: none;
-    `}
+    `} */
 `;
 
 const CloseNavButton = styled.div`

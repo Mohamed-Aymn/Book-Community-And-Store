@@ -1,8 +1,6 @@
 import Image from "next/image";
 import Reviews from "../../../components/organisms/Reviews";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { layoutStore } from "../../../clientState/layoutStore";
 import { useQuery, dehydrate, QueryClient } from "react-query";
 import mainPhoto from "../../../assets/mainPhoto.jpg";
 
@@ -48,17 +46,16 @@ export default function ({ img }: any) {
 
     return (
         <main>
-            <div className="bookInfoContainer">
+            <div>
                 <Image
-                    src={data?.volumeInfo.imageLinks.thumbnail || mainPhoto}
-                    className="bookMainImage"
+                    src={data?.volumeInfo?.imageLinks.thumbnail || mainPhoto}
                     alt="Book Image"
                     width={400}
                     height={500}
                 />
 
                 <div>
-                    <h1>{data?.volumeInfo.title}</h1>
+                    <h1>{data?.volumeInfo?.title}</h1>
                     <div>rate (stars)</div>
                     <div>author</div>
                     <div>publish date</div>

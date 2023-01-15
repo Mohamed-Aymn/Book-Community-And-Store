@@ -1,11 +1,22 @@
 import LandingConatiner from "../components/organisms/LandingContainer";
 import FeedbackSection from "../components/organisms/FeedbackSection";
+import Button from "../components/atoms/Button";
 
 export default function Home() {
     return (
         <>
             <LandingConatiner />
             <main>
+                <Button approach="primary" text="Primary" />
+                <br />
+                <Button approach="secondary" text="Secondary" />
+                <br />
+                <Button approach="Tertiary" text="Tertiary" />
+                <br />
+                <Button approach="danger" text="Danger" />
+                <br />
+                <Button approach="tag" text="Tag" />
+                <br />
                 <section>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     Velit blanditiis voluptatibus consequuntur enim sequi unde

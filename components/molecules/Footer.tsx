@@ -5,17 +5,18 @@ import styled from "styled-components";
 const Footer = styled.footer`
     position: sticky;
     top: 100%;
-    color: ${(props) => props.theme.secondaryText};
-    background-color: ${(props) => props.theme.primary};
-    border-radius: 0.7em;
+    color: var(--neutral-dark-grey-color);
+    background-color: var(--secondary-color);
+    /* border-radius: 0.7em; */
     height: 10em;
-    margin: 1.7em;
+    margin-top: 1.7em;
     padding: 3em 1.5em;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 1em;
+    border-top: solid 0.05em ${(props) => props.theme.neutral3};
 `;
 const FooterText = styled.div`
     display: flex;

@@ -22,6 +22,9 @@ const SliderBody = styled.div`
     grid-template-columns: repeat(15, 1fr);
     padding: 1.7em 0;
     overflow: hidden;
+    width: 100vw;
+    width: 100%;
+    /* overflow-y: hidden; */
     scroll-behavior: smooth;
 `;
 
@@ -33,6 +36,7 @@ interface ISlider {
 export default function ({ title, data }: ISlider) {
     return (
         <div>
+            {/* <div style={{ width: "100vw", backgroundColor: "red" }}>d</div> */}
             <SliderHeader>
                 <h1>{title}</h1>
                 <SliderControlers>
@@ -43,7 +47,7 @@ export default function ({ title, data }: ISlider) {
                     />
                     <Button
                         icon={<MdOutlineNavigateBefore />}
-                        approach="primary"
+                        approach="secondary"
                         onClick={() => {
                             let slider = document.getElementById(
                                 `${title}Slider`
@@ -53,7 +57,7 @@ export default function ({ title, data }: ISlider) {
                     />
                     <Button
                         icon={<MdOutlineNavigateNext />}
-                        approach="primary"
+                        approach="secondary"
                         onClick={() => {
                             let slider = document.getElementById(
                                 `${title}Slider`

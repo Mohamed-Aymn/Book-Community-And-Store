@@ -7,14 +7,14 @@ const FirstTitleLine = styled.div`
     font-size: 5.5rem;
     margin-left: -0.07em;
     font-weight: 100;
-    color: ${(props) => props.theme.primaryText};
+    color: ${(props) => props.theme.text};
 `;
 
 const SecondTitleLine = styled.div`
     margin-top: -0.3em;
     font-size: 3rem;
     font-weight: 800;
-    color: ${(props) => props.theme.primaryText};
+    color: ${(props) => props.theme.text};
 `;
 
 const ImageContainer = styled.div`

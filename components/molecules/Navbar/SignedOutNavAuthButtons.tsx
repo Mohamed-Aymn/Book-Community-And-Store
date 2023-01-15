@@ -1,10 +1,11 @@
 import { layoutStore } from "../../../clientState/layoutStore";
 import { BiMenu } from "react-icons/bi";
-import { HamburgerButton } from "./styles";
+import { HamburgerButton, NavButton } from "./styles";
 import Button from "../../atoms/Button";
 import Link from "next/link";
 import styled from "styled-components";
 import { mediaQueryMax } from "../../../styles/mediaQuery";
+import { FcSettings } from "react-icons/fc";
 
 const LargeScreenAuthButtons = styled.div`
     display: flex;
@@ -30,11 +31,16 @@ export const SignedOutNavAuthButtons = (props: any) => {
                 <BiMenu fill="#FFF" />
             </HamburgerButton>
             <LargeScreenAuthButtons>
+                <NavButton
+                    approach="secondary"
+                    icon={<FcSettings />}
+                    onClick={props.openNavbar}
+                />
                 <Link href={"/auth/login"} style={{ textDecoration: "none" }}>
-                    <Button approach="primary" text="Login" />
+                    <NavButton approach="secondary" text="Login" />
                 </Link>
                 <Link href={"/auth/signup"} style={{ textDecoration: "none" }}>
-                    <Button approach="catchy" text="Signup" />
+                    <NavButton approach="primary" text="Signup" />
                 </Link>
             </LargeScreenAuthButtons>
         </>

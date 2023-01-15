@@ -1,6 +1,5 @@
 import { signOut } from "next-auth/react";
 import styled from "styled-components";
-import { mediaQueryMax } from "../../../styles/mediaQuery";
 import Button from "../../atoms/Button";
 
 const LargeNavMenu = styled.div`
@@ -10,9 +9,6 @@ const LargeNavMenu = styled.div`
     /* min-height: 5em; */
     box-shadow: 0px 0px 17px #02020252;
     background-color: ${(props) => props.theme.body};
-    ${mediaQueryMax("largeTablet")`
-        display: none;
-    `}
 `;
 
 export default function ({ session }: any) {

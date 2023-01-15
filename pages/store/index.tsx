@@ -264,7 +264,6 @@ export default function () {
                     </div>
                 </div>
             )}
-
             {searchResults()}
         </main>
     );

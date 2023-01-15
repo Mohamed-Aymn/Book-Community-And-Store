@@ -1,6 +1,3 @@
-import Button from "../../components/atoms/Button";
-import Navbar from "../../components/molecules/Navbar";
-
 export default function () {
     return (
         <main>
