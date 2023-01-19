@@ -1,5 +1,5 @@
 import Button from "../../components/atoms/Button";
-import SearchBar from "../../components/molecules/SearchBar";
+import SearchBar from "../../components/molecules/NavSearchBar";
 import { FaSearch } from "react-icons/fa";
 import Image from "next/image";
 import img from "../../assets/mainPhoto.jpg";

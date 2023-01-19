@@ -31,16 +31,18 @@ export const SignedOutNavAuthButtons = (props: any) => {
                 <BiMenu fill="#FFF" />
             </HamburgerButton>
             <LargeScreenAuthButtons>
-                <NavButton
-                    approach="secondary"
-                    icon={<FcSettings />}
-                    onClick={props.openNavbar}
-                />
+                {/* 
+                + one account button for responsive purposes 
+                <Button icon={<personPhoto />} text="Accont" /> 
+                and opens it's private nav on click
+                 */}
+
+                {/* large screen */}
                 <Link href={"/auth/login"} style={{ textDecoration: "none" }}>
-                    <NavButton approach="secondary" text="Login" />
+                    <Button approach="secondary" text="Login" />
                 </Link>
                 <Link href={"/auth/signup"} style={{ textDecoration: "none" }}>
-                    <NavButton approach="primary" text="Signup" />
+                    <Button approach="primary" text="Signup" />
                 </Link>
             </LargeScreenAuthButtons>
         </>

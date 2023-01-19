@@ -1,17 +1,19 @@
-import LandingConatiner from "../components/organisms/LandingContainer";
 import FeedbackSection from "../components/organisms/FeedbackSection";
 import Button from "../components/atoms/Button";
+import HeroSection from "../components/organisms/HeroSection";
+import Divider from "../components/atoms/Divider";
 
 export default function Home() {
     return (
         <>
-            <LandingConatiner />
+            <HeroSection />
+            <Divider />
             <main>
                 <Button approach="primary" text="Primary" />
                 <br />
                 <Button approach="secondary" text="Secondary" />
                 <br />
-                <Button approach="Tertiary" text="Tertiary" />
+                <Button approach="tertiary" text="Tertiary" />
                 <br />
                 <Button approach="danger" text="Danger" />
                 <br />

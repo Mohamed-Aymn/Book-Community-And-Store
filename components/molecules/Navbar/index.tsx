@@ -6,15 +6,28 @@ import { mediaQueryMax } from "../../../styles/mediaQuery";
 import { layoutStore } from "../../../clientState/layoutStore";
 import AuthButtons from "./AuthButtons";
 import { Route } from "./styles";
+import NavSearchBar from "./NavSearch";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import Button from "../../atoms/Button";
+import { FcSettings } from "react-icons/fc";
+import Divider from "../../atoms/Divider";
+
+const RoutesAndNavSearchContainer = styled.div`
+    display: flex;
+    gap: 4em;
+    width: 100%;
+    justify-content: flex-end;
+`;
 
 const RoutesContainer = styled.div`
     ${mediaQueryMax("largeTablet")`
         display: none;
     `}
     display: flex;
-    justify-content: center;
     align-items: center;
+    margin: 0 auto;
     gap: 1em;
+    width: fit-content;
 `;
 
 const Nav = styled.nav`
@@ -22,18 +35,26 @@ const Nav = styled.nav`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 4em;
     width: 100%;
     height: 5em;
     translate: 0 -1em;
     padding: 0 1.7em;
     padding-top: 1em;
-    background-color: var(--secondary-color);
+    background-color: ${(props) => props.theme.body};
     z-index: 2;
-    border-bottom: solid 0.05em ${(props) => props.theme.neutral3};
 `;
 
 export default function Navbar() {
     let router = useRouter();
+    const theme = layoutStore((state: any) => state.theme);
+
+    // useEffect(() => {
+    //     async () => {
+    //         await setSearchResult(data);
+    //         console.log(searchResult);
+    //     };
+    // }, [data]);
 
     // let [offset, setOffset] = useState(0);
     // const onScroll = () => {
@@ -57,40 +78,76 @@ export default function Navbar() {
     return (
         <>
             <Nav>
-                {/* <Button approach="route" text="home" active={"condition"} screen={"mobile"} /> */}
                 {/* logo */}
-                <Link href="/" style={{ width: "10em" }}>
-                    <BiBookBookmark fill="#fff" />
+                <Link href="/">
+                    <BiBookBookmark
+                        fill={theme === "light" ? "#000" : "#fff"}
+                    />
                 </Link>
 
-                {/* Routes */}
-                <RoutesContainer>
-                    <Link href="/" style={{ textDecoration: "none" }}>
-                        <Route active={router.pathname === "/"}>Home</Route>
-                    </Link>
-                    <Link href="/store" style={{ textDecoration: "none" }}>
-                        <Route active={router.pathname.includes("/store")}>
-                            Store
-                        </Route>
-                    </Link>
-                    <Link href="/profile" style={{ textDecoration: "none" }}>
-                        <Route active={router.pathname.includes("/profile")}>
-                            Profile
-                        </Route>
-                    </Link>
-                    <Link href="/cart" style={{ textDecoration: "none" }}>
-                        <Route active={router.pathname.includes("/cart")}>
-                            Cart
-                        </Route>
-                    </Link>
-                    <Link href="/aboutus" style={{ textDecoration: "none" }}>
-                        <Route active={router.pathname.includes("/aboutus")}>
-                            About us
-                        </Route>
-                    </Link>
-                </RoutesContainer>
+                <RoutesAndNavSearchContainer>
+                    <RoutesContainer>
+                        <Link href="/" style={{ textDecoration: "none" }}>
+                            <Route active={router.pathname === "/"}>Home</Route>
+                        </Link>
+                        <Link href="/store" style={{ textDecoration: "none" }}>
+                            <Route active={router.pathname.includes("/store")}>
+                                Store
+                            </Route>
+                        </Link>
+                        {/* <Link
+                            href="/profile"
+                            style={{ textDecoration: "none" }}
+                        >
+                            <Route
+                                active={router.pathname.includes("/profile")}
+                            >
+                                Profile
+                            </Route>
+                        </Link> */}
+                        {/* <Link href="/cart" style={{ textDecoration: "none" }}>
+                            <Route active={router.pathname.includes("/cart")}>
+                                Cart
+                            </Route>
+                        </Link> */}
+                        <Link
+                            href="/aboutus"
+                            style={{ textDecoration: "none" }}
+                        >
+                            <Route
+                                active={router.pathname.includes("/aboutus")}
+                            >
+                                About us
+                            </Route>
+                        </Link>
+                    </RoutesContainer>
 
-                <AuthButtons />
+                    <NavSearchBar />
+                </RoutesAndNavSearchContainer>
+
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: "0",
+                    }}
+                >
+                    <Button
+                        approach="tertiary"
+                        text="Settings"
+                        icon={<FcSettings />}
+                    />
+                    <Button
+                        approach="tertiary"
+                        text="cart"
+                        icon={<AiOutlineShoppingCart />}
+                    />
+
+                    <Divider orientation="vertical" verticalHeight="30" />
+
+                    <AuthButtons />
+                </div>
             </Nav>
         </>
     );

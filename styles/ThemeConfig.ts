@@ -10,42 +10,41 @@ interface ITheme {
 }
 
 export const lightTheme: ITheme = {
-    body: "var(--neutral-white-color)",
-    text: "var(--secondary-color)",
-    neutral1: "var(--neutral-darkest-blue-color)",
-    neutral2: "var(--neutral-light-blue-color)",
-    neutral3: "var(--neutral-light-grey-color)",
+    body: "var(--white-color)",
+    text: "var(--black-color)",
+    neutral1: "var(--grey-neutral-color)",
+    neutral2: "var(--light-neutral-color)",
+    neutral3: "var(--lightest-neutral-color)",
 };
 
 export const darkTheme: ITheme = {
-    body: "var(--secondary-color)",
-    text: "var(--neutral-white-color)",
-    neutral1: "var(--neutral-dark-grey-color)",
-    neutral2: "var(--neutral-dark-blue-color)",
-    neutral3: "var(--neutral-light-grey-color)",
+    body: "var(--black-color)",
+    text: "var(--white-color)",
+    neutral1: "var(--grey-neutral-color)",
+    neutral2: "var(--dark-neutral-color)",
+    neutral3: "var(--darkest-neutral-color)",
 };
 
 export const GlobalStyles = createGlobalStyle`
 :root {
     // ------------------------------------- colors
-    // main
-    --primary-color: #a0edb2;
-    --secondary-color: #0f1219;
+    --primary-color: #4a81f0;
+
+    // secondary  
+    --white-color: #fff; /* dark theme */
+    --black-color: #000; /* light theme */
 
     // neutrals 
-    --neutral-white-color: #fff;
-    --neutral-light-grey-color: #6a7587;  
-    --neutral-dark-grey-color: #96a4b9;  
-    --neutral-darkest-blue-color: #0f1219;  
-    --neutral-dark-blue-color: #1a1f28;
-    --neutral-light-blue-color: #edf3f9;  
-    --neutral-new: #f3f5f7;
+    --darkest-neutral-color: #181818;
+    --dark-neutral-color: #5c5c5c;
+    --grey-neutral-color: #9e9e9e;
+    --light-neutral-color: #e0e0e0; 
+    --lightest-neutral-color: #e5e5e5;
 
-    --Trial: #e8ebf2;
-
-    // interactions 
+    // interactivity
     --success-interaction-color: #386f5e; 
-    --danger-interaction-color: #b95573;  
+    --danger-interaction-color: #b95573; 
+
 
     // ------------------------------------- spacings
 
@@ -74,15 +73,41 @@ main {
     margin: 0 auto;
     padding-top: 4.1em;
     // 5em navbar height, 10em footer height, 1,7 footer margin
-    min-height: calc(100vh - (5em + 10em) + 1.7em);
+    min-height: calc(100vh - (5em + 10em) + 1.7em + 1.7em);
     ${mediaQueryMax("desktop")`
         margin: 0 1.7em;
     `}
 }
 `;
 
-// --------------------------------------------------- Existing
+// --------------------------------------------------- old
 /*
+:root {
+    // ------------------------------------- colors
+    // main
+    --primary-color: #a0edb2;
+    --secondary-color: #0f1219;
+
+    // neutrals 
+    --neutral-white-color: #fff;
+    --neutral-light-grey-color: #6a7587;  
+    --neutral-dark-grey-color: #96a4b9;  
+    --neutral-darkest-blue-color: #0f1219;  
+    --neutral-dark-blue-color: #1a1f28;
+    --neutral-light-blue-color: #edf3f9;  
+    --neutral-new: #f3f5f7;
+
+    --Trial: #e8ebf2;
+
+    // interactions 
+    --success-interaction-color: #386f5e; 
+    --danger-interaction-color: #b95573;  
+
+    // ------------------------------------- spacings
+
+}
+
+
 Rule:-
 -----
 

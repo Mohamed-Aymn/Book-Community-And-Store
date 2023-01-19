@@ -10,21 +10,21 @@ to cover this case
 interface IRoute {
     active: boolean;
 }
-export const Route = styled.span<IRoute>`
+export const Route = styled.button<IRoute>`
     cursor: pointer;
-    font-size: 0.9em;
+    background-color: transparent;
+    height: 4.5ch;
+    border: none;
     text-decoration: none;
+    white-space: nowrap;
+
     ${(props) =>
         props.active
             ? `
-                background-color: var(--primary-color);
-                color: var(--secondary-color);
-                padding: 0.7em 1em;
+                font-weight: bold;
+                text-decoration: underline;
             `
-            : `
-                background-color: transparent;
-                color: var(--neutral-dark-grey-color);
-            `}
+            : null}
 `;
 
 /*

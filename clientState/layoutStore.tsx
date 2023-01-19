@@ -7,7 +7,31 @@ export const layoutStore = create((set) => ({
     theme: "light",
     isNavbarMenu: false,
     modal: false,
+    searchResult: null,
+    searchPagination: 1,
+    mainSearch: "",
+    searchQueries: {
+        inTitle: false,
+        inAuthor: false,
+        genre: false,
+    },
+    searchFilters: {
+        lang: "",
+    },
 
+    setSearchQueries: (newValue: any) => {
+        set(() => ({ searchQueries: newValue }));
+    },
+
+    setMainSearch: (newValue: any) => {
+        set(() => ({ mainSearch: newValue }));
+    },
+    setSearchPagination: (pageNumber: any) => {
+        set(() => ({ searchPagination: pageNumber }));
+    },
+    setSearchResult: (data: any) => {
+        set(() => ({ searchResult: data }));
+    },
     toggleNavbarMenu: () => {
         set((state: any) => ({ isNavbarMenu: !state.isNavbarMenu }));
     },
@@ -38,4 +62,11 @@ export const layoutStore = create((set) => ({
             ? (document.body.style.overflowY = "hidden")
             : (document.body.style.overflowY = "scroll");
     },
+
+    // globalSearchQueryFunction: null,
+    // setGlobalSearchQueryFunction: (fun: () => void) => {
+    //     set(()=> ({
+    //         globalSearchQueryFunction: fun,
+    //     }))
+    // },
 }));

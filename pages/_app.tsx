@@ -23,8 +23,8 @@ export default function App({
                     <Layout>
                         <Component {...pageProps} />
                     </Layout>
+                    <ReactQueryDevtools initialIsOpen={false} />
                 </Hydrate>
-                <ReactQueryDevtools initialIsOpen={false} />
             </QueryClientProvider>
         </SessionProvider>
     );

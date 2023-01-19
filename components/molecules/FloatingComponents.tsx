@@ -41,7 +41,6 @@ export default function () {
                     />
                 </div>
             )}
-
             <div
                 style={{
                     position: "fixed",

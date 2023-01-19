@@ -3,7 +3,7 @@ import styled from "styled-components";
 interface IButton {
     text?: string;
     icon?: JSX.Element;
-    approach?: "primary" | "secondary" | "Tertiary" | "danger" | "tag";
+    approach?: "primary" | "secondary" | "tertiary" | "danger" | "tag";
     isLoading?: boolean;
     iconPosition?: "right" | "left";
     size?: "big" | "small";
@@ -18,51 +18,29 @@ const StyledButton = styled.button<IButton>`
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.5em;
+    gap: 0.25em;
     font-weight: bold;
-    height: fit-content;
+    height: 4.5ch;
 
     ${(props) =>
         props.approach === "primary"
             ? `
-                    background-color: var(--primary-color);
-                    color: var(--secondary-color);
-                    // &:hover {
-                    //     outline: solid 0.1em ${props.theme.primary};
-                    //     color: ${props.theme.primaryText};
-                    //     background-color: transparent;
-                    // }
-                    // &:active{
-                    //     background-color: ${props.theme.secondary};
-                    // }
+                    background-color: ${props.theme.text};
+                    color: ${props.theme.body};
                 `
             : props.approach === "secondary"
             ? `
-                    background-color: ${props.theme.neutral2};
-                    // outline: solid 0.1em ${props.theme.tertiary};
-                    color: ${props.theme.neutral1};
-                    // &:hover {
-                    //     background-color: ${props.theme.secondary};
-                    //     color: ${props.theme.primary};
-                    // }  
-                    // &:active{
-                    //     background-color: ${props.theme.tertiary};
-                    //     color: ${props.theme.primary};
-                    // } 
+                    background-color: ${props.theme.body};
+                    border: solid 0.05em ${props.theme.text};
+                    color: ${props.theme.text};
                 `
-            : props.approach === "Tertiary"
+            : props.approach === "tertiary"
             ? `
-            background-color: ${props.theme.neutral2};
-                    // outline: solid 0.1em ${props.theme.tertiary};
-                    color: ${props.theme.neutral3};
-                    // &:hover {
-                    //     background-color: ${props.theme.secondary};
-                    //     color: ${props.theme.primary};
-                    // }  
-                    // &:active{
-                    //     background-color: ${props.theme.tertiary};
-                    //     color: ${props.theme.primary};
-                    // } 
+                    background-color: transparent;
+                    color: ${props.theme.text};
+                    &:hover{
+                        text-decoration: underline;
+                    }
                 `
             : props.approach === "danger"
             ? `
@@ -71,7 +49,7 @@ const StyledButton = styled.button<IButton>`
                     background-color: transparent;
                     &:hover {
                         background-color: var(--danger-interaction-color);
-                        color: var(--neutral-white-color);
+                        color: var(--white-color);
                     }
                     &:active{
                         background-color: ${props.theme.tertiary};
@@ -81,18 +59,10 @@ const StyledButton = styled.button<IButton>`
             : props.approach === "tag"
             ? `
                     background-color: transparent;
-                    outline: solid 0.1em ${props.theme.neutral3};
-                    color: ${props.theme.neutral3};
+                    outline: solid 0.05em ${props.theme.neutral1};
+                    color: ${props.theme.neutral1};
                     border-radius: 3em;
-                    // font-weight: 700;
                     white-space: nowrap;
-                    &:hover {
-                        background-color: ${props.theme.secondaryBody};
-                    }
-                    &:active{
-                        background-color: ${props.theme.primary};
-                        color: var(--white-color);
-                    }
                 `
             : null}
 
