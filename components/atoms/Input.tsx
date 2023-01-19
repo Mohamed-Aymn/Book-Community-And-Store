@@ -16,7 +16,7 @@ const Input = styled.input`
 
 interface IInput {
     state: string | number;
-    setState(state: string | number): void;
+    setState: Function;
     placeholder?: string;
 }
 
