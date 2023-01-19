@@ -95,29 +95,17 @@ const DropDownMenu = styled.div`
 
 export default function () {
     let router = useRouter();
-    // const setSearchResultsGlobalState = layoutStore(
-    //     (state: any) => state.setSearchResult
-    // );
-    // const searchResultsGlobalState = layoutStore(
-    //     (state: any) => state.searchResult
-    // );
     const searchPagination = layoutStore(
         (state: any) => state.searchPagination
     );
     const mainSearch = layoutStore((state: any) => state.mainSearch);
     const setMainSearch = layoutStore((state: any) => state.setMainSearch);
-    // let [search, setSearch] = useState("");
     let [searchConfig, setSearchConfig] = useState(false);
-    // search queries
-    // let [searchQueries, setSearchQueries] = useState({
-    //     inTitle: false,
-    //     inAuthor: false,
-    //     genre: false,
-    // });
-    let [searchFilters, setSearchFilters] = useState({
-        lang: "",
-    });
 
+    const searchFilters = layoutStore((state: any) => state.searchFilters);
+    const setSearchFilters = layoutStore(
+        (state: any) => state.setSearchFilters
+    );
     const searchQueries = layoutStore((state: any) => state.searchQueries);
     const setSearchQueries = layoutStore(
         (state: any) => state.setSearchQueries
@@ -199,7 +187,6 @@ export default function () {
                     </NavButton>
                 </div>
             </NavSearchBar>
-
             {/* drop down menu for suggestion and searchconfig */}
             {(suggestions !== undefined || searchConfig) && (
                 <DropDownMenu>

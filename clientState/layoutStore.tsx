@@ -19,6 +19,9 @@ export const layoutStore = create((set) => ({
         lang: "",
     },
 
+    setSearchFilters: (newValue: any) => {
+        set(() => ({ searchFilters: newValue }));
+    },
     setSearchQueries: (newValue: any) => {
         set(() => ({ searchQueries: newValue }));
     },

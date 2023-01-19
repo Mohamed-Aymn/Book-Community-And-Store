@@ -1,5 +1,4 @@
 import Pagination from "../../components/organisms/Pagination";
-import { useState } from "react";
 import { useQuery } from "react-query";
 import BookSlider from "../../components/organisms/BookSlider";
 import styled from "styled-components";
@@ -19,34 +18,22 @@ const MesssgeCard = styled.div`
 `;
 
 export default function () {
-    // const setSearchResultsGlobalState = layoutStore(
-    //     (state: any) => state.setSearchResult
-    // );
     const searchResultsGlobalState = layoutStore(
         (state: any) => state.searchResult
     );
-
     const mainSearch = layoutStore((state: any) => state.mainSearch);
     const setMainSearch = layoutStore((state: any) => state.setMainSearch);
-
     const searchPagination = layoutStore(
         (state: any) => state.searchPagination
     );
     const setSearchPagination = layoutStore(
         (state: any) => state.setSearchPagination
     );
-
     const searchQueries = layoutStore((state: any) => state.searchQueries);
-    // search queries
-    // let [searchQueries, setSearchQueries] = useState({
-    //     inTitle: false,
-    //     inAuthor: false,
-    //     genre: false,
-    // });
-    // console.log(searchQueries);
-    let [searchFilters, setSearchFilters] = useState({
-        lang: "",
-    });
+    const searchFilters = layoutStore((state: any) => state.searchFilters);
+    const setSearchFilters = layoutStore(
+        (state: any) => state.setSearchFilters
+    );
 
     // main search query
     const MainSearchQuery = MainSearch(
