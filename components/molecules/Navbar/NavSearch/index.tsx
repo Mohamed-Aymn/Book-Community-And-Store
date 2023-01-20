@@ -3,34 +3,47 @@ import { FaSearch } from "react-icons/fa";
 import { RiSettings5Fill } from "react-icons/ri";
 import styled from "styled-components";
 import { layoutStore } from "../../../../clientState/layoutStore";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import MainSearch from "../../../../clientState/MainSearchQuery";
 import Divider from "../../../atoms/Divider";
 import Suggestions from "./Suggestions";
 import Config from "./Config";
+import useOnClickOutside from "../../../../hooks/useClickOutside";
 
 interface IInputBar {
     suggestions: boolean;
 }
 
-const Container = styled.div`
-    width: 35%;
+interface IContainer {
+    isFocused: boolean;
+    ref: any;
+}
+
+const Container = styled.div<IContainer>`
     /* width: 100%; */
     /* margin-left: calc(auto / 3); */
     /* flex-basis: 1; */
-
     /* display: flex; */
     /* flex-direction: row-reverse; */
     /* align-self: flex-end; */
     /* margin: 1em au   to; */
     /* position: sticky; */
     /* top: 5em; */
-    transition: width ease-in-out 0.7s;
     /* z-index: 1; */
-    &:hover {
-        width: 100%;
-    }
+    /* &:hover {
+    } */
+
+    position: relative;
+    transition: width ease-in-out 0.7s;
+    ${(props) =>
+        props.isFocused
+            ? `
+                width: 100%;
+            `
+            : `
+                width: 35%;
+    `}
 `;
 
 const NavSearchBar = styled.div<IInputBar>`
@@ -106,10 +119,8 @@ export default function () {
     const setSearchFilters = layoutStore(
         (state: any) => state.setSearchFilters
     );
-    const searchQueries = layoutStore((state: any) => state.searchQueries);
-    const setSearchQueries = layoutStore(
-        (state: any) => state.setSearchQueries
-    );
+    const searchQuery = layoutStore((state: any) => state.searchQuery);
+    const setSearchQuery = layoutStore((state: any) => state.setSearchQuery);
 
     // suggestions query
     const { data: suggestions, refetch: suggestionsRefetch } = useQuery(
@@ -128,7 +139,7 @@ export default function () {
     // mains search result query
     const MainSearchQuery = MainSearch(
         mainSearch,
-        searchQueries,
+        searchQuery,
         searchFilters,
         searchPagination
     );
@@ -145,10 +156,26 @@ export default function () {
         });
     };
 
+    let [isMainContainerFocus, setIsMainContainerFocus] = useState(false);
+
+    const mainContainerRef = useRef();
+    useOnClickOutside(mainContainerRef, () => {
+        setIsMainContainerFocus(false);
+        setSearchConfig(false);
+    });
     return (
-        <Container>
+        <Container
+            ref={mainContainerRef}
+            isFocused={isMainContainerFocus}
+            onFocus={() => setIsMainContainerFocus(true)}
+        >
             <NavSearchBar
-                suggestions={suggestions !== undefined ? true : false}
+                suggestions={
+                    (suggestions !== undefined || searchConfig) &&
+                    isMainContainerFocus
+                        ? true
+                        : false
+                }
             >
                 <Input
                     type="text"
@@ -176,38 +203,43 @@ export default function () {
                         </div>
                     </NavButton>
 
-                    <NavButton
-                        onClick={() => {
-                            searchConfig
-                                ? setSearchConfig(false)
-                                : setSearchConfig(true);
-                        }}
-                    >
-                        <RiSettings5Fill />
-                    </NavButton>
+                    {isMainContainerFocus && (
+                        <NavButton
+                            onClick={() => {
+                                searchConfig
+                                    ? setSearchConfig(false)
+                                    : setSearchConfig(true);
+                            }}
+                        >
+                            <RiSettings5Fill />
+                        </NavButton>
+                    )}
                 </div>
             </NavSearchBar>
             {/* drop down menu for suggestion and searchconfig */}
-            {(suggestions !== undefined || searchConfig) && (
-                <DropDownMenu>
-                    {searchConfig && (
-                        <Config
-                            setSearchQueries={setSearchQueries}
-                            searchQueries={searchQueries}
-                            setSearchFilters={setSearchFilters}
-                            searchFilters={searchFilters}
-                        />
-                    )}
-                    {suggestions && searchConfig && <Divider />}
-                    {suggestions !== undefined && (
-                        <Suggestions
-                            suggestions={suggestions}
-                            refetch={MainSearchQuery.refetch}
-                            setMainSearch={setMainSearch}
-                        />
-                    )}
-                </DropDownMenu>
-            )}
+            {isMainContainerFocus &&
+                (suggestions !== undefined || searchConfig) && (
+                    <DropDownMenu>
+                        {searchConfig && (
+                            <Config
+                                setSearchQuery={setSearchQuery}
+                                searchQuery={searchQuery}
+                                setSearchFilters={setSearchFilters}
+                                searchFilters={searchFilters}
+                            />
+                        )}
+                        {suggestions !== undefined &&
+                            searchConfig &&
+                            isMainContainerFocus && <Divider />}
+                        {suggestions !== undefined && isMainContainerFocus && (
+                            <Suggestions
+                                suggestions={suggestions}
+                                refetch={MainSearchQuery.refetch}
+                                setMainSearch={setMainSearch}
+                            />
+                        )}
+                    </DropDownMenu>
+                )}
         </Container>
     );
 }

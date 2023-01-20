@@ -1,36 +1,72 @@
 import TagList from "../../TagList";
 import styled from "styled-components";
+import Select from "../../../atoms/Select";
+import FormItem from "../../FormItem";
+import Divider from "../../../atoms/Divider";
+import RadioButton from "../../../atoms/RadioButton";
 
 const SearchConfigContainer = styled.div`
     padding: 0 0.7em;
 `;
 
 export default function (props: {
-    setSearchQueries: (data: any) => void;
-    searchQueries: any;
+    setSearchQuery: (data: any) => void;
+    searchQuery: any;
     setSearchFilters: (data: any) => void;
     searchFilters: any;
 }) {
     return (
         <SearchConfigContainer>
-            <div>
-                <b>Search by</b>
+            <FormItem label="Search by">
+                <RadioButton
+                    name="searchBy"
+                    value="search"
+                    state={props.searchQuery}
+                    setState={(value: any) => {
+                        props.setSearchQuery(value);
+                    }}
+                >
+                    Both book title and author name
+                </RadioButton>
+                <RadioButton
+                    name="searchBy"
+                    value="intitle"
+                    state={props.searchQuery}
+                    setState={(value: any) => {
+                        props.setSearchQuery(value);
+                    }}
+                >
+                    Book title
+                </RadioButton>
+                <RadioButton
+                    name="searchBy"
+                    value="inauthor"
+                    state={props.searchQuery}
+                    setState={(value: any) => {
+                        props.setSearchQuery(value);
+                    }}
+                >
+                    Author name
+                </RadioButton>
+                {/* 
+                // skip this now
+
                 <button>both book title and author name</button>
                 <button
                     onClick={() => {
-                        props.setSearchQueries({
+                        props.setSearchQuery({
                             inTitle: true,
                             inAuthor: false,
                             genre: false,
                         });
-                        console.log(props.searchQueries);
+                        console.log(props.searchQuery);
                     }}
                 >
                     Book title
                 </button>
                 <button
                     onClick={() =>
-                        props.setSearchQueries({
+                        props.setSearchQuery({
                             inAuthor: true,
                             inTitle: false,
                             genre: false,
@@ -41,7 +77,7 @@ export default function (props: {
                 </button>
                 <button
                     onClick={() =>
-                        props.setSearchQueries({
+                        props.setSearchQuery({
                             genre: true,
                             inAuthor: false,
                             inTitle: false,
@@ -50,7 +86,7 @@ export default function (props: {
                 >
                     genre
                 </button>
-                {props.searchQueries.genre && (
+                {props.searchQuery.genre && (
                     <>
                         <div>
                             <div>Suggestion</div>
@@ -80,25 +116,25 @@ export default function (props: {
                             ]}
                         />
                     </>
-                )}
-            </div>
+                )} */}
+            </FormItem>
 
-            <b>filter</b>
-            <div>
-                <div>lang</div>
-                <select
-                    onChange={(e) =>
+            <br />
+
+            <b style={{ color: "#cacaca" }}>Filter</b>
+            <FormItem label="Language">
+                <Select
+                    options={["en", "ar"]}
+                    state={props.searchFilters.lang}
+                    name="searchFilter"
+                    setState={(value: any) => {
                         props.setSearchFilters({
                             ...props.searchFilters,
-                            lang: e.target.value,
-                        })
-                    }
-                >
-                    <option value="" style={{ display: "none" }} />
-                    <option value="en">English</option>
-                    <option value="ar">arabic</option>
-                </select>
-            </div>
+                            lang: value,
+                        });
+                    }}
+                />
+            </FormItem>
         </SearchConfigContainer>
     );
 }

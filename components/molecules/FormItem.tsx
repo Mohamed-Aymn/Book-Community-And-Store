@@ -1,17 +1,11 @@
 import styled from "styled-components";
-// +
-// radio button
-// text input
-// input box
-// select
-// switch radio button (two choices)
 
 interface IFormItem {
     type?: "text" | "radio" | "textBox" | "select" | "switch";
     placeholder?: string;
     children: React.ReactNode;
     label: string;
-    labelPosition: "beside" | "above";
+    labelPosition?: "beside" | "above";
 }
 
 const FormItem = styled.label<IFormItem>`

@@ -156,7 +156,7 @@ const Label = styled.label<Partial<IRadio>>`
 
 interface IRadio {
     name: string;
-    children: ReactNode;
+    children?: ReactNode;
     disabled?: boolean;
     setState: Function;
     state: string | boolean;

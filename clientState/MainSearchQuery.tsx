@@ -2,25 +2,23 @@ import { useQuery, dehydrate, QueryClient } from "react-query";
 
 let searchResult = async (
     search: string,
-    searchQueries: {
-        [key: string]: boolean;
-    },
+    searchQuery: string,
     searchFilters: {
         lang: string;
     },
     page: number
 ) => {
-    let urlQuery;
-    searchQueries.inTitle
-        ? (urlQuery = "intitle")
-        : searchQueries.inAuthor
-        ? (urlQuery = "inauthor")
-        : searchQueries.genre
-        ? (urlQuery = "genre")
-        : (urlQuery = "search");
+    // let urlQuery;
+    // searchQuery === "inTitle"
+    //     ? (urlQuery = "intitle")
+    //     : searchQueries.inAuthor
+    //     ? (urlQuery = "inauthor")
+    //     : searchQueries.genre
+    //     ? (urlQuery = "genre")
+    //     : (urlQuery = "search");
 
     return await fetch(
-        `http://localhost:3000/api/books?${urlQuery}=${search}&lang=${searchFilters.lang}&page=${page}`
+        `http://localhost:3000/api/books?${searchQuery}=${search}&lang=${searchFilters.lang}&page=${page}`
     ).then(async (res) => {
         let data = await res.json();
         return data.data;
@@ -29,23 +27,16 @@ let searchResult = async (
 
 const MainSearch = (
     search: string,
-    searchQueries: {
-        [key: string]: boolean;
-    },
+    searchQuery: string,
     searchFilters: {
         lang: string;
     },
     searchPagination: number
 ) => {
     const { data, refetch, isFetching } = useQuery(
-        ["storeSearch", search, searchQueries, searchFilters, searchPagination],
+        ["storeSearch", search, searchQuery, searchFilters, searchPagination],
         () =>
-            searchResult(
-                search,
-                searchQueries,
-                searchFilters,
-                searchPagination
-            ),
+            searchResult(search, searchQuery, searchFilters, searchPagination),
         { enabled: false }
     );
 

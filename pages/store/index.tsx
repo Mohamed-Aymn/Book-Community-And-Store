@@ -29,7 +29,7 @@ export default function () {
     const setSearchPagination = layoutStore(
         (state: any) => state.setSearchPagination
     );
-    const searchQueries = layoutStore((state: any) => state.searchQueries);
+    const searchQuery = layoutStore((state: any) => state.searchQuery);
     const searchFilters = layoutStore((state: any) => state.searchFilters);
     const setSearchFilters = layoutStore(
         (state: any) => state.setSearchFilters
@@ -38,7 +38,7 @@ export default function () {
     // main search query
     const MainSearchQuery = MainSearch(
         mainSearch,
-        searchQueries,
+        searchQuery,
         searchFilters,
         searchPagination
     );

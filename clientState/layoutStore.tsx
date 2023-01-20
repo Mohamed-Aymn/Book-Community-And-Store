@@ -10,20 +10,17 @@ export const layoutStore = create((set) => ({
     searchResult: null,
     searchPagination: 1,
     mainSearch: "",
-    searchQueries: {
-        inTitle: false,
-        inAuthor: false,
-        genre: false,
-    },
+    // it should be (search, intitle, inauthor or genre)
+    searchQuery: "search",
     searchFilters: {
-        lang: "",
+        lang: "en",
     },
 
     setSearchFilters: (newValue: any) => {
         set(() => ({ searchFilters: newValue }));
     },
-    setSearchQueries: (newValue: any) => {
-        set(() => ({ searchQueries: newValue }));
+    setSearchQuery: (newValue: any) => {
+        set(() => ({ searchQuery: newValue }));
     },
 
     setMainSearch: (newValue: any) => {
