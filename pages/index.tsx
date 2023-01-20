@@ -2,12 +2,57 @@ import FeedbackSection from "../components/organisms/FeedbackSection";
 import Button from "../components/atoms/Button";
 import HeroSection from "../components/organisms/HeroSection";
 import Divider from "../components/atoms/Divider";
+import Input from "../components/atoms/Input";
+import { useState } from "react";
+import FormItem from "../components/molecules/FormItem";
+import TextArea from "../components/atoms/TextArea";
+import Select from "../components/atoms/Select";
+import RadioButton from "../components/atoms/RadioButton";
 
 export default function Home() {
+    let [state, setState] = useState("");
+    let [radioState, setRadioState] = useState("right");
     return (
         <>
             <HeroSection />
             <Divider />
+            <b>this is an input</b>
+            <Input state={state} setState={setState} placeholder="trial" />
+            <Divider />
+            <FormItem label="this is label" labelPosition="beside">
+                <Input state={state} setState={setState} placeholder="trial" />
+            </FormItem>
+
+            <FormItem label="this is label" labelPosition="beside">
+                <TextArea
+                    state={state}
+                    setState={setState}
+                    placeholder="trial"
+                />
+            </FormItem>
+
+            <Select options={[1, 2, 3]} hideFirstOption />
+            <Divider />
+
+            <RadioButton
+                name="trial"
+                value="left"
+                state={radioState}
+                setState={setRadioState}
+            >
+                helllo
+            </RadioButton>
+            <RadioButton
+                name="trial"
+                value="right"
+                state={radioState}
+                setState={setRadioState}
+            >
+                not helllo
+            </RadioButton>
+
+            {radioState}
+
             <main>
                 <Button approach="primary" text="Primary" />
                 <br />
