@@ -11,6 +11,7 @@ import { getSession } from "next-auth/react";
 import styled from "styled-components";
 import { mediaQueryMax } from "../../styles/mediaQuery";
 import BookSlider from "../../components/organisms/BookSlider";
+import Accordion from "../../components/molecules/Accordion";
 
 let getUserData = async () => {
     return await fetch(
@@ -22,11 +23,7 @@ let getUserData = async () => {
 };
 
 export async function getServerSideProps({ req }: any) {
-    const queryClient = new QueryClient();
-
     const session = await getSession({ req });
-    await queryClient.prefetchQuery("user data", getUserData);
-
     if (!session) {
         return {
             redirect: {
@@ -36,6 +33,8 @@ export async function getServerSideProps({ req }: any) {
         };
     }
 
+    const queryClient = new QueryClient();
+    await queryClient.prefetchQuery("user data", getUserData);
     return {
         props: {
             dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
@@ -45,12 +44,11 @@ export async function getServerSideProps({ req }: any) {
 }
 
 const ProfileHeaderBackground = styled.div`
-    background-color: var(--secondary-color);
+    background-color: ${(props) => props.theme.neutral3};
 `;
 
 const ProfileHeaderContent = styled.div`
     max-width: 140ch;
-    color: var(--neutral-white-color);
     padding-top: calc(4em + 3em);
     padding-bottom: 3em;
     margin: 0 auto;
@@ -60,7 +58,6 @@ const ProfileHeaderContent = styled.div`
 `;
 
 const About = styled.p`
-    color: var(--neutral-dark-grey-color);
     margin-left: 3.7em;
 `;
 
@@ -79,7 +76,7 @@ const ImageContainer = styled.div`
 const NameAndTitleContainer = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
+    /* gap: 0.3em; */
 `;
 
 const UserName = styled.div`
@@ -103,15 +100,7 @@ const TwoColumnsInfo = styled.div`
     `}
 `;
 
-const InfoContainer = styled.div`
-    background-color: ${(props) => props.theme.secondary};
-    padding: 0 2em;
-`;
-
 export default function () {
-    let [isInfoOpened, setIsInfoOpened] = useState(true);
-    let [isReviewsOpened, setIsReviewsOpened] = useState(false);
-
     const { data, isFetching, refetch } = useQuery("user data", getUserData);
 
     return (
@@ -132,7 +121,7 @@ export default function () {
                                         width: "100%",
                                         height: "100%",
                                         borderRadius: "100%",
-                                        border: "solid 0.2em #0f1219",
+                                        border: "solid 0.15em #9e9e9e",
                                     }}
                                     src={img}
                                     alt="Picture of the author"
@@ -160,81 +149,34 @@ export default function () {
                 </ProfileHeaderContent>
             </ProfileHeaderBackground>
             <main>
-                <div>
-                    <button
-                        style={{
-                            backgroundColor: "transparent",
-                            border: "none",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "0.7em",
-                        }}
-                        onClick={() => setIsInfoOpened(!isInfoOpened)}
-                    >
-                        <BsFillTriangleFill />
-                        <h2>Info</h2>
-                    </button>
-                    {isInfoOpened && (
-                        <InfoContainer>
-                            <TwoColumnsInfo>
-                                <div>
-                                    <h3>Connections</h3>
-                                    <div>X connections</div>
-                                    <div>connections sample</div>
-                                    <Button
-                                        text="View All"
-                                        approach="secondary"
-                                    />
-                                </div>
-                                <div>
-                                    <h3>Favourite genres</h3>
-                                    <div className="tagsList">
-                                        <Button
-                                            approach="tag"
-                                            text="scientific"
-                                        />
-                                        <Button
-                                            approach="tag"
-                                            text="historic"
-                                        />
-                                        <Button approach="tag" text="novel" />
-                                    </div>
-                                </div>
-                            </TwoColumnsInfo>
-                            <div>
-                                <h3>Books read</h3>
-                                <div className="booksList">
-                                    <BookCard img={mainPhoto} />
-                                    <Button
-                                        text="View All"
-                                        approach="secondary"
-                                    />
-                                </div>
+                <Accordion title="Info" isOpened={true}>
+                    <TwoColumnsInfo>
+                        <div>
+                            <h3>Connections</h3>
+                            <div>X connections</div>
+                            <div>connections sample</div>
+                            <Button text="View All" approach="secondary" />
+                        </div>
+                        <div>
+                            <h3>Favourite genres</h3>
+                            <div className="tagsList">
+                                <Button approach="tag" text="scientific" />
+                                <Button approach="tag" text="historic" />
+                                <Button approach="tag" text="novel" />
                             </div>
-                        </InfoContainer>
-                    )}
-                </div>
-
-                <div>
-                    <button
-                        style={{
-                            backgroundColor: "transparent",
-                            border: "none",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "0.7em",
-                        }}
-                        onClick={() => setIsReviewsOpened(!isReviewsOpened)}
-                    >
-                        <BsFillTriangleFill />
-                        <h2>Reviews</h2>
-                    </button>
-                    <InfoContainer>
-                        <div>{isReviewsOpened && <Reviews />}</div>
-                    </InfoContainer>
-                </div>
+                        </div>
+                    </TwoColumnsInfo>
+                    <div>
+                        <h3>Books read</h3>
+                        <div className="booksList">
+                            <BookCard img={mainPhoto} />
+                            <Button text="View All" approach="secondary" />
+                        </div>
+                    </div>
+                </Accordion>
+                <Accordion title="Reviews" isOpened={false}>
+                    <Reviews />
+                </Accordion>
             </main>
         </>
     );

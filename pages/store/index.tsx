@@ -6,6 +6,7 @@ import BookPage from "../../components/organisms/BookPage";
 import { layoutStore } from "../../clientState/layoutStore";
 import MainSearch from "../../clientState/MainSearchQuery";
 import { getFreeBooks, getEbooks } from "../../clientState/CollectionsQueries";
+import BookDetailsModal from "../../components/organisms/BookDetailsModal";
 
 const MesssgeCard = styled.div`
     margin-top: 1em;
@@ -18,6 +19,10 @@ const MesssgeCard = styled.div`
 `;
 
 export default function () {
+    const isDisplayingBookDetails = layoutStore(
+        (state: any) => state.isDisplayingBookDetails
+    );
+
     const searchResultsGlobalState = layoutStore(
         (state: any) => state.searchResult
     );
@@ -85,6 +90,7 @@ export default function () {
                         />
                     </>
                 )}
+                {isDisplayingBookDetails && <BookDetailsModal />}
             </>
         );
     };

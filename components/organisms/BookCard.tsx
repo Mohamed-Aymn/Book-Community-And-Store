@@ -9,6 +9,8 @@ interface IBookCard {
     title: string;
     price: number;
     author: string;
+    id: string;
+    data: object;
 }
 
 const BookCard = styled.button`
@@ -19,8 +21,6 @@ const BookCard = styled.button`
     cursor: pointer;
     &:hover {
         box-shadow: 0 0 30px #02020252;
-    }
-    &:hover {
         transform: scale(1.05);
         transition: transform 0.3s;
     }
@@ -91,7 +91,7 @@ const Price = styled.div`
 `;
 
 export default function (props: Partial<IBookCard>) {
-    let { img, title, price, author } = props;
+    let { img, title, price, author, id } = props;
 
     const setDisplayingBookDetails = layoutStore(
         (state: any) => state.setDisplayingBookDetails
@@ -99,7 +99,9 @@ export default function (props: Partial<IBookCard>) {
     const isDisplayingBookDetails = layoutStore(
         (state: any) => state.isDisplayingBookDetails
     );
-    const setBookDetials = layoutStore((state: any) => state.setBookDetials);
+    const setDisplayedBookId = layoutStore(
+        (state: any) => state.setDisplayedBookId
+    );
 
     author === undefined
         ? (author = "Unknown")
@@ -108,36 +110,33 @@ export default function (props: Partial<IBookCard>) {
         : null;
 
     return (
-        <>
-            <BookCard
-                onClick={() => {
-                    setBookDetials(props);
-                    setDisplayingBookDetails(true);
-                }}
-            >
-                <BookImage>
-                    <Image
-                        style={{ width: "100%", height: "100%" }}
-                        src={img}
-                        alt="Book image"
-                        width={400}
-                        height={500}
-                    />
-                </BookImage>
-                <Title>{title}</Title>
-                <Hr />
-                <DetailsInfo>
-                    <div>
-                        <WriterTitle>Writer</WriterTitle>
-                        <Author>{author}</Author>
-                    </div>
-                    <div>
-                        <BuyNowTitle>Buy now</BuyNowTitle>
-                        <Price>${price}</Price>
-                    </div>
-                </DetailsInfo>
-            </BookCard>
-            {isDisplayingBookDetails && <BookDetailsModal />}
-        </>
+        <BookCard
+            onClick={() => {
+                setDisplayedBookId(id);
+                setDisplayingBookDetails(true);
+            }}
+        >
+            <BookImage>
+                <Image
+                    style={{ width: "100%", height: "100%" }}
+                    src={img}
+                    alt="Book image"
+                    width={400}
+                    height={500}
+                />
+            </BookImage>
+            <Title>{title}</Title>
+            <Hr />
+            <DetailsInfo>
+                <div>
+                    <WriterTitle>Writer</WriterTitle>
+                    <Author>{author}</Author>
+                </div>
+                <div>
+                    <BuyNowTitle>Buy now</BuyNowTitle>
+                    <Price>${price}</Price>
+                </div>
+            </DetailsInfo>
+        </BookCard>
     );
 }

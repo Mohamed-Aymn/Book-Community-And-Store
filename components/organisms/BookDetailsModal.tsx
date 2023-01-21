@@ -4,19 +4,23 @@ import Button from "../atoms/Button";
 import { layoutStore } from "../../clientState/layoutStore";
 import styled from "styled-components";
 import { mediaQueryMin } from "../../styles/mediaQuery";
+import { useQuery } from "react-query";
+import { getSpecificBook } from "../../clientState/SpecificBookQuery";
+import TagList from "../molecules/TagList";
+import parse from "html-react-parser";
 
 const ModalBackground = styled.div`
     position: fixed;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.055);
-    z-index: 1;
+    z-index: 4;
 `;
 
-const MobileBookDetailsModal = styled.div`
+const Modal = styled.div`
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.112);
-    z-index: 1;
+    background-color: ${(props) => props.theme.body};
+    z-index: 5;
     ${mediaQueryMin("largeTablet")`
         inset: 0 0 0 35%;
     `}
@@ -40,11 +44,14 @@ const ImageContainer = styled.div`
     width: 11em;
     height: 17em;
     margin: "1em 0";
+    margin: 0 auto;
 `;
 
 const Title = styled.div`
-    font-size: 1.5rem;
+    font-size: 2rem;
+    font-weight: bold;
     text-align: center;
+    margin-top: 1em;
 `;
 
 const Author = styled.div`
@@ -55,63 +62,118 @@ const Author = styled.div`
 
 const SubDetailsContainer = styled.div`
     margin: 1em 0;
-    span {
-        font-weight: bold;
-    }
 `;
+
+const ModalBody = styled.div`
+    padding: 0 2em;
+    height: 100%;
+`;
+
+const Price = styled.div``;
 
 export default function () {
     const setDisplayingBookDetails = layoutStore(
         (state: any) => state.setDisplayingBookDetails
     );
-    const bookDetails = layoutStore((state: any) => state.bookDetails);
+    const setDisplayedBookId = layoutStore(
+        (state: any) => state.setDisplayedBookId
+    );
+    const displayedBookId = layoutStore((state: any) => state.displayedBookId);
+    const { data: bookDetails } = useQuery(
+        ["specific-book", displayedBookId],
+        () => getSpecificBook(displayedBookId)
+    );
+
+    let author;
+    if (bookDetails) {
+        bookDetails.author === undefined
+            ? (author = "Unknown")
+            : typeof bookDetails.author == "object"
+            ? (author = `${bookDetails.author[0]} and more`)
+            : null;
+    }
 
     return (
         <ModalBackground>
-            <MobileBookDetailsModal>
-                <ModalHeader>
-                    <Button
-                        approach="primary"
-                        text="X"
-                        onClick={() => setDisplayingBookDetails(false)}
-                    />
-                    <Link href={`/store/${bookDetails.id}`}>
+            {bookDetails && (
+                <Modal>
+                    <ModalHeader>
+                        <Button
+                            approach="tertiary"
+                            text="X"
+                            onClick={() => {
+                                setDisplayingBookDetails(false);
+                            }}
+                        />
+                        <Link href={`/store/${displayedBookId}`}>
+                            <Button
+                                approach="tertiary"
+                                text="open in a new window to display full detials"
+                                onClick={() => setDisplayingBookDetails(false)}
+                            />
+                        </Link>
+                    </ModalHeader>
+                    <ModalBody>
+                        <ImageContainer>
+                            <Image
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    objectFit: "cover",
+                                    objectPosition: "center center",
+                                }}
+                                src={
+                                    bookDetails.volumeInfo.imageLinks.thumbnail
+                                }
+                                alt="Picture of the author"
+                                width={500}
+                                height={500}
+                            />
+                        </ImageContainer>
+                        <Title>{bookDetails.volumeInfo.title}</Title>
+                        <Author>{bookDetails.volumeInfo.authors}</Author>
+                        <div style={{ textAlign: "center" }}>stars</div>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                            }}
+                        >
+                            {bookDetails.volumeInfo.categories && (
+                                <TagList
+                                    list={bookDetails.volumeInfo.categories}
+                                />
+                            )}
+                        </div>
+                        <SubDetailsContainer>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <h3>Discription</h3>
+                                <Price>$99</Price>
+                            </div>
+                            <p>
+                                {(bookDetails.volumeInfo.description &&
+                                    parse(
+                                        bookDetails.volumeInfo.description
+                                    )) ||
+                                    "There is not description provided"}
+                            </p>
+                        </SubDetailsContainer>
+
                         <Button
                             approach="primary"
-                            text="open in a new window to display full detials"
-                            onClick={() => setDisplayingBookDetails(false)}
+                            text="Add to cart"
+                            width="full"
                         />
-                    </Link>
-                </ModalHeader>
-
-                <About>About</About>
-                <ImageContainer>
-                    <Image
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                            objectPosition: "center center",
-                        }}
-                        src={bookDetails.img}
-                        alt="Picture of the author"
-                        width={500}
-                        height={500}
-                    />
-                </ImageContainer>
-                <Title>{bookDetails.title}</Title>
-                <Author>author</Author>
-                <SubDetailsContainer>
-                    <span> rate:</span> stars
-                    <span> avilability:</span> bla
-                    <span> type:</span> printed
-                    <span> genre:</span> bla
-                </SubDetailsContainer>
-                <div>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. A
-                    delectus illum blanditiis iusto consequuntur ....
-                </div>
-            </MobileBookDetailsModal>
+                    </ModalBody>
+                </Modal>
+            )}
         </ModalBackground>
     );
 }

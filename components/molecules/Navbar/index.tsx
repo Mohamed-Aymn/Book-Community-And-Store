@@ -16,7 +16,7 @@ const RoutesAndNavSearchContainer = styled.div`
     display: flex;
     gap: 4em;
     width: 100%;
-    justify-content: flex-end;
+    /* justify-content: flex-end; */
 `;
 
 const RoutesContainer = styled.div`
@@ -33,9 +33,9 @@ const RoutesContainer = styled.div`
 const Nav = styled.nav`
     position: fixed;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
-    gap: 4em;
+    gap: 2em;
     width: 100%;
     height: 5em;
     translate: 0 -1em;
@@ -133,17 +133,26 @@ export default function Navbar() {
                         gap: "0",
                     }}
                 >
-                    <Button
-                        approach="tertiary"
-                        text="Settings"
-                        icon={<FcSettings />}
-                    />
-                    <Button
-                        approach="tertiary"
-                        text="cart"
-                        icon={<AiOutlineShoppingCart />}
-                    />
-
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            gap: "0",
+                            marginRight: "2em",
+                        }}
+                    >
+                        <Button
+                            approach="tertiary"
+                            text="Settings"
+                            icon={<FcSettings />}
+                        />
+                        <Button
+                            approach="tertiary"
+                            text="cart"
+                            icon={<AiOutlineShoppingCart />}
+                        />
+                    </div>
                     <Divider orientation="vertical" verticalHeight="30" />
 
                     <AuthButtons />

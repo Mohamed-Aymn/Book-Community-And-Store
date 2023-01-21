@@ -2,7 +2,14 @@ import create from "zustand";
 
 export const layoutStore = create((set) => ({
     isDisplayingBookDetails: false,
-    bookDetails: null,
+
+    displayedBookId: null,
+    setDisplayedBookId: (id: any) => {
+        set(() => ({
+            displayedBookId: id,
+        }));
+    },
+
     id: "newId",
     theme: "light",
     isNavbarMenu: false,
@@ -49,11 +56,7 @@ export const layoutStore = create((set) => ({
             id: newId,
         }));
     },
-    setBookDetials: (props: any) => {
-        set(() => ({
-            bookDetails: props,
-        }));
-    },
+
     setDisplayingBookDetails: (value: any) => {
         set(() => ({
             isDisplayingBookDetails: value,

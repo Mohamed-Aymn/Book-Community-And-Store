@@ -8,10 +8,12 @@ import FormItem from "../components/molecules/FormItem";
 import TextArea from "../components/atoms/TextArea";
 import Select from "../components/atoms/Select";
 import RadioButton from "../components/atoms/RadioButton";
+// import Accordion from "../components/molecules/accordion";
 
 export default function Home() {
     let [state, setState] = useState("");
     let [radioState, setRadioState] = useState("right");
+    let [selectState, setSelectState] = useState(1);
     return (
         <>
             <HeroSection />
@@ -31,7 +33,7 @@ export default function Home() {
                 />
             </FormItem>
 
-            <Select options={[1, 2, 3]} hideFirstOption />
+            {/* <Select options={[1, 2, 3]} hideFirstOption /> */}
             <Divider />
 
             <RadioButton
@@ -51,7 +53,17 @@ export default function Home() {
                 not helllo
             </RadioButton>
 
-            {radioState}
+            <Select
+                name="trial select"
+                options={[1, 2, 3]}
+                setState={setSelectState}
+                state={selectState}
+            />
+
+            {selectState}
+
+            {/* <Accordion title="hello">this is a prop</Accordion>
+            <Accordion title="hello">this is a prop</Accordion> */}
 
             <main>
                 <Button approach="primary" text="Primary" />

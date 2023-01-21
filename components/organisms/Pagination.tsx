@@ -24,14 +24,14 @@ export default function (props: any) {
         <Pagination>
             <Button
                 icon={<MdOutlineNavigateBefore />}
-                approach="primary"
+                approach="secondary"
                 text="prev"
             />
 
             {pageNumbers.map((number) => (
                 <Button
                     key={number}
-                    approach="primary"
+                    approach="secondary"
                     onClick={async () => {
                         await props.setPage(number);
                         props.fetchFunction();
@@ -41,7 +41,7 @@ export default function (props: any) {
 
             <Button
                 icon={<MdOutlineNavigateNext />}
-                approach="primary"
+                approach="secondary"
                 text="next"
             />
         </Pagination>

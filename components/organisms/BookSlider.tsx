@@ -80,6 +80,7 @@ export default function ({ title, data }: ISlider) {
                                     item.volumeInfo.imageLinks?.thumbnail ||
                                     mainPhoto
                                 }
+                                id={item.id}
                             />
                         );
                     })}

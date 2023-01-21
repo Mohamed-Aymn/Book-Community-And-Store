@@ -61,6 +61,7 @@ export default function ({ data }: IBookPage) {
                         author={item.volumeInfo.authors}
                         img={item.volumeInfo.imageLinks?.thumbnail || mainPhoto}
                         price={99.9}
+                        id={item.id}
                     />
                 );
             })}
