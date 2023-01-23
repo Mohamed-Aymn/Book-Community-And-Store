@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../models/User";
+import bcrypt from "bcrypt";
 
 interface Data {
     error?: string;
@@ -43,6 +44,8 @@ export default async function handler(
                     return res
                         .status(422)
                         .json({ message: "user Already Exists" });
+
+                req.body.password = await bcrypt.hash(req.body.password, 12);
 
                 const user = await User.create(req.body);
                 res.status(200).json({

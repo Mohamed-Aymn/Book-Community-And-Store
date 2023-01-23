@@ -8,6 +8,7 @@ import Button from "../../components/atoms/Button";
 import TagList from "../../components/molecules/TagList";
 import { signIn, signOut } from "next-auth/react";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 
 const FormContainer = styled.div`
     padding: 2em;
@@ -36,15 +37,20 @@ const InspiringText = styled.p`
 `;
 
 export default function () {
+    const router = useRouter();
     let [email, setEmail] = useState("");
     let [password, setPassword] = useState("");
+
+    let redirectToHome = () => {
+        router.push("/");
+    };
 
     /* The POST method adds a new entry in the mongodb database. */
     const contentType = "application/json";
 
-    const postData = async () => {
-        console.log("hello");
+    const signUp = async () => {
         try {
+            //  TODO: i need to add both backend and frontend validation (frontend validation is set according to messages recevied from backend)
             const res = await fetch("http://localhost:3000/api/users", {
                 method: "POST",
                 headers: {
@@ -55,11 +61,21 @@ export default function () {
 
             // Throw error with status code in case Fetch API req failed
             if (!res.ok) {
-                console.log("error");
                 throw new Error();
             }
+
+            const authResponse: any = await signIn("credentials", {
+                redirect: false,
+                email: email,
+                password: password,
+                callbackUrl: `${window.location.origin}`,
+            });
+
+            if (authResponse.error) throw new Error(authResponse.error);
+
+            redirectToHome();
         } catch (error) {
-            console.log(error);
+            console.log((error as Error).message);
         }
     };
 
@@ -91,7 +107,7 @@ export default function () {
                     }}
                 >
                     <FcGoogle />
-                    sign in with gmail
+                    Continue with gmail
                 </button>
                 <button
                     onClick={async () => {
@@ -102,7 +118,7 @@ export default function () {
                     }}
                 >
                     <GrFacebook />
-                    sign in with facebook
+                    Continue with facebook
                 </button>
 
                 <div>OR</div>
@@ -128,13 +144,14 @@ export default function () {
                     <input type="password" />
                 </div>
 
-                <Link href="/profile">
-                    <Button approach="primary" text="Create account" />
-                </Link>
+                <Button
+                    approach="primary"
+                    text="Create account"
+                    onClick={signUp}
+                />
 
                 <div>
                     <span>have an account? </span>
-                    <Link href="/auth/login">Sign in</Link>
                 </div>
             </FormContainer>
         </div>

@@ -41,6 +41,24 @@ export default async function handler(
                 });
             }
             break;
+        case "POST":
+            try {
+                console.log(req.body.password);
+
+                // const user = await User.create(req.body);
+
+                res.status(200).json({
+                    message: "review is successfully added to database",
+                    data: req.body.password,
+                });
+            } catch (error) {
+                let message = (error as Error).message;
+                let name = (error as Error).name;
+                res.status(500).json({
+                    error: `${name}${name ? "/ " : null}${message}`,
+                });
+            }
+            break;
         // edit a single user by id
         case "PUT":
             interface IUser {

@@ -9,6 +9,13 @@ import TwitterProvider from "next-auth/providers/twitter";
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../models/User";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
+import { MongoClient } from "mongodb";
+import { compare } from "bcrypt";
+
+// as there is no special adapter for mongoose as regular mongodb has
+let client = new MongoClient(process.env.MONGODB_URI as string);
+let clientPromise = client.connect();
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -18,34 +25,50 @@ export default NextAuth({
             clientId: process.env.GOOGLE_ID,
             clientSecret: process.env.GOOGLE_SECRET,
         }),
-        CredentialsProvider({
-            name: "credentials",
-            async authorize(credentials: any, req: any) {
-                try {
-                    dbConnect();
-
-                    // check user existance
-                    const user = await User.findOne({
-                        email: credentials.email,
-                    });
-                    if (!user)
-                        throw new Error(
-                            "No user found with this email, please sign up."
-                        );
-
-                    if (credentials.password !== user.password) {
-                        throw new Error("username or password doesn't match");
-                    }
-
-                    return user;
-                } catch (error) {
-                    throw new Error(error.message);
-                }
-            },
-        }),
         FacebookProvider({
             clientId: process.env.FACEBOOK_ID,
             clientSecret: process.env.FACEBOOK_SECRET,
+        }),
+        // Email & Password
+        CredentialsProvider({
+            id: "credentials",
+            name: "Credentials",
+            credentials: {
+                email: {
+                    label: "Email",
+                    type: "text",
+                },
+                password: {
+                    label: "Password",
+                    type: "password",
+                },
+            },
+            async authorize(credentials) {
+                await dbConnect();
+
+                // Find user with the email
+                const user = await User.findOne({
+                    email: credentials?.email,
+                });
+
+                // Email Not found
+                if (!user) {
+                    throw new Error("Email is not registered");
+                }
+
+                // Check hased password with DB hashed password
+                const isPasswordCorrect = await compare(
+                    credentials!.password,
+                    user.password
+                );
+
+                // Incorrect password
+                if (!isPasswordCorrect) {
+                    throw new Error("Password is incorrect");
+                }
+
+                return user;
+            },
         }),
         // EmailProvider({
         //     server: process.env.EMAIL_SERVER,
@@ -95,11 +118,9 @@ export default NextAuth({
         // Use JSON Web Tokens for session instead of database sessions.
         // This option can be used with or without a database for users/accounts.
         // Note: `strategy` should be set to 'jwt' if no database is used.
-        strategy: "jwt",
-
+        // strategy: "jwt",
         // Seconds - How long until an idle session expires and is no longer valid.
         // maxAge: 30 * 24 * 60 * 60, // 30 days
-
         // Seconds - Throttle how frequently to write to database to extend a session.
         // Use it to limit write operations. Set to 0 to always update the database.
         // Note: This option is ignored if using JSON Web Tokens
@@ -150,5 +171,7 @@ export default NextAuth({
     events: {},
 
     // Enable debug messages in the console if you are having problems
-    debug: false,
+    debug: true,
+    adapter: MongoDBAdapter(clientPromise),
+    // adapter: MongoDBAdapter(clientPromise),
 });

@@ -80,8 +80,9 @@ export default async function handler(
                     data: review,
                 });
             } catch (error) {
-                let message = (error as Error).message;
-                let name = (error as Error).name;
+                // let message = (error as Error).message;
+                // let name = (error as Error).name;
+                let { name, message } = error as Error;
                 res.status(500).json({
                     error: `${name}${name ? "/ " : null}${message}`,
                 });

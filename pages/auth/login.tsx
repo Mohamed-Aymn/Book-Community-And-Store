@@ -7,6 +7,7 @@ import Button from "../../components/atoms/Button";
 import { validateConfig } from "next/dist/server/config-shared";
 import { signIn } from "next-auth/react";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 
 const LoginPage = styled.div`
     height: 100vh;
@@ -23,6 +24,7 @@ const FormContainer = styled.div`
 
 export default function () {
     let [useEmail, setUseEmail] = useState(false);
+    const router = useRouter();
     // let [objectWithData, setObjectWithData] = useState({
     //     email: "this is a trial email",
     //     password: "helloWorld1234",
@@ -36,23 +38,25 @@ export default function () {
     /* The POST method adds a new entry in the mongodb database. */
     const contentType = "application/json";
 
-    const postData = async () => {
+    let redirectToHome = () => {
+        router.push("/");
+    };
+
+    const loginUser = async () => {
         try {
-            const res = await fetch("http://localhost:3000/api/users", {
-                method: "POST",
-                headers: {
-                    "Content-Type": contentType,
-                },
-                body: JSON.stringify({ email, password }),
+            const res: any = await signIn("credentials", {
+                redirect: false,
+                email: email,
+                password: password,
+                callbackUrl: `${window.location.origin}`,
             });
 
-            // Throw error with status code in case Fetch API req failed
-            if (!res.ok) {
-                console.log("error");
-                throw new Error();
-            }
+            // add ui error message beside console error
+            if (res.error) throw new Error(res.error);
+
+            redirectToHome();
         } catch (error) {
-            console.log(error);
+            console.log((error as Error).message);
         }
     };
 
@@ -83,7 +87,7 @@ export default function () {
                             }}
                         >
                             <FcGoogle />
-                            login with gmail
+                            Continue with gmail
                         </button>
                         <button
                             onClick={async () => {
@@ -94,7 +98,7 @@ export default function () {
                             }}
                         >
                             <GrFacebook />
-                            login with facebook
+                            Continue with facebook
                         </button>
                     </div>
                     <div>OR</div>
@@ -119,14 +123,7 @@ export default function () {
                     <Button
                         approach="primary"
                         text="Log in"
-                        onClick={async () => {
-                            await signIn("credentials", {
-                                redirect: false,
-                                email,
-                                password,
-                                callbackUrl: "/",
-                            });
-                        }}
+                        onClick={loginUser}
                         width="full"
                     />
                     <div>
