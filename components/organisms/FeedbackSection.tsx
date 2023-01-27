@@ -6,10 +6,11 @@ import Link from "next/link";
 import { mediaQueryMax } from "../../styles/mediaQuery";
 
 const FeedbackCardsContainer = styled.section`
-    display: flex;
+    display: grid;
     gap: 1.7em;
+    grid-template-columns: repeat(3, 1fr);
     ${mediaQueryMax("largeTablet")`
-        flex-wrap: wrap;
+        grid-template-columns: repeat(1, 1fr);
     `}
 `;
 
@@ -23,8 +24,17 @@ export default function () {
                     <CustomersFeedback img={mainPhoto} name="Agatha Christie" />
                     <CustomersFeedback img={mainPhoto} name="Houston Rickie" />
                 </FeedbackCardsContainer>
-                <Link href="auth/signup" style={{ textDecoration: "none" }}>
-                    <Button text="Join Us!" approach="catchy" size="big" />
+                <Link
+                    href="auth/signup"
+                    style={{
+                        margin: "2em",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        textDecoration: "none",
+                    }}
+                >
+                    <Button text="Join Us!" approach="primary" size="big" />
                 </Link>
             </div>
         </section>

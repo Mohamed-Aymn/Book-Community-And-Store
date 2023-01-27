@@ -1,10 +1,9 @@
-import styles from "./CustomersFeddback.module.scss";
 import Image from "next/image";
 import styled from "styled-components";
-import { constants } from "fs/promises";
+import Stars from "../atoms/Stars";
 
 const CustomerFeedback = styled.div`
-    background-color: ${(props) => props.theme.secondary};
+    background-color: ${(props) => props.theme.neutral3};
     border-radius: 0.7em;
     padding: 1.7em;
 `;
@@ -26,16 +25,24 @@ const UserName = styled.div`
     font-weight: 600;
 `;
 
-const UserBio = styled.div`
+const UserTitle = styled.div`
     font-size: 0.9rem;
-    color: ${(props) => props.theme.secondaryText};
+    color: ${(props) => props.theme.neutral1};
 `;
 
-export default function ({ img }: any) {
+export default function ({ img, name }: { img: any; name: string }) {
     return (
         <CustomerFeedback>
-            <div style={{ textAlign: "center" }}>stars</div>
-            <p style={{ color: "black", textAlign: "center" }}>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
+            >
+                <Stars stars={5} />
+            </div>
+            <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Repellendus sapiente, repellat impedit dicta placeat at, eveniet
             </p>
@@ -52,8 +59,8 @@ export default function ({ img }: any) {
                     />
                 </ImageContainer>
                 <div style={{ alignSelf: "flex-end" }}>
-                    <UserName>User Name</UserName>
-                    <UserBio>Writer - Reader</UserBio>
+                    <UserName>{name}</UserName>
+                    <UserTitle>Writer</UserTitle>
                 </div>
             </CustomerInfo>
         </CustomerFeedback>

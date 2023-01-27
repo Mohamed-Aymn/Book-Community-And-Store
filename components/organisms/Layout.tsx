@@ -8,22 +8,17 @@ import FloatingComponents from "../molecules/FloatingComponents";
 import Modals from "../molecules/Modals";
 
 export default function ({ children }: { children: JSX.Element }) {
-    const router = useRouter();
+    const { pathname } = useRouter();
     const theme = layoutStore((state: any) => state.theme);
     const isModal = layoutStore((state: any) => state.isModal);
 
     return (
         <>
             <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
-                {router.pathname.includes("/login") ||
-                router.pathname.includes("/signup") ? null : (
-                    <Navbar />
-                )}
+                {!pathname.includes("/auth") && <Navbar />}
                 {children}
-                {router.pathname.includes("/login") ||
-                router.pathname.includes("/signup") ? null : (
-                    <Footer />
-                )}
+                {!pathname.includes("/auth") && <Footer />}
+
                 <FloatingComponents />
                 {/* i don't think that modals will ba handled like that */}
                 {/* {isModal && <Modals />} */}
