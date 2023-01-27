@@ -6,7 +6,8 @@ import { layoutStore } from "../../../clientState/layoutStore";
 import NavMenu from "./NavMenu";
 
 const AuthButtonsContainer = styled.div`
-    width: 10em;
+    /* width: 10em; */
+    padding-left: 2em;
     display: flex;
     justify-content: flex-end;
 `;

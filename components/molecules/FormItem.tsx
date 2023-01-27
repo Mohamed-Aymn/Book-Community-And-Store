@@ -1,3 +1,4 @@
+import { ErrorMessage } from "@hookform/error-message";
 import styled from "styled-components";
 
 interface IFormItem {
@@ -6,25 +7,32 @@ interface IFormItem {
     children: React.ReactNode;
     label: string;
     labelPosition?: "beside" | "above";
+    isError?: boolean;
+    errorMessage?: any;
 }
 
 const FormItem = styled.label<IFormItem>`
     display: flex;
+
     ${(props) =>
         props.labelPosition == "beside"
             ? `
         flex-direction: row;
+        gap: 0.5em;
+
+        // justifiy-content: flex-end;
         `
             : `        
         flex-direction: column;
+        gap: 0.1em;
         `}
-    gap: 0.5em;
     span {
         font-weight: bold;
     }
 `;
 
 export default function (props: IFormItem) {
+    console.log(props.errorMessage);
     return (
         <FormItem
             label={props.label}
@@ -32,6 +40,7 @@ export default function (props: IFormItem) {
         >
             <span>{props.label}:</span>
             {props.children}
+            {props.isError && <span>{props.errorMessage}</span>}
         </FormItem>
     );
 }

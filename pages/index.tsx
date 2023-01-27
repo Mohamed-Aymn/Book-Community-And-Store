@@ -8,6 +8,8 @@ import FormItem from "../components/molecules/FormItem";
 import TextArea from "../components/atoms/TextArea";
 import Select from "../components/atoms/Select";
 import RadioButton from "../components/atoms/RadioButton";
+import Stars from "../components/atoms/Stars";
+import { signOut } from "next-auth/react";
 // import Accordion from "../components/molecules/accordion";
 
 export default function Home() {
@@ -64,6 +66,10 @@ export default function Home() {
 
             {/* <Accordion title="hello">this is a prop</Accordion>
             <Accordion title="hello">this is a prop</Accordion> */}
+
+            <Stars stars={3} />
+
+            <button onClick={() => signOut()}>cli</button>
 
             <main>
                 <Button approach="primary" text="Primary" />

@@ -100,11 +100,12 @@ export default async function handler(
                     data: user,
                 });
             } catch (error) {
-                let message = (error as Error).message;
-                let name = (error as Error).name;
-                res.status(500).json({
-                    error: `${name}${name ? "/ " : null}${message}`,
-                });
+                res.status(400).json({ error: `Error ${error}` });
+                // let message = (error as Error).message;
+                // let name = (error as Error).name;
+                // res.status(500).json({
+                //     error: `${name}${name ? "/ " : null}${message}`,
+                // });
             }
             break;
 
