@@ -31,7 +31,6 @@ const FormItem = styled.label<IFormItem>`
 `;
 
 export default function (props: IFormItem) {
-    console.log(props.errorMessage);
     return (
         <FormItem
             label={props.label}

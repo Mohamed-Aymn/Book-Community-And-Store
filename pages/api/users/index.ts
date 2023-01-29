@@ -54,19 +54,14 @@ export default async function handler(
                 });
             }
             break;
-        // create a new model
+        // create a new user
         case "POST":
             try {
-                if (!req.body)
-                    return res
-                        .status(404)
-                        .json({ message: "form data is requreied" });
+                if (!req.body) throw new Error("form data is requried");
+
                 const { email } = req.body;
                 const checkExisting = await User.findOne({ email });
-                if (checkExisting)
-                    return res
-                        .status(422)
-                        .json({ message: "user Already Exists" });
+                if (checkExisting) throw new Error("user Already Exists");
 
                 // password validation logic, as mongoose will not catch errors of the hashed password
                 if (req.body.password.length < 6) {

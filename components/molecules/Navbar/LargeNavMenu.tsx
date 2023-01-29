@@ -1,4 +1,5 @@
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 import styled from "styled-components";
 import Button from "../../atoms/Button";
 
@@ -12,9 +13,12 @@ const LargeNavMenu = styled.div`
 `;
 
 export default function ({ session }: any) {
+    // TODO: profile route is not named after user email but user name, figure out a way to get user name form session, (problem with users that signed in whih credentials)
     return (
         <LargeNavMenu>
-            <Button approach="primary" text="View Profile" width="full" />
+            <Link href={`/${session?.user._id}`}>
+                <Button approach="primary" text="View Profile" width="full" />
+            </Link>
             <Button
                 approach="secondary"
                 text="Sign out"

@@ -1,15 +1,12 @@
 import Link from "next/link";
 import CustomersFeedback from "../../components/organisms/CustomersFeedback";
-import { BiBookBookmark, BiRegistered } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { GrFacebook } from "react-icons/gr";
-import { useState } from "react";
 import Button from "../../components/atoms/Button";
 import { signIn } from "next-auth/react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import mainPhoto from "../../assets/mainPhoto.jpg";
-import { layoutStore } from "../../clientState/layoutStore";
 import Divider from "../../components/atoms/Divider";
 import FormItem from "../../components/molecules/FormItem";
 import Input from "../../components/atoms/Input";
@@ -36,7 +33,7 @@ const InspiringText = styled.p`
 
 const FormContainer = styled.div`
     margin: auto;
-    width: 70%;
+    width: 20em;
     /* height: 23em; */
 `;
 
@@ -51,7 +48,6 @@ const Title = styled.div`
         font-weight: 800;
         font-size: 3.5rem;
         line-height: 1.6ch;
-        /* color: #5f5f5f; */
         color: transparent;
         -webkit-text-stroke-width: 0.03em;
         -webkit-text-stroke-color: ${(props) => props.theme.text};
@@ -64,34 +60,73 @@ const Title = styled.div`
 const InspiringCard = styled.div`
     padding: 1.5em;
     background-color: ${(props) => props.theme.neutral3};
-    margin: auto;
-    height: 25em;
+    /* margin: auto; */
+    /* height: 25em; */
+`;
+
+const OAuthContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    position: relative;
+    align-content: center;
+    /* align-items: baseline; */
+    /* justify-content: center; */
+    /* align-items: baseline; */
+`;
+
+const OAuthButton = styled.button<{
+    brandColor: string;
+    logoBackgroundColor?: string;
+}>`
+    padding: 1em 2em;
+    background-color: ${(props) => props.brandColor};
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 0.2em;
+    cursor: pointer;
+    span {
+        position: absolute;
+        left: 1em;
+        top: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: ${(props) => props.logoBackgroundColor};
+        padding: 0.2em;
+    }
 `;
 
 export default function () {
     const router = useRouter();
-    let [email, setEmail] = useState("");
-    let [password, setPassword] = useState("");
-    let [password2, setPassword2] = useState("");
+    const {
+        register,
+        handleSubmit,
+        control,
+        watch,
+        setValue,
+        formState: { errors },
+    } = useForm({});
 
-    // email regex
-    // /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/g
+    const signUp = async (data: any) => {
+        const { name, email, password, password2 } = data;
 
-    const signUp = async () => {
         try {
             if (password !== password2) {
                 throw new Error("Password fields should be identical");
             }
 
-            //  TODO: i need to add both backend and frontend validation (frontend validation is set according to messages recevied from backend)
             const res = await fetch("http://localhost:3000/api/users", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ email, password, name }),
             });
             let data = await res.json();
+
+            // console.log(data);
 
             if (data.error) {
                 throw new Error(data.error);
@@ -107,50 +142,16 @@ export default function () {
             if (authResponse.error) throw new Error(authResponse.error);
 
             // TODO: instead of handling callbacks like that, handle it useing nextauth
-            router.push("/");
+            router.push(`/${data.data._id}/settings`);
         } catch (error) {
             console.log((error as Error).message);
         }
     };
 
-    const {
-        register,
-        handleSubmit,
-        control,
-        setValue,
-        formState: { errors },
-    } = useForm({});
-
-    const onSubmit = (data: any) => console.log(data);
-
     return (
-        <div style={{ display: "grid", gridTemplateColumns: "1.56fr 1fr" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "0.75fr 1fr" }}>
             <InspiringCardContainer>
                 <InspiringCard>
-                    {/* <Controller
-                        as={Input}
-                        name="FirstName"
-                        control={control}
-                        defaultValue=""
-                    /> */}
-                    {/* <Input control={control} /> */}
-                    {/* <Controller
-                        render={({ field }) => {
-                            <input
-                                // state={email}
-                                // setState={setEmail}
-                                {...field}
-                            />;
-                        }}
-                        name="email"
-                        defaultValue=""
-                        control={control}
-                    /> */}
-                    {/* <Link href="/about">
-                        <BiBookBookmark
-                            fill={theme === "light" ? "#000" : "#fff"}
-                        />
-                    </Link> */}
                     <Title>
                         <div>Book</div>
                         Community <span>& Store</span>
@@ -161,34 +162,43 @@ export default function () {
                         best comuunity of freelancers and business owners.
                     </InspiringText>
                 </InspiringCard>
-                {/* <CustomersFeedback img={mainPhoto} name="Agatha Christie" /> */}
+                <CustomersFeedback img={mainPhoto} name="Agatha Christie" />
             </InspiringCardContainer>
 
             <FormContainer>
                 <h1>Sign up</h1>
 
-                <button
-                    onClick={async () => {
-                        await signIn("google", {
-                            redirect: false,
-                            callbackUrl: "/",
-                        });
-                    }}
-                >
-                    <FcGoogle />
-                    Continue with gmail
-                </button>
-                <button
-                    onClick={() => {
-                        signIn("facebook", {
-                            redirect: false,
-                            callbackUrl: "/",
-                        });
-                    }}
-                >
-                    <GrFacebook />
-                    Continue with facebook
-                </button>
+                <OAuthContainer>
+                    <OAuthButton
+                        brandColor="#517be9"
+                        logoBackgroundColor="#fff"
+                        onClick={async () => {
+                            await signIn("google", {
+                                redirect: false,
+                                callbackUrl: "/",
+                            });
+                        }}
+                    >
+                        <span>
+                            <FcGoogle />
+                        </span>
+                        Continue with gmail
+                    </OAuthButton>
+                    <OAuthButton
+                        brandColor="#4962aa"
+                        onClick={() => {
+                            signIn("facebook", {
+                                redirect: false,
+                                callbackUrl: "/",
+                            });
+                        }}
+                    >
+                        <span>
+                            <GrFacebook />
+                        </span>
+                        Continue with facebook
+                    </OAuthButton>
+                </OAuthContainer>
 
                 {/* OR */}
                 <div
@@ -210,8 +220,23 @@ export default function () {
                         gap: "0.5em",
                     }}
                 >
-                    <button onClick={handleSubmit(onSubmit)}>clickme</button>
-
+                    <FormItem
+                        label="Name"
+                        labelPosition="above"
+                        isError={errors["name"] ? true : false}
+                        errorMessage={errors["name"]?.message}
+                    >
+                        <Controller
+                            control={control}
+                            rules={{
+                                required: "this field is requried",
+                            }}
+                            name="name"
+                            render={({ field: { onChange, onBlur } }) => (
+                                <Input reactHookForm={{ onBlur, onChange }} />
+                            )}
+                        />
+                    </FormItem>
                     <FormItem
                         label="Email"
                         labelPosition="above"
@@ -222,31 +247,80 @@ export default function () {
                             control={control}
                             rules={{
                                 required: "this field is requried",
-                                maxLength: 20,
-                                minLength: 3,
+                                pattern: {
+                                    value: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+                                    message: "Write a valid email",
+                                },
                             }}
                             name="email"
-                            render={({
-                                field: { onChange, onBlur, value, name },
-                            }) => (
-                                <Input reactHookForm={{ onBlur, onChange }} />
+                            render={({ field: { onChange, onBlur } }) => (
+                                <Input
+                                    reactHookForm={{ onBlur, onChange }}
+                                    type="email"
+                                />
                             )}
                         />
                     </FormItem>
 
-                    <FormItem label="Password" labelPosition="above">
-                        <Input state={password} setState={setPassword} />
+                    <FormItem
+                        label="Password"
+                        labelPosition="above"
+                        isError={errors["password"] ? true : false}
+                        errorMessage={errors["password"]?.message}
+                    >
+                        <Controller
+                            control={control}
+                            rules={{
+                                required: "this field is requried",
+                                pattern: {
+                                    value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/g,
+                                    message:
+                                        "Minimum eight characters, at least one letter and one number:",
+                                },
+                            }}
+                            name="password"
+                            render={({ field: { onChange, onBlur } }) => (
+                                <Input
+                                    type="password"
+                                    reactHookForm={{ onBlur, onChange }}
+                                />
+                            )}
+                        />
                     </FormItem>
 
-                    <FormItem label="Re-enter password" labelPosition="above">
-                        <Input state={password2} setState={setPassword2} />
+                    <FormItem
+                        label="Re-enter password"
+                        labelPosition="above"
+                        isError={errors["password2"] ? true : false}
+                        errorMessage={errors["password2"]?.message}
+                    >
+                        <Controller
+                            control={control}
+                            rules={{
+                                required: "this field is requried",
+                                validate: (val: string) => {
+                                    if (watch("password") != val) {
+                                        return "Your passwords do no match";
+                                    }
+                                },
+                            }}
+                            name="password2"
+                            render={({ field: { onChange, onBlur } }) => (
+                                <Input
+                                    reactHookForm={{ onBlur, onChange }}
+                                    type="password"
+                                />
+                            )}
+                        />
                     </FormItem>
                 </div>
+
+                <input type="hidden" />
 
                 <Button
                     approach="primary"
                     text="Create account"
-                    onClick={signUp}
+                    onClick={handleSubmit(signUp)}
                     width="full"
                 />
 

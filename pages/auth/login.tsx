@@ -8,6 +8,9 @@ import { validateConfig } from "next/dist/server/config-shared";
 import { signIn } from "next-auth/react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
+import { useForm, Controller } from "react-hook-form";
+import FormItem from "../../components/molecules/FormItem";
+import Input from "../../components/atoms/Input";
 
 const LoginPage = styled.div`
     height: 100vh;
@@ -22,27 +25,47 @@ const FormContainer = styled.div`
     border-radius: 0.1em solid $primary-color;
 `;
 
+const OAuthContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    position: relative;
+    align-content: center;
+    /* align-items: baseline; */
+    /* justify-content: center; */
+    /* align-items: baseline; */
+`;
+
+const OAuthButton = styled.button<{
+    brandColor: string;
+    logoBackgroundColor?: string;
+}>`
+    padding: 1em 2em;
+    background-color: ${(props) => props.brandColor};
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 0.2em;
+    cursor: pointer;
+    span {
+        position: absolute;
+        left: 1em;
+        top: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: ${(props) => props.logoBackgroundColor};
+        padding: 0.2em;
+    }
+`;
+
 export default function () {
-    let [useEmail, setUseEmail] = useState(false);
     const router = useRouter();
-    // let [objectWithData, setObjectWithData] = useState({
-    //     email: "this is a trial email",
-    //     password: "helloWorld1234",
-    // });
-
     let [email, setEmail] = useState("");
-    let [password, setPassword] = useState("");
+    let [errorAlert, setErrorAlert] = useState("");
 
-    let [showPassword, setShowPassword] = useState(false);
-
-    /* The POST method adds a new entry in the mongodb database. */
-    const contentType = "application/json";
-
-    let redirectToHome = () => {
-        router.push("/");
-    };
-
-    const loginUser = async () => {
+    const loginUser = async (data: any) => {
+        const { email, password } = data;
         try {
             const res: any = await signIn("credentials", {
                 redirect: false,
@@ -51,23 +74,22 @@ export default function () {
                 callbackUrl: `${window.location.origin}`,
             });
 
-            // add ui error message beside console error
             if (res.error) throw new Error(res.error);
 
-            redirectToHome();
+            router.push("/");
         } catch (error) {
-            console.log((error as Error).message);
+            setErrorAlert((error as Error).message);
         }
     };
 
-    let onEmailChange = (e: any) => {
-        if (e.target.value != "") {
-            setShowPassword(true);
-            setEmail(e.target.value);
-        } else {
-            setShowPassword(false);
-        }
-    };
+    const {
+        register,
+        handleSubmit,
+        control,
+        watch,
+        setValue,
+        formState: { errors },
+    } = useForm({});
 
     return (
         <LoginPage>
@@ -77,8 +99,10 @@ export default function () {
                 </Link>
                 <div>Welcome Back</div>
                 <div>
-                    <div>
-                        <button
+                    <OAuthContainer>
+                        <OAuthButton
+                            brandColor="#517be9"
+                            logoBackgroundColor="#fff"
                             onClick={async () => {
                                 await signIn("google", {
                                     redirect: false,
@@ -86,44 +110,76 @@ export default function () {
                                 });
                             }}
                         >
-                            <FcGoogle />
+                            <span>
+                                <FcGoogle />
+                            </span>
                             Continue with gmail
-                        </button>
-                        <button
-                            onClick={async () => {
-                                await signIn("facebook", {
+                        </OAuthButton>
+                        <OAuthButton
+                            brandColor="#4962aa"
+                            onClick={() => {
+                                signIn("facebook", {
                                     redirect: false,
                                     callbackUrl: "/",
                                 });
                             }}
                         >
-                            <GrFacebook />
+                            <span>
+                                <GrFacebook />
+                            </span>
                             Continue with facebook
-                        </button>
-                    </div>
+                        </OAuthButton>
+                    </OAuthContainer>
                     <div>OR</div>
-                    <div>
-                        <label>Email</label>
-                        <input
-                            type="email"
-                            onChange={(e) => onEmailChange(e)}
-                            value={email}
+                    {errorAlert !== "" && <div>{errorAlert}</div>}
+                    <FormItem
+                        label="Email"
+                        labelPosition="above"
+                        isError={errors["email"] ? true : false}
+                        errorMessage={errors["email"]?.message}
+                    >
+                        <Controller
+                            control={control}
+                            rules={{
+                                required: "this field is requried",
+                            }}
+                            name="email"
+                            render={({ field: { onChange, onBlur } }) => (
+                                <Input
+                                    state={email}
+                                    setState={setEmail}
+                                    type="email"
+                                    reactHookForm={{ onBlur, onChange }}
+                                />
+                            )}
                         />
-                    </div>
-                    {showPassword && (
-                        <div>
-                            <label>Password</label>
-                            <input
-                                type="password"
-                                onChange={(e) => setPassword(e.target.value)}
-                                value={password}
+                    </FormItem>
+                    {email && (
+                        <FormItem
+                            label="Password"
+                            labelPosition="above"
+                            isError={errors["password"] ? true : false}
+                            errorMessage={errors["password"]?.message}
+                        >
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: "this field is requried",
+                                }}
+                                name="password"
+                                render={({ field: { onChange, onBlur } }) => (
+                                    <Input
+                                        type="password"
+                                        reactHookForm={{ onBlur, onChange }}
+                                    />
+                                )}
                             />
-                        </div>
+                        </FormItem>
                     )}
                     <Button
                         approach="primary"
                         text="Log in"
-                        onClick={loginUser}
+                        onClick={handleSubmit(loginUser)}
                         width="full"
                     />
                     <div>

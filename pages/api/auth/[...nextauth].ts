@@ -158,6 +158,17 @@ export default NextAuth({
     // when an action is performed.
     // https://next-auth.js.org/configuration/callbacks
     callbacks: {
+        async jwt({ token, user }: any) {
+            if (user?._id) token._id = user._id;
+            if (user?.isAdmin) token.isAdmin = user.isAdmin;
+            return token;
+        },
+        async session({ session, token, user }: any) {
+            if (token?._id) session.user._id = token._id;
+            if (token?.sub) session.user._id = token.sub;
+            if (token?.isAdmin) session.user.isAdmin = token.isAdmin;
+            return session;
+        },
         // async signIn({ user, account, profile, email, credentials }) {
         //     return true;
         // },

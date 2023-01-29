@@ -15,19 +15,23 @@ const TextArea = styled.textarea`
 `;
 
 interface ITextArea {
-    state: string | number;
-    setState: Function;
+    state?: string | number;
+    setState?: Function;
     placeholder?: string;
+    reactHookForm?: any;
 }
 
 export default function (props: ITextArea) {
     let changeHandler = (e: any) => {
-        props.setState(e.target.value);
+        props.setState ? props.setState(e.target.value) : null;
     };
     return (
         <TextArea
-            value={props.state}
-            onChange={(e) => changeHandler(e)}
+            value={props.state ? props.state : undefined}
+            onChange={(e) => {
+                changeHandler(e);
+                props.reactHookForm ? props.reactHookForm.onChange(e) : null;
+            }}
             placeholder={props.placeholder}
         />
     );

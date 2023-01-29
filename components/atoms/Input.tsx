@@ -21,20 +21,17 @@ interface IInput {
     setState?: Function;
     placeholder?: string;
     reactHookForm?: any;
+    type?: "email" | "password" | "text";
 }
 
 export default function (props: IInput) {
-    // console.log(props);
-    // console.log(props);
-    // const { field, fieldState } = useController({name: props.name});
     let changeHandler = (e: any) => {
         props.setState ? props.setState(e.target.value) : null;
     };
 
     return (
         <Input
-            // {...field}
-            type="text"
+            type={props.type || "text"}
             value={props.state ? props.state : undefined}
             onChange={(e) => {
                 changeHandler(e);

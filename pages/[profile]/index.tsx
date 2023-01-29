@@ -4,41 +4,36 @@ import img from "../../assets/mainPhoto.jpg";
 import Reviews from "../../components/organisms/Reviews";
 import BookCard from "../../components/organisms/BookCard";
 import mainPhoto from "../../assets/mainPHoto.jpg";
-import { useState } from "react";
-import { BsFillTriangleFill } from "react-icons/bs";
 import { useQuery, dehydrate, QueryClient } from "react-query";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import styled from "styled-components";
 import { mediaQueryMax } from "../../styles/mediaQuery";
-import BookSlider from "../../components/organisms/BookSlider";
 import Accordion from "../../components/molecules/Accordion";
+import getUserData from "../../clientState/getUserData";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
-let getUserData = async () => {
-    return await fetch(
-        `http://localhost:3000/api/users/63a61276d9c9028b77dfac6c`
-    ).then(async (res) => {
-        let data = await res.json();
-        return data.data;
-    });
-};
-
-export async function getServerSideProps({ req }: any) {
+export async function getServerSideProps(context: any) {
+    let req = context.req;
     const session = await getSession({ req });
-    if (!session) {
-        return {
-            redirect: {
-                destination: "/auth/login",
-                permanent: false,
-            },
-        };
+
+    let isOwner;
+    if (context.query.profile === session?.user._id) {
+        isOwner = true;
+    } else {
+        isOwner = false;
     }
 
     const queryClient = new QueryClient();
-    await queryClient.prefetchQuery("user data", getUserData);
+    await queryClient.prefetchQuery(
+        "user data",
+        await getUserData(session?.user._id)
+    );
     return {
         props: {
             dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
             session,
+            isOwner,
         },
     };
 }
@@ -100,8 +95,41 @@ const TwoColumnsInfo = styled.div`
     `}
 `;
 
-export default function () {
-    const { data, isFetching, refetch } = useQuery("user data", getUserData);
+export default function ({ isOwner = false }: { isOwner: boolean }) {
+    let router = useRouter();
+    const { data: session, status } = useSession();
+    const { data, isFetching, refetch } = useQuery(
+        "user data",
+        async () => await getUserData(router.query.profile)
+    );
+
+    console.log(data);
+
+    let followUser = async () => {
+        const res = await fetch(
+            `http://localhost:3000/api/users/${session?.user._id}/followers`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ id: data._id }),
+            }
+        );
+    };
+
+    let unFollowUser = async () => {
+        const res = await fetch(
+            `http://localhost:3000/api/users/${session?.user._id}/followers/${data._id}`,
+            {
+                method: "DELETE",
+            }
+        );
+    };
+
+    if (!data && !isFetching) return <main>profile not found</main>;
+
+    if (!data && isFetching) return <main>skeleton</main>;
 
     return (
         <>
@@ -130,52 +158,94 @@ export default function () {
                                 />
                             </ImageContainer>
                             <NameAndTitleContainer>
-                                <UserName>userName</UserName>
-                                <UserTitle>reader</UserTitle>
+                                {data?.name && <UserName>{data.name}</UserName>}
+                                {data?.title && (
+                                    <UserTitle>{data.title}</UserTitle>
+                                )}
                             </NameAndTitleContainer>
                         </MainInfo>
                         <div style={{ alignSelf: "flex-end" }}>
-                            <Button text="connect" approach="primary" />
+                            {isOwner ? (
+                                <Link href={`${session?.user._id}/settings`}>
+                                    <Button
+                                        text="Profile settings"
+                                        approach="primary"
+                                    />
+                                </Link>
+                            ) : !isOwner &&
+                              data?.followers?.includes(session?.user._id) ? (
+                                <Button
+                                    text="Unfollow"
+                                    approach="primary"
+                                    onClick={unFollowUser}
+                                />
+                            ) : !isOwner &&
+                              !data?.followers?.includes(session?.user._id) &&
+                              session !== null ? (
+                                <Button
+                                    text="Follow"
+                                    approach="primary"
+                                    onClick={followUser}
+                                />
+                            ) : !isOwner && session == null ? (
+                                <Link href="/auth/login">
+                                    <Button text="Follow" approach="primary" />
+                                </Link>
+                            ) : null}
                         </div>
                     </div>
 
-                    <About>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Quia officia fugit repudiandae voluptatibus praesentium
-                        quidem fuga autem aspernatur blanditiis. Obcaecati dicta
-                        facilis neque doloribus, modi reiciendis minus maiores
-                        quisquam rem?
-                    </About>
+                    {data?.bio && <About>{data.bio}</About>}
                 </ProfileHeaderContent>
             </ProfileHeaderBackground>
             <main>
                 <Accordion title="Info" isOpened={true}>
                     <TwoColumnsInfo>
                         <div>
-                            <h3>Connections</h3>
-                            <div>X connections</div>
-                            <div>connections sample</div>
+                            <h3>Community</h3>
+                            <div>
+                                Followers:{" "}
+                                {data?.followers && data.followers.length}
+                            </div>
+                            <div>
+                                Following:{" "}
+                                {data?.following && data.following.length}
+                            </div>
                             <Button text="View All" approach="secondary" />
                         </div>
                         <div>
                             <h3>Favourite genres</h3>
-                            <div className="tagsList">
-                                <Button approach="tag" text="scientific" />
-                                <Button approach="tag" text="historic" />
-                                <Button approach="tag" text="novel" />
-                            </div>
+                            {data?.favouriteGenres &&
+                            data?.favouriteGenres.length !== 0 ? (
+                                data.favouriteGenres.map((genre: any) => {
+                                    <Button approach="tag" text="scientific" />;
+                                })
+                            ) : (
+                                <span>there is no favourite genres</span>
+                            )}
                         </div>
                     </TwoColumnsInfo>
                     <div>
                         <h3>Books read</h3>
-                        <div className="booksList">
-                            <BookCard img={mainPhoto} />
-                            <Button text="View All" approach="secondary" />
-                        </div>
+                        {data?.readBooks && data?.readBooks.length !== 0 ? (
+                            data.readBooks.map((book: any) => {
+                                return <BookCard img={mainPhoto} />;
+                            })
+                        ) : (
+                            <span>user didn't read any book yet</span>
+                        )}
+
+                        <Button text="View All" approach="secondary" />
                     </div>
                 </Accordion>
                 <Accordion title="Reviews" isOpened={false}>
-                    <Reviews />
+                    {data?.reviews && data?.reviews.length !== 0 ? (
+                        data.reviews.map((review: any) => {
+                            return <Reviews />;
+                        })
+                    ) : (
+                        <span>there is no reviews</span>
+                    )}
                 </Accordion>
             </main>
         </>

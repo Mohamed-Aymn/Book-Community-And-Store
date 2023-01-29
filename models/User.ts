@@ -1,14 +1,20 @@
 import mongoose from "mongoose";
+import { MdOutlineSettingsInputComposite } from "react-icons/md";
 
 const UserSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        maxlength: [60, "Name cannot be more than 60 characters"],
+        required: [true, "Please enter your name"],
+    },
     email: {
         type: String,
         required: [true, "Please provide an email for this user"],
         unique: true,
         lowercase: true,
-        validate: [
+        match: [
             /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/g,
-            "Please enter a valid email",
+            "Please fill a valid email address",
         ],
     },
     password: {
@@ -16,14 +22,22 @@ const UserSchema = new mongoose.Schema({
         required: [true, "Please enter a password"],
         minlength: [6, "Minimum password length is 6 characters"],
     },
-    name: {
-        type: String,
-        maxlength: [60, "Name cannot be more than 60 characters"],
-    },
     title: {
         type: String,
     },
-    about: {
+    followers: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        },
+    ],
+    following: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        },
+    ],
+    bio: {
         type: String,
     },
     readBooks: [
@@ -36,6 +50,11 @@ const UserSchema = new mongoose.Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Review",
+        },
+    ],
+    favouriteGenres: [
+        {
+            type: String,
         },
     ],
 });
