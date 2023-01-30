@@ -1,7 +1,7 @@
-import { env } from "../environment";
+import { DOMAIN } from "../environment";
 
 export const getFreeBooks = async () => {
-    return fetch(`${env.BASE_URL}/api/books?collection=free-ebooks`).then(
+    return fetch(`${DOMAIN}/api/books?collection=free-ebooks`).then(
         async (res) => {
             let data = await res.json();
             return data.data.items;
@@ -10,10 +10,8 @@ export const getFreeBooks = async () => {
 };
 
 export const getEbooks = async () => {
-    return fetch(`${env.BASE_URL}/api/books?collection=ebooks`).then(
-        async (res) => {
-            let data = await res.json();
-            return data.data.items;
-        }
-    );
+    return fetch(`${DOMAIN}/api/books?collection=ebooks`).then(async (res) => {
+        let data = await res.json();
+        return data.data.items;
+    });
 };
