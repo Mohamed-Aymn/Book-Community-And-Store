@@ -2,7 +2,7 @@ import Image from "next/image";
 import styled from "styled-components";
 import Stars from "../atoms/Stars";
 
-const CustomerFeedback = styled.div`
+const Container = styled.div`
     background-color: ${(props) => props.theme.neutral3};
     border-radius: 0.7em;
     padding: 1.7em;
@@ -30,9 +30,15 @@ const UserTitle = styled.div`
     color: ${(props) => props.theme.neutral1};
 `;
 
-export default function ({ img, name }: { img: any; name: string }) {
+export default function CustomersFeedback({
+    img,
+    name,
+}: {
+    img: any;
+    name: string;
+}) {
     return (
-        <CustomerFeedback>
+        <Container>
             <div
                 style={{
                     display: "flex",
@@ -63,6 +69,6 @@ export default function ({ img, name }: { img: any; name: string }) {
                     <UserTitle>Writer</UserTitle>
                 </div>
             </CustomerInfo>
-        </CustomerFeedback>
+        </Container>
     );
 }

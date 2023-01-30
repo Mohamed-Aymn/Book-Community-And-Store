@@ -65,7 +65,7 @@ const Content = styled.div<IContent>`
     line-height: 1.5;
 `;
 
-export default function (props: AccordionProps): JSX.Element {
+export default function Accordion(props: AccordionProps): JSX.Element {
     const [isExpanded, setExpand] = useState<boolean>(props.isOpened || false);
 
     const contentRef = useRef<HTMLDivElement>();

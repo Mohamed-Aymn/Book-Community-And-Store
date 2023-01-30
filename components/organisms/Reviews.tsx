@@ -7,7 +7,7 @@ const ImageContainer = styled.div`
     height: 5em;
 `;
 
-export default function (props: any) {
+export default function Reviews(props: any) {
     return (
         <div>
             <div>

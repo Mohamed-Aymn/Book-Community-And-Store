@@ -96,7 +96,7 @@ const TwoColumnsInfo = styled.div`
     `}
 `;
 
-export default function ({ isOwner = false }: { isOwner: boolean }) {
+export default function Profile({ isOwner = false }: { isOwner: boolean }) {
     let router = useRouter();
     const { data: session, status } = useSession();
     const { data, isFetching, refetch } = useQuery(
@@ -216,9 +216,15 @@ export default function ({ isOwner = false }: { isOwner: boolean }) {
                             <h3>Favourite genres</h3>
                             {data?.favouriteGenres &&
                             data?.favouriteGenres.length !== 0 ? (
-                                data.favouriteGenres.map((genre: any) => {
-                                    <Button approach="tag" text="scientific" />;
-                                })
+                                data.favouriteGenres.map(
+                                    (genre: any, i: number) => {
+                                        <Button
+                                            approach="tag"
+                                            text="scientific"
+                                            key={i}
+                                        />;
+                                    }
+                                )
                             ) : (
                                 <span>there is no favourite genres</span>
                             )}
@@ -227,11 +233,11 @@ export default function ({ isOwner = false }: { isOwner: boolean }) {
                     <div>
                         <h3>Books read</h3>
                         {data?.readBooks && data?.readBooks.length !== 0 ? (
-                            data.readBooks.map((book: any) => {
-                                return <BookCard img={mainPhoto} />;
+                            data.readBooks.map((book: any, i: number) => {
+                                return <BookCard img={mainPhoto} key={i} />;
                             })
                         ) : (
-                            <span>user didn't read any book yet</span>
+                            <span>user didn&apos;t read any book yet</span>
                         )}
 
                         <Button text="View All" approach="secondary" />
@@ -239,8 +245,8 @@ export default function ({ isOwner = false }: { isOwner: boolean }) {
                 </Accordion>
                 <Accordion title="Reviews" isOpened={false}>
                     {data?.reviews && data?.reviews.length !== 0 ? (
-                        data.reviews.map((review: any) => {
-                            return <Reviews />;
+                        data.reviews.map((review: any, i: number) => {
+                            return <Reviews key={i} />;
                         })
                     ) : (
                         <span>there is no reviews</span>

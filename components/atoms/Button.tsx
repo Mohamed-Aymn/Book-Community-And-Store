@@ -97,7 +97,7 @@ const StyledButton = styled.button<IButton>`
             : `width: fit-content;`}
 `;
 
-export let Button = (props: IButton) => {
+export default function Button(props: IButton) {
     return (
         <StyledButton
             approach={props.approach}
@@ -111,6 +111,4 @@ export let Button = (props: IButton) => {
             {props.text}
         </StyledButton>
     );
-};
-
-export default Button;
+}

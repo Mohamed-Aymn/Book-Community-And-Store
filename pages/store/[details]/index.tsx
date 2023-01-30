@@ -3,10 +3,10 @@ import Reviews from "../../../components/organisms/Reviews";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import mainPhoto from "../../../assets/mainPhoto.jpg";
-import { getSpecificBook } from "../../../clientState/SpecificBookQuery";
 import styled from "styled-components";
 import parse from "html-react-parser";
 import Button from "../../../components/atoms/Button";
+import { getSpecificBook } from "../../../query_Functions/SpecificBookQuery";
 
 const InformationSection = styled.div`
     display: flex;
@@ -35,7 +35,7 @@ const Author = styled.div`
     margin-bottom: 1em;
 `;
 
-export default function ({ img }: any) {
+export default function Details({ img }: any) {
     let router = useRouter();
     let { details: id } = router.query;
 

@@ -98,7 +98,7 @@ const OAuthButton = styled.button<{
     }
 `;
 
-export default function () {
+export default function Signup() {
     const router = useRouter();
     const {
         register,
@@ -158,8 +158,9 @@ export default function () {
                     </Title>
                     <InspiringTitle></InspiringTitle>
                     <InspiringText>
-                        <b>Start your journey with us,</b> Discover the worlds's
-                        best comuunity of freelancers and business owners.
+                        <b>Start your journey with us,</b> Discover the
+                        worlds&apos;s best comuunity of freelancers and business
+                        owners.
                     </InspiringText>
                 </InspiringCard>
                 <CustomersFeedback img={mainPhoto} name="Agatha Christie" />

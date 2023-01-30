@@ -103,7 +103,7 @@ const TitleParagraph = styled.p`
     }
 `;
 
-export default function () {
+export default function HeroSection() {
     // let HeroButtonTransofm = document.getElementById(
     //     "heroButton"
     // ) as HTMLButtonElement;

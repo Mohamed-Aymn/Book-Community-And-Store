@@ -71,7 +71,7 @@ const ModalBody = styled.div`
 
 const Price = styled.div``;
 
-export default function () {
+export default function BookDetailsModal() {
     const setDisplayingBookDetails = layoutStore(
         (state: any) => state.setDisplayingBookDetails
     );

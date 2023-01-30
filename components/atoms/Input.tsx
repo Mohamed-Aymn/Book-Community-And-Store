@@ -2,7 +2,7 @@ import { closeSync } from "fs";
 import { useController } from "react-hook-form";
 import styled from "styled-components";
 
-const Input = styled.input`
+const Item = styled.input`
     background-color: transparent;
     border: solid 0.1em ${(props) => props.theme.tertiary};
     color: ${(props) => props.theme.secondaryText};
@@ -24,13 +24,13 @@ interface IInput {
     type?: "email" | "password" | "text";
 }
 
-export default function (props: IInput) {
+export default function Input(props: IInput) {
     let changeHandler = (e: any) => {
         props.setState ? props.setState(e.target.value) : null;
     };
 
     return (
-        <Input
+        <Item
             type={props.type || "text"}
             value={props.state ? props.state : undefined}
             onChange={(e) => {

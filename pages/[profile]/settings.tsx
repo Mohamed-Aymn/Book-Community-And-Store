@@ -33,7 +33,7 @@ export async function getServerSideProps({ req }: any) {
     };
 }
 
-export default function () {
+export default function Settings() {
     let router = useRouter();
     // console.log(router.asPath);
     const {

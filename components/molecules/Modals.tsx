@@ -1,7 +1,7 @@
 import { layoutStore } from "../../clientState/layoutStore";
 // import BookDetailsModal from "../organisms/BookDetailsModal";
 
-export default function () {
+export default function Modals() {
     const isDisplayingBookDetails = layoutStore(
         (state: any) => state.isDisplayingBookDetails
     );

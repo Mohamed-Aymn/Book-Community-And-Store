@@ -10,14 +10,14 @@ interface ISelect {
     hideFirstOption?: boolean;
 }
 
-const Select = styled.select<Partial<ISelect>>``;
+const Container = styled.select<Partial<ISelect>>``;
 
-export default function (props: ISelect) {
+export default function Select(props: ISelect) {
     let changeHandler = (e: any) => {
         props.setState(e.target.value);
     };
     return (
-        <Select
+        <Container
             name={props.name}
             onChange={(e) => changeHandler(e)}
             value={props.state}
@@ -32,6 +32,6 @@ export default function (props: ISelect) {
                     </option>
                 );
             })}
-        </Select>
+        </Container>
     );
 }

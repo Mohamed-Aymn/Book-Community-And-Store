@@ -107,7 +107,7 @@ const DropDownMenu = styled.div`
     padding-top: 0.5em;
 `;
 
-export default function () {
+export default function NavSearch() {
     let router = useRouter();
     const searchPagination = layoutStore(
         (state: any) => state.searchPagination

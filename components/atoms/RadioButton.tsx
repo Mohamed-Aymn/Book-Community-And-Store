@@ -97,7 +97,7 @@ import { ReactNode, useState } from "react";
 
 import React from "react";
 
-const RadioWrapper = styled.div`
+const Container = styled.div`
     display: inline-block;
 `;
 
@@ -163,13 +163,13 @@ interface IRadio {
     value: string;
 }
 
-export default function (props: IRadio) {
+export default function RadioButton(props: IRadio) {
     let changeHandler = (e: any) => {
         props.setState(e.target.value);
     };
 
     return (
-        <RadioWrapper>
+        <Container>
             <Label disabled={props.disabled}>
                 <Input
                     name={props.name}
@@ -181,6 +181,6 @@ export default function (props: IRadio) {
                 <Mark />
                 {props.children}
             </Label>
-        </RadioWrapper>
+        </Container>
     );
 }

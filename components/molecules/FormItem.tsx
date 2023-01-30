@@ -10,7 +10,7 @@ interface IFormItem {
     errorMessage?: any;
 }
 
-const FormItem = styled.label<IFormItem>`
+const Container = styled.label<IFormItem>`
     display: flex;
 
     ${(props) =>
@@ -30,15 +30,15 @@ const FormItem = styled.label<IFormItem>`
     }
 `;
 
-export default function (props: IFormItem) {
+export default function FormItem(props: IFormItem) {
     return (
-        <FormItem
+        <Container
             label={props.label}
             labelPosition={props.labelPosition || "beside"}
         >
             <span>{props.label}:</span>
             {props.children}
             {props.isError && <span>{props.errorMessage}</span>}
-        </FormItem>
+        </Container>
     );
 }

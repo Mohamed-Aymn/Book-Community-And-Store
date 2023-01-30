@@ -7,7 +7,7 @@ interface IBookPage {
     data: any;
 }
 
-const BookPage = styled.div`
+const Container = styled.div`
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     justify-content: center;
@@ -50,9 +50,9 @@ const BookPage = styled.div`
     } */
 `;
 
-export default function ({ data }: IBookPage) {
+export default function BookPage({ data }: IBookPage) {
     return (
-        <BookPage>
+        <Container>
             {data?.items?.map((item: any) => {
                 return (
                     <BookCard
@@ -65,6 +65,6 @@ export default function ({ data }: IBookPage) {
                     />
                 );
             })}
-        </BookPage>
+        </Container>
     );
 }

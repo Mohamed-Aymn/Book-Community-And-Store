@@ -14,7 +14,7 @@ const FeedbackCardsContainer = styled.section`
     `}
 `;
 
-export default function () {
+export default function FeedbackSection() {
     return (
         <section>
             <h1>Our Customers</h1>

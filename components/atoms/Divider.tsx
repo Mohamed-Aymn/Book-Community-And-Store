@@ -7,7 +7,7 @@ interface IDivider {
 
 // just align it
 
-const Divider = styled.div<IDivider>`
+const Item = styled.div<IDivider>`
     ${(props) =>
         props.orientation === "horizontal"
             ? `
@@ -28,10 +28,10 @@ const Container = styled.div`
     align-items: center;
 `;
 
-export default function (props: IDivider) {
+export default function Divider(props: IDivider) {
     return (
         <Container>
-            <Divider
+            <Item
                 orientation={props.orientation || "horizontal"}
                 verticalHeight={props.verticalHeight}
             />

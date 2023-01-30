@@ -13,7 +13,7 @@ interface IBookCard {
     data: object;
 }
 
-const BookCard = styled.button`
+const Conatiner = styled.button`
     padding: 1.5em 1em 1em 1em;
     margin: 0 auto;
     border: none;
@@ -90,7 +90,7 @@ const Price = styled.div`
     text-align: right;
 `;
 
-export default function (props: Partial<IBookCard>) {
+export default function BookCard(props: Partial<IBookCard>) {
     let { img, title, price, author, id } = props;
 
     const setDisplayingBookDetails = layoutStore(
@@ -110,7 +110,7 @@ export default function (props: Partial<IBookCard>) {
         : null;
 
     return (
-        <BookCard
+        <Conatiner
             onClick={() => {
                 setDisplayedBookId(id);
                 setDisplayingBookDetails(true);
@@ -137,6 +137,6 @@ export default function (props: Partial<IBookCard>) {
                     <Price>${price}</Price>
                 </div>
             </DetailsInfo>
-        </BookCard>
+        </Conatiner>
     );
 }

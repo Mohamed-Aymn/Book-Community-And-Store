@@ -5,7 +5,7 @@ import { BsFillSunFill } from "react-icons/bs";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import { useEffect, useState } from "react";
 
-export default function () {
+export default function FloatingComponents() {
     const toggleTheme = layoutStore((state: any) => state.toggleTheme);
     const theme = layoutStore((state: any) => state.theme);
 

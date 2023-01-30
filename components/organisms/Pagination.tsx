@@ -2,14 +2,14 @@ import Button from "../atoms/Button";
 import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
 import styled from "styled-components";
 
-const Pagination = styled.div`
+const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1.3em;
 `;
 
-export default function (props: any) {
+export default function Pagination(props: any) {
     let pageNumbers = [];
 
     for (
@@ -21,7 +21,7 @@ export default function (props: any) {
     }
 
     return (
-        <Pagination>
+        <Container>
             <Button
                 icon={<MdOutlineNavigateBefore />}
                 approach="secondary"
@@ -44,6 +44,6 @@ export default function (props: any) {
                 approach="secondary"
                 text="next"
             />
-        </Pagination>
+        </Container>
     );
 }

@@ -7,9 +7,8 @@ import { Route } from "./styles";
 import Button from "../../atoms/Button";
 import { signOut } from "next-auth/react";
 import { mediaQueryMin } from "../../../styles/mediaQuery";
-import { useEffect } from "react";
 
-const MobileNavMenu = styled.div`
+const Container = styled.div`
     position: fixed;
     // 1em because nav bar is 1em outside the canavas for animation purposes
     top: 1em;
@@ -35,13 +34,13 @@ const CloseNavButton = styled.div`
     right: 1em;
 `;
 
-export default function ({ session }: any) {
+export default function MobileNavMenu({ session }: any) {
     const router = useRouter();
     const toggleNavbarMenu = layoutStore(
         (state: any) => state.toggleNavbarMenu
     );
     return (
-        <MobileNavMenu>
+        <Container>
             <CloseNavButton>
                 <ImCross fill="#fff" onClick={toggleNavbarMenu} />
             </CloseNavButton>
@@ -130,6 +129,6 @@ export default function ({ session }: any) {
                     text="Sign out"
                 />
             </div> */}
-        </MobileNavMenu>
+        </Container>
     );
 }

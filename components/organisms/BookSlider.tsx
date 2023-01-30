@@ -33,7 +33,7 @@ interface ISlider {
     data: [];
 }
 
-export default function ({ title, data }: ISlider) {
+export default function BookSlider({ title, data }: ISlider) {
     return (
         <div>
             {/* <div style={{ width: "100vw", backgroundColor: "red" }}>d</div> */}

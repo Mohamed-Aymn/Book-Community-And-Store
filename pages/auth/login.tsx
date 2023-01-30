@@ -4,7 +4,6 @@ import { FcGoogle } from "react-icons/fc";
 import { GrFacebook } from "react-icons/gr";
 import { useState } from "react";
 import Button from "../../components/atoms/Button";
-import { validateConfig } from "next/dist/server/config-shared";
 import { signIn } from "next-auth/react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
@@ -59,7 +58,7 @@ const OAuthButton = styled.button<{
     }
 `;
 
-export default function () {
+export default function Login() {
     const router = useRouter();
     let [email, setEmail] = useState("");
     let [errorAlert, setErrorAlert] = useState("");
@@ -183,7 +182,7 @@ export default function () {
                         width="full"
                     />
                     <div>
-                        Don't have an account?{" "}
+                        Don&apos;t have an account?{" "}
                         <Link href="/auth/signup">Sign up</Link> now!
                     </div>
                     <Link href="/terms">Terms</Link>

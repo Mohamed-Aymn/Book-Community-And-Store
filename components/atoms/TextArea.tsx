@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const TextArea = styled.textarea`
+const Container = styled.textarea`
     background-color: transparent;
     border: solid 0.1em ${(props) => props.theme.tertiary};
     color: ${(props) => props.theme.secondaryText};
@@ -21,12 +21,12 @@ interface ITextArea {
     reactHookForm?: any;
 }
 
-export default function (props: ITextArea) {
+export default function TextArea(props: ITextArea) {
     let changeHandler = (e: any) => {
         props.setState ? props.setState(e.target.value) : null;
     };
     return (
-        <TextArea
+        <Container
             value={props.state ? props.state : undefined}
             onChange={(e) => {
                 changeHandler(e);

@@ -21,7 +21,7 @@ const MesssgeCard = styled.div`
     border-radius: 1.7em;
 `;
 
-export default function () {
+export default function Store() {
     const isDisplayingBookDetails = layoutStore(
         (state: any) => state.isDisplayingBookDetails
     );

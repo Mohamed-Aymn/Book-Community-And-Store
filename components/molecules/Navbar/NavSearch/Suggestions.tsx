@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Suggestions = styled.div`
+const Container = styled.div`
     & div {
         padding: 0 0.7em;
         &:hover {
@@ -10,13 +10,13 @@ const Suggestions = styled.div`
     }
 `;
 
-export default function (props: {
+export default function Suggestions(props: {
     suggestions: [];
     setMainSearch: (data: any) => void;
     refetch: () => void;
 }) {
     return (
-        <Suggestions>
+        <Container>
             {props.suggestions.map((suggestion: any, i: number) => {
                 return (
                     <div
@@ -32,6 +32,6 @@ export default function (props: {
                     </div>
                 );
             })}
-        </Suggestions>
+        </Container>
     );
 }

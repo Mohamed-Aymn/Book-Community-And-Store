@@ -5,7 +5,7 @@ import { layoutStore } from "../../clientState/layoutStore";
 import { BiBookBookmark } from "react-icons/bi";
 import Link from "next/link";
 
-const Footer = styled.footer`
+const Container = styled.footer`
     position: sticky;
     top: 100%;
     background-color: ${(props) => props.theme.body};
@@ -73,11 +73,11 @@ const Title = styled.div`
     }
 `;
 
-export default function () {
+export default function Footer() {
     const theme = layoutStore((state: any) => state.theme);
 
     return (
-        <Footer>
+        <Container>
             {/* upper div */}
             <UpperContent>
                 {/* logo and slogan */}
@@ -131,6 +131,6 @@ export default function () {
                     <SmallButton>Terms & Conditions</SmallButton>
                 </div>
             </LowerContent>
-        </Footer>
+        </Container>
     );
 }

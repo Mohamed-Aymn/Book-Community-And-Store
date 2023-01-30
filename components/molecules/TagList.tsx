@@ -7,7 +7,7 @@ interface ITagList {
     list?: any;
 }
 
-const TagList = styled.div<ITagList>`
+const Conatiner = styled.div<ITagList>`
     display: flex;
     gap: 0.5em;
     max-width: 100%;
@@ -24,12 +24,12 @@ const TagList = styled.div<ITagList>`
     }
 `;
 
-export default function (props: ITagList) {
+export default function TagList(props: ITagList) {
     return (
-        <TagList>
+        <Conatiner>
             {props.list.map((item: string, i: number) => {
                 return <Button key={i} text={item} approach="tag" />;
             })}
-        </TagList>
+        </Conatiner>
     );
 }

@@ -1,6 +1,4 @@
 import Button from "../../components/atoms/Button";
-import SearchBar from "../../components/molecules/NavSearchBar";
-import { FaSearch } from "react-icons/fa";
 import Image from "next/image";
 import img from "../../assets/mainPhoto.jpg";
 import { Table, Th, Tr, Td } from "../../components/atoms/Table";
@@ -17,11 +15,9 @@ const ImageContainer = styled.div`
     height: 2.5em;
 `;
 
-export default function () {
+export default function Cart() {
     return (
         <main>
-            <SearchBar placeholder="Search for items in your cart" />
-
             <Table>
                 <thead>
                     <tr>

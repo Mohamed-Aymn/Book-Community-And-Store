@@ -9,7 +9,7 @@ const SearchConfigContainer = styled.div`
     padding: 0 0.7em;
 `;
 
-export default function (props: {
+export default function Config(props: {
     setSearchQuery: (data: any) => void;
     searchQuery: any;
     setSearchFilters: (data: any) => void;
