@@ -2,11 +2,12 @@ import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { Controller, useForm } from "react-hook-form";
 import { dehydrate, QueryClient, useQuery } from "react-query";
-import getUserData from "../../clientState/getUserData";
+import getUserData from "../../query_Functions/getUserData";
 import Button from "../../components/atoms/Button";
 import Input from "../../components/atoms/Input";
 import TextArea from "../../components/atoms/TextArea";
 import FormItem from "../../components/molecules/FormItem";
+import { env } from "../../environment";
 
 export async function getServerSideProps({ req }: any) {
     const session = await getSession({ req });
@@ -21,8 +22,8 @@ export async function getServerSideProps({ req }: any) {
 
     const queryClient = new QueryClient();
     await queryClient.prefetchQuery(
-        "user data",
-        await getUserData(session.user._id)
+        ["user data", session.user._id],
+        async () => await getUserData(session.user._id)
     );
     return {
         props: {
@@ -44,8 +45,9 @@ export default function () {
         formState: { errors },
     } = useForm({});
     const { data: session, status } = useSession();
-    const { data, isFetching, refetch } = useQuery("user data", () =>
-        getUserData(session?.user._id)
+    const { data, isFetching, refetch } = useQuery(
+        ["user data", session?.user._id],
+        async () => await getUserData(session?.user._id)
     );
 
     let onSubmit = async (formData: any) => {
@@ -56,7 +58,7 @@ export default function () {
 
         try {
             const res = await fetch(
-                `http://localhost:3000/api/users/${session?.user._id}`,
+                `${env.BASE_URL}/api/users/${session?.user._id}`,
                 {
                     method: "PUT",
                     headers: {

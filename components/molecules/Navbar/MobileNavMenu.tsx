@@ -99,7 +99,7 @@ export default function ({ session }: any) {
                         <Link href="/auth/login">
                             <Button
                                 text="login"
-                                approach="catchy"
+                                approach="primary"
                                 width="full"
                                 onClick={toggleNavbarMenu}
                             />

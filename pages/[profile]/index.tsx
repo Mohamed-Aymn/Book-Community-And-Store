@@ -3,15 +3,16 @@ import Image from "next/image";
 import img from "../../assets/mainPhoto.jpg";
 import Reviews from "../../components/organisms/Reviews";
 import BookCard from "../../components/organisms/BookCard";
-import mainPhoto from "../../assets/mainPHoto.jpg";
+import mainPhoto from "../../assets/mainPhoto.jpg";
 import { useQuery, dehydrate, QueryClient } from "react-query";
 import { getSession, useSession } from "next-auth/react";
 import styled from "styled-components";
 import { mediaQueryMax } from "../../styles/mediaQuery";
 import Accordion from "../../components/molecules/Accordion";
-import getUserData from "../../clientState/getUserData";
+import getUserData from "../../query_Functions/getUserData";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { env } from "../../environment";
 
 export async function getServerSideProps(context: any) {
     let req = context.req;
@@ -26,8 +27,8 @@ export async function getServerSideProps(context: any) {
 
     const queryClient = new QueryClient();
     await queryClient.prefetchQuery(
-        "user data",
-        await getUserData(session?.user._id)
+        ["user data", session?.user._id],
+        async () => await getUserData(session?.user._id)
     );
     return {
         props: {
@@ -99,15 +100,13 @@ export default function ({ isOwner = false }: { isOwner: boolean }) {
     let router = useRouter();
     const { data: session, status } = useSession();
     const { data, isFetching, refetch } = useQuery(
-        "user data",
+        ["user data", router.query.profile],
         async () => await getUserData(router.query.profile)
     );
 
-    console.log(data);
-
     let followUser = async () => {
         const res = await fetch(
-            `http://localhost:3000/api/users/${session?.user._id}/followers`,
+            `${env.BASE_URL}/api/users/${session?.user._id}/followers`,
             {
                 method: "POST",
                 headers: {
@@ -120,7 +119,7 @@ export default function ({ isOwner = false }: { isOwner: boolean }) {
 
     let unFollowUser = async () => {
         const res = await fetch(
-            `http://localhost:3000/api/users/${session?.user._id}/followers/${data._id}`,
+            `${env.BASE_URL}/api/users/${session?.user._id}/followers/${data._id}`,
             {
                 method: "DELETE",
             }

@@ -182,7 +182,7 @@ export default NextAuth({
     events: {},
 
     // Enable debug messages in the console if you are having problems
-    debug: true,
+    debug: false,
     adapter: MongoDBAdapter(clientPromise),
     // adapter: MongoDBAdapter(clientPromise),
 });

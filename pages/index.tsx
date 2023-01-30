@@ -1,87 +1,11 @@
 import FeedbackSection from "../components/organisms/FeedbackSection";
-import Button from "../components/atoms/Button";
 import HeroSection from "../components/organisms/HeroSection";
-import Divider from "../components/atoms/Divider";
-import Input from "../components/atoms/Input";
-import { useState } from "react";
-import FormItem from "../components/molecules/FormItem";
-import TextArea from "../components/atoms/TextArea";
-import Select from "../components/atoms/Select";
-import RadioButton from "../components/atoms/RadioButton";
-import Stars from "../components/atoms/Stars";
-import { signOut } from "next-auth/react";
-// import Accordion from "../components/molecules/accordion";
 
 export default function Home() {
-    let [state, setState] = useState("");
-    let [radioState, setRadioState] = useState("right");
-    let [selectState, setSelectState] = useState(1);
     return (
         <>
             <HeroSection />
-            <Divider />
-            <b>this is an input</b>
-            <Input state={state} setState={setState} placeholder="trial" />
-            <Divider />
-            <FormItem label="this is label" labelPosition="beside">
-                <Input state={state} setState={setState} placeholder="trial" />
-            </FormItem>
-
-            <FormItem label="this is label" labelPosition="beside">
-                <TextArea
-                    state={state}
-                    setState={setState}
-                    placeholder="trial"
-                />
-            </FormItem>
-
-            {/* <Select options={[1, 2, 3]} hideFirstOption /> */}
-            <Divider />
-
-            <RadioButton
-                name="trial"
-                value="left"
-                state={radioState}
-                setState={setRadioState}
-            >
-                helllo
-            </RadioButton>
-            <RadioButton
-                name="trial"
-                value="right"
-                state={radioState}
-                setState={setRadioState}
-            >
-                not helllo
-            </RadioButton>
-
-            <Select
-                name="trial select"
-                options={[1, 2, 3]}
-                setState={setSelectState}
-                state={selectState}
-            />
-
-            {selectState}
-
-            {/* <Accordion title="hello">this is a prop</Accordion>
-            <Accordion title="hello">this is a prop</Accordion> */}
-
-            <Stars stars={3} />
-
-            <button onClick={() => signOut()}>cli</button>
-
             <main>
-                <Button approach="primary" text="Primary" />
-                <br />
-                <Button approach="secondary" text="Secondary" />
-                <br />
-                <Button approach="tertiary" text="Tertiary" />
-                <br />
-                <Button approach="danger" text="Danger" />
-                <br />
-                <Button approach="tag" text="Tag" />
-                <br />
                 <section>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     Velit blanditiis voluptatibus consequuntur enim sequi unde

@@ -4,8 +4,11 @@ import BookSlider from "../../components/organisms/BookSlider";
 import styled from "styled-components";
 import BookPage from "../../components/organisms/BookPage";
 import { layoutStore } from "../../clientState/layoutStore";
-import MainSearch from "../../clientState/MainSearchQuery";
-import { getFreeBooks, getEbooks } from "../../clientState/CollectionsQueries";
+import MainSearch from "../../query_Functions/MainSearchQuery";
+import {
+    getFreeBooks,
+    getEbooks,
+} from "../../query_Functions/CollectionsQueries";
 import BookDetailsModal from "../../components/organisms/BookDetailsModal";
 
 const MesssgeCard = styled.div`

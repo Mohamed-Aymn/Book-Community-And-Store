@@ -1,4 +1,5 @@
 import { useQuery, dehydrate, QueryClient } from "react-query";
+import { env } from "../environment";
 
 let searchResult = async (
     search: string,
@@ -18,7 +19,7 @@ let searchResult = async (
     //     : (urlQuery = "search");
 
     return await fetch(
-        `http://localhost:3000/api/books?${searchQuery}=${search}&lang=${searchFilters.lang}&page=${page}`
+        `${env.BASE_URL}/api/books?${searchQuery}=${search}&lang=${searchFilters.lang}&page=${page}`
     ).then(async (res) => {
         let data = await res.json();
         return data.data;

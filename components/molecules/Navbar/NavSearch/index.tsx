@@ -5,11 +5,12 @@ import styled from "styled-components";
 import { layoutStore } from "../../../../clientState/layoutStore";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
-import MainSearch from "../../../../clientState/MainSearchQuery";
+import MainSearch from "../../../../query_Functions/MainSearchQuery";
 import Divider from "../../../atoms/Divider";
 import Suggestions from "./Suggestions";
 import Config from "./Config";
 import useOnClickOutside from "../../../../hooks/useClickOutside";
+import { env } from "../../../../environment";
 
 interface IInputBar {
     suggestions: boolean;
@@ -124,10 +125,10 @@ export default function () {
 
     // suggestions query
     const { data: suggestions, refetch: suggestionsRefetch } = useQuery(
-        ["suggestions", { mainSearch }],
+        ["suggestions", mainSearch],
         async () => {
             return await fetch(
-                `http://localhost:3000/api/books?search=${mainSearch}`
+                `${env.BASE_URL}/api/books?search=${mainSearch}`
             ).then(async (res) => {
                 let data = await res.json();
                 return data.data.items;

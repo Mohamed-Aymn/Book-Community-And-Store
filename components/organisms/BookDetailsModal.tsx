@@ -5,7 +5,7 @@ import { layoutStore } from "../../clientState/layoutStore";
 import styled from "styled-components";
 import { mediaQueryMin } from "../../styles/mediaQuery";
 import { useQuery } from "react-query";
-import { getSpecificBook } from "../../clientState/SpecificBookQuery";
+import { getSpecificBook } from "../../query_Functions/SpecificBookQuery";
 import TagList from "../molecules/TagList";
 import parse from "html-react-parser";
 

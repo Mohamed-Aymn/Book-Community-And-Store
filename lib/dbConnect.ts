@@ -29,6 +29,9 @@ async function dbConnect() {
         return cached.conn;
     }
 
+    // strict query: https://www.mongodb.com/community/forums/t/deprecationwarning-mongoose-the-strictquery/209637/2
+    mongoose.set("strictQuery", false);
+
     if (!cached.promise) {
         const opts = {
             bufferCommands: false,
