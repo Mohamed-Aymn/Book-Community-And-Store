@@ -1,8 +1,8 @@
 import packageInfo from "./package.json";
 
 let baseUrl;
-process.env.NODE_ENV == "production"
-    ? (baseUrl = process.env.VERCEL_URL)
+process.env.NODE_ENV === "production"
+    ? (baseUrl = process.env.BASE_URL)
     : (baseUrl = "http://localhost:3000");
 
 export const env = {
