@@ -1,9 +1,9 @@
 import packageInfo from "./package.json";
 
 let baseUrl;
-process.env.NODE_ENV !== "production"
+process.env.NODE_ENV === "development"
     ? (baseUrl = "http://localhost:3000")
-    : null;
+    : process.env.BASE_URL;
 
 export const env = {
     production: process.env.NODE_ENV === "production",
