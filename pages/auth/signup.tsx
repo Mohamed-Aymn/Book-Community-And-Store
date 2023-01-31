@@ -11,6 +11,7 @@ import Divider from "../../components/atoms/Divider";
 import FormItem from "../../components/molecules/FormItem";
 import Input from "../../components/atoms/Input";
 import { useForm, Controller } from "react-hook-form";
+import { env } from "../../environment";
 
 const InspiringCardContainer = styled.div`
     display: flex;
@@ -117,7 +118,7 @@ export default function Signup() {
                 throw new Error("Password fields should be identical");
             }
 
-            const res = await fetch("http://localhost:3000/api/users", {
+            const res = await fetch(`${env.BASE_URL}/api/users`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

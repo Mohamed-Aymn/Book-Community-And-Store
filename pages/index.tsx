@@ -2,8 +2,6 @@ import FeedbackSection from "../components/organisms/FeedbackSection";
 import HeroSection from "../components/organisms/HeroSection";
 
 export default function Home() {
-    console.log(process.env.NEXT_PUBLIC_VERCEL_URL);
-    console.log(process.env.NODE_ENV);
     return (
         <>
             <HeroSection />
