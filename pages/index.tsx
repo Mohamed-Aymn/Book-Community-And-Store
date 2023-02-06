@@ -162,6 +162,7 @@ export default function Home() {
                                         <CustomersFeedback
                                             img={mainPhoto}
                                             name={reviewer}
+                                            key={i}
                                         />
                                     );
                                 }
@@ -172,6 +173,7 @@ export default function Home() {
                                         <CustomersFeedback
                                             img={mainPhoto}
                                             name={reviewer}
+                                            key={i}
                                         />
                                     );
                                 }
