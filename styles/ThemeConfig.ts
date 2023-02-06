@@ -48,7 +48,7 @@ export const GlobalStyles = createGlobalStyle`
 
     // ------------------------------------- spacings
 
-}
+}w
 body {
     background: ${({ theme }: { theme: ITheme }) => theme.body};
     transition: all 0.50s linear;
@@ -67,6 +67,8 @@ body {
 }
 h1,h2,h3,h4,h5,h6{
     color: ${({ theme }) => theme.text};
+    margin: 0;
+    padding: 0;
 }
 main {
     max-width: 140ch;
