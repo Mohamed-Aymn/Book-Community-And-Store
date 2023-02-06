@@ -7,10 +7,11 @@ module.exports = {
         "@storybook/addon-links",
         "@storybook/addon-essentials",
         "@storybook/addon-interactions",
-        "@storybook/preset-scss",
+        "storybook-addon-styled-components-themes/register",
     ],
     framework: "@storybook/react",
     core: {
         builder: "@storybook/builder-webpack5",
     },
+    staticDirs: ["../src"],
 };

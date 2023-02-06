@@ -11,6 +11,8 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import Button from "../../atoms/Button";
 import { FcSettings } from "react-icons/fc";
 import Divider from "../../atoms/Divider";
+import { useEffect, useState } from "react";
+import { animated, useSpring } from "react-spring";
 
 const RoutesAndNavSearchContainer = styled.div`
     display: flex;
@@ -49,35 +51,43 @@ export default function Navbar() {
     let router = useRouter();
     const theme = layoutStore((state: any) => state.theme);
 
-    // useEffect(() => {
+    // useEffecf(() => {
     //     async () => {
     //         await setSearchResult(data);
     //         console.log(searchResult);
     //     };
     // }, [data]);
 
-    // let [offset, setOffset] = useState(0);
-    // const onScroll = () => {
-    //     setOffset(window.pageYOffset);
-    // };
-    // useEffect(() => {
-    //     window.removeEventListener("scroll", onScroll);
-    //     window.addEventListener("scroll", onScroll, { passive: true });
-    //     return () => window.removeEventListener("scroll", onScroll);
-    // }, []);
-    // if (offset >= 300) {
-    //     navAnimationApi.start({
-    //         y: "-4em",
-    //     });
-    // } else {
-    //     navAnimationApi.start({
-    //         y: "0em",
-    //     });
-    // }
+    const [navAnimation, navAnimationApi] = useSpring(() => ({
+        // ref: thirdApi,
+        y: "0em",
+        config: { tension: 170, friction: 26 },
+    }));
+
+    let [offset, setOffset] = useState(0);
+    const onScroll = () => {
+        setOffset(window.pageYOffset);
+    };
+    useEffect(() => {
+        window.removeEventListener("scroll", onScroll);
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
+    if (offset >= 300) {
+        navAnimationApi.start({
+            y: "-4em",
+        });
+    } else {
+        navAnimationApi.start({
+            y: "0em",
+        });
+    }
+
+    const AnimatedNav = animated(Nav);
 
     return (
         <>
-            <Nav>
+            <AnimatedNav style={navAnimation}>
                 {/* logo */}
                 <Link href="/">
                     <BiBookBookmark
@@ -157,7 +167,7 @@ export default function Navbar() {
 
                     <AuthButtons />
                 </div>
-            </Nav>
+            </AnimatedNav>
         </>
     );
 }

@@ -1,15 +1,37 @@
-import Button from "../components/atoms/Button";
+import { addParameters } from "@storybook/react";
+import {
+    GlobalStyles,
+    lightTheme,
+    darkTheme,
+} from "../../../styles/ThemeConfig";
+import { WithThemeProvider } from "storybook-addon-styled-components-themes";
+import Logo from "../../../assets/Logo";
+import Button from "../../../components/atoms/Button";
+import mainPhoto from "../../../assets/mainPhoto.jpg";
+import secondaryPhoto from "../../../assets/secondaryPhoto.jpg";
+import P from "../../../components/atoms/Paragraph";
+import * as styles from "./styles.stories";
+import * as feedbackStyles from "./feedbackStyles.stories";
+import Accordion from "../../../components/molecules/Accordion";
+import CustomersFeedback from "./CustomersFeedback.stories";
 import { useState } from "react";
-import mainPhoto from "../assets/mainPhoto.jpg";
-import secondaryPhoto from "../assets/secondaryPhoto.jpg";
-import * as styles from "../styles/homeStyles";
-import * as feedbackStyles from "../styles/feedbackStyles";
-import Logo from "../assets/Logo";
-import P from "../components/atoms/Paragraph";
-import Accordion from "../components/molecules/Accordion";
-import CustomersFeedback from "./CustomersFeedback";
 
-export default function Home() {
+// ----------- storybook config
+addParameters({
+    styledComponentsThemes: {
+        themes: [lightTheme, darkTheme],
+        initialTheme: 0,
+        label: ["light", "dark"],
+    },
+});
+
+export default {
+    title: "Design System/Templates/Home",
+};
+
+// ----------- component logic
+
+export const Template = () => {
     let [highlightedImage, setHighlightedImage] = useState(mainPhoto);
     let reviewersNames = [
         "Auston Nichola",
@@ -18,7 +40,8 @@ export default function Home() {
     ];
 
     return (
-        <>
+        <WithThemeProvider>
+            {/* template start */}
             {/* hero section */}
             <styles.HeroSection>
                 <styles.UpperHeroSectionPart>
@@ -162,7 +185,6 @@ export default function Home() {
                                         <CustomersFeedback
                                             img={mainPhoto}
                                             name={reviewer}
-                                            key={i}
                                         />
                                     );
                                 }
@@ -173,7 +195,6 @@ export default function Home() {
                                         <CustomersFeedback
                                             img={mainPhoto}
                                             name={reviewer}
-                                            key={i}
                                         />
                                     );
                                 }
@@ -182,6 +203,9 @@ export default function Home() {
                     </div>
                 </styles.Section>
             </main>
-        </>
+
+            {/* template end */}
+            <GlobalStyles />
+        </WithThemeProvider>
     );
-}
+};

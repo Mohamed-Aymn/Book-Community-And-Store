@@ -1,6 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
+interface IStars {
+    stars: number;
+    viewNumber?: boolean;
+}
+
 // TODO: with or without text
 // TODO: stars size
 
@@ -33,8 +38,9 @@ const FrontDiv = styled.div<{ rating: string }>`
 `;
 
 // TODO: limit it to 5 (typescript)
-function Stars(props: { stars: number }) {
+function Stars(props: IStars) {
     let rating = "0";
+    let viewNumbers = props.viewNumber || false;
 
     /* This is to round the rating to closest .5 or .0 */
     if (props.stars) {
@@ -46,7 +52,7 @@ function Stars(props: { stars: number }) {
     return (
         <React.Fragment>
             <WrapperDiv>
-                <RatingSpan>{props.stars || "N/A"}</RatingSpan>
+                {viewNumbers && <RatingSpan>{props.stars || "N/A"}</RatingSpan>}
                 <BackStarsDiv>
                     <IconStar />
                     <IconStar />
@@ -68,9 +74,11 @@ function Stars(props: { stars: number }) {
 
 export default Stars;
 
+const size = "1.3rem";
+
 const Span = styled.span`
-    width: 1.8rem;
-    height: 1.8rem;
+    width: ${size};
+    height: ${size};
 `;
 
 const SVG = styled.svg`
@@ -83,8 +91,8 @@ export function IconStar(props: any) {
         <Span>
             <SVG
                 viewBox="0 0 1000 1000"
-                width="1.8rem"
-                height="1.8rem"
+                width={size}
+                height={size}
                 aria-hidden="true"
             >
                 <path

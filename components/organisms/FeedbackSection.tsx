@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import mainPhoto from "../../assets/mainPhoto.jpg";
-import CustomersFeedback from "../../components/organisms/CustomersFeedback";
+import CustomersFeedback from "../../stories/templates/Home/CustomersFeedback.stories";
 import Button from "../../components/atoms/Button";
 import Link from "next/link";
 import { mediaQueryMax } from "../../styles/mediaQuery";

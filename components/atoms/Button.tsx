@@ -9,6 +9,7 @@ interface IButton {
     size?: "big" | "small";
     width?: "fit" | "full";
     onClick?: () => void;
+    style?: any;
 }
 
 const StyledButton = styled.button<IButton>`
@@ -106,6 +107,7 @@ export default function Button(props: IButton) {
             size={props.size || "small"}
             onClick={props.onClick}
             width={props.width || "fit"}
+            style={props.style}
         >
             {props.icon ? <>{props.icon} </> : null}
             {props.text}
