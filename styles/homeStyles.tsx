@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { mediaQueryMax } from "../styles/mediaQuery";
+import { mediaQueryMax } from "./mediaQuery";
 import Image from "next/image";
 
 interface IHighlightBenefitButton {
