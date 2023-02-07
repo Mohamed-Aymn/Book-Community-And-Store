@@ -47,8 +47,16 @@ export const GlobalStyles = createGlobalStyle`
 
 
     // ------------------------------------- spacings
+    --space-unit: 1em;
+    --space-xxs:  calc(0.25 * var(--space-unit));
+    --space-xs:   calc(0.5 * var(--space-unit));
+    --space-sm:   calc(0.75 * var(--space-unit));
+    --space-md:   calc(1.25 * var(--space-unit));
+    --space-lg:   calc(2 * var(--space-unit));
+    --space-xl:   calc(3.25 * var(--space-unit));
+    --space-xxl:  calc(5.25 * var(--space-unit));
 
-}w
+}
 body {
     background: ${({ theme }: { theme: ITheme }) => theme.body};
     transition: all 0.50s linear;
@@ -64,16 +72,18 @@ body {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    padding: 0;
+    margin: 0;
 }
 h1,h2,h3,h4,h5,h6{
     color: ${({ theme }) => theme.text};
-    margin: 0;
+    margin: var(--space-sm) 0;
     padding: 0;
 }
 main {
     max-width: 140ch;
     margin: 0 auto;
-    padding-top: 4.1em;
+    padding-top: 4em;
     // 5em navbar height, 10em footer height, 1,7 footer margin
     min-height: calc(100vh - (5em + 10em) + 1.7em + 1.7em);
     ${mediaQueryMax("desktop")`
@@ -81,6 +91,20 @@ main {
     `}
 }
 `;
+
+// --------------------------------------------------- new (add this to ui docs)
+/*
+Rules:-
+------
+
+- grey scale color system is used to enhance editeing processin the furture
+- spacing rules
+    - for layout containers spaces => md
+    - inline content spacing => sm
+    - heaidng spacings => sm
+    - section spacing => xxs
+    - tiny spacing needed for margins
+*/
 
 // --------------------------------------------------- old
 /*

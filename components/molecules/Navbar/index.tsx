@@ -13,13 +13,7 @@ import { FcSettings } from "react-icons/fc";
 import Divider from "../../atoms/Divider";
 import { useEffect, useState } from "react";
 import { animated, useSpring } from "react-spring";
-
-const RoutesAndNavSearchContainer = styled.div`
-    display: flex;
-    gap: 4em;
-    width: 100%;
-    /* justify-content: flex-end; */
-`;
+import Logo from "../../../assets/Logo";
 
 const RoutesContainer = styled.div`
     ${mediaQueryMax("largeTablet")`
@@ -35,7 +29,7 @@ const RoutesContainer = styled.div`
 const Nav = styled.nav`
     position: fixed;
     display: flex;
-    /* justify-content: space-between; */
+    justify-content: space-between;
     align-items: center;
     gap: 2em;
     width: 100%;
@@ -51,19 +45,11 @@ export default function Navbar() {
     let router = useRouter();
     const theme = layoutStore((state: any) => state.theme);
 
-    // useEffecf(() => {
-    //     async () => {
-    //         await setSearchResult(data);
-    //         console.log(searchResult);
-    //     };
-    // }, [data]);
-
+    // nav body animation
     const [navAnimation, navAnimationApi] = useSpring(() => ({
-        // ref: thirdApi,
         y: "0em",
         config: { tension: 170, friction: 26 },
     }));
-
     let [offset, setOffset] = useState(0);
     const onScroll = () => {
         setOffset(window.pageYOffset);
@@ -82,92 +68,41 @@ export default function Navbar() {
             y: "0em",
         });
     }
-
     const AnimatedNav = animated(Nav);
 
     return (
-        <>
-            <AnimatedNav style={navAnimation}>
-                {/* logo */}
-                <Link href="/">
-                    <BiBookBookmark
-                        fill={theme === "light" ? "#000" : "#fff"}
-                    />
+        <AnimatedNav style={navAnimation}>
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "2em",
+                }}
+            >
+                <Link href="/" style={{ textDecoration: "none" }}>
+                    <Logo display="icon" />
                 </Link>
 
-                <RoutesAndNavSearchContainer>
-                    <RoutesContainer>
-                        <Link href="/" style={{ textDecoration: "none" }}>
-                            <Route active={router.pathname === "/"}>Home</Route>
-                        </Link>
-                        <Link href="/store" style={{ textDecoration: "none" }}>
-                            <Route active={router.pathname.includes("/store")}>
-                                Store
-                            </Route>
-                        </Link>
-                        {/* <Link
-                            href="/profile"
-                            style={{ textDecoration: "none" }}
-                        >
-                            <Route
-                                active={router.pathname.includes("/profile")}
-                            >
-                                Profile
-                            </Route>
-                        </Link> */}
-                        {/* <Link href="/cart" style={{ textDecoration: "none" }}>
-                            <Route active={router.pathname.includes("/cart")}>
-                                Cart
-                            </Route>
-                        </Link> */}
-                        <Link
-                            href="/aboutus"
-                            style={{ textDecoration: "none" }}
-                        >
-                            <Route
-                                active={router.pathname.includes("/aboutus")}
-                            >
-                                About us
-                            </Route>
-                        </Link>
-                    </RoutesContainer>
+                <NavSearchBar />
 
-                    <NavSearchBar />
-                </RoutesAndNavSearchContainer>
+                <RoutesContainer>
+                    <Link href="/" style={{ textDecoration: "none" }}>
+                        <Route active={router.pathname === "/"}>Home</Route>
+                    </Link>
+                    <Link href="/store" style={{ textDecoration: "none" }}>
+                        <Route active={router.pathname.includes("/store")}>
+                            Store
+                        </Route>
+                    </Link>
+                    <Link href="/cart" style={{ textDecoration: "none" }}>
+                        <Route active={router.pathname.includes("/cart")}>
+                            Cart
+                        </Route>
+                    </Link>
+                </RoutesContainer>
+            </div>
 
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        gap: "0",
-                    }}
-                >
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "0",
-                            marginRight: "2em",
-                        }}
-                    >
-                        <Button
-                            approach="tertiary"
-                            text="Settings"
-                            icon={<FcSettings />}
-                        />
-                        <Button
-                            approach="tertiary"
-                            text="cart"
-                            icon={<AiOutlineShoppingCart />}
-                        />
-                    </div>
-                    <Divider orientation="vertical" verticalHeight="30" />
-
-                    <AuthButtons />
-                </div>
-            </AnimatedNav>
-        </>
+            <AuthButtons />
+        </AnimatedNav>
     );
 }

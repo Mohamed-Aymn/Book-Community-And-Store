@@ -11,41 +11,14 @@ import Suggestions from "./Suggestions";
 import Config from "./Config";
 import useOnClickOutside from "../../../../hooks/useClickOutside";
 import { env } from "../../../../environment";
+import { animated, useSpring } from "react-spring";
 
 interface IInputBar {
     suggestions: boolean;
-}
-
-interface IContainer {
     isFocused: boolean;
     ref: any;
+    style: any;
 }
-
-const Container = styled.div<IContainer>`
-    /* width: 100%; */
-    /* margin-left: calc(auto / 3); */
-    /* flex-basis: 1; */
-    /* display: flex; */
-    /* flex-direction: row-reverse; */
-    /* align-self: flex-end; */
-    /* margin: 1em au   to; */
-    /* position: sticky; */
-    /* top: 5em; */
-    /* z-index: 1; */
-    /* &:hover {
-    } */
-
-    position: relative;
-    transition: width ease-in-out 0.7s;
-    ${(props) =>
-        props.isFocused
-            ? `
-                width: 100%;
-            `
-            : `
-                width: 35%;
-    `}
-`;
 
 const NavSearchBar = styled.div<IInputBar>`
     display: flex;
@@ -87,6 +60,9 @@ const NavButton = styled.div`
     background-color: transparent;
     color: ${(props) => props.theme.text};
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     &:hover {
         text-decoration: underline;
     }
@@ -108,6 +84,26 @@ const DropDownMenu = styled.div`
 `;
 
 export default function NavSearch() {
+    let [isMainContainerFocus, setIsMainContainerFocus] = useState(false);
+
+    // nav search animation
+    const [navSearchAnimation, navSearchAnimationApi] = useSpring(() => ({
+        width: "17em",
+        config: { tension: 170, friction: 26 },
+    }));
+    useEffect(() => {
+        if (isMainContainerFocus) {
+            navSearchAnimationApi.start({
+                width: "27em",
+            });
+        } else {
+            navSearchAnimationApi.start({
+                width: "17em",
+            });
+        }
+    }, [isMainContainerFocus]);
+    const AnimatedNavSearch = animated(NavSearchBar);
+
     let router = useRouter();
     const searchPagination = layoutStore(
         (state: any) => state.searchPagination
@@ -157,66 +153,50 @@ export default function NavSearch() {
         });
     };
 
-    let [isMainContainerFocus, setIsMainContainerFocus] = useState(false);
-
     const mainContainerRef = useRef();
     useOnClickOutside(mainContainerRef, () => {
         setIsMainContainerFocus(false);
         setSearchConfig(false);
     });
     return (
-        <Container
+        <AnimatedNavSearch
+            suggestions={
+                (suggestions !== undefined || searchConfig) &&
+                isMainContainerFocus
+                    ? true
+                    : false
+            }
             ref={mainContainerRef}
             isFocused={isMainContainerFocus}
             onFocus={() => setIsMainContainerFocus(true)}
+            style={navSearchAnimation}
         >
-            <NavSearchBar
-                suggestions={
-                    (suggestions !== undefined || searchConfig) &&
-                    isMainContainerFocus
-                        ? true
-                        : false
-                }
-            >
-                <Input
-                    type="text"
-                    placeholder={`Search by book title or author name`}
-                    value={mainSearch}
-                    onChange={async (e) => {
-                        await setMainSearch(e.target.value);
-                        mainSearch !== "" ? suggestionsRefetch() : null;
+            <Input
+                type="text"
+                placeholder={`Search by book title or author name`}
+                value={mainSearch}
+                onChange={async (e) => {
+                    await setMainSearch(e.target.value);
+                    mainSearch !== "" ? suggestionsRefetch() : null;
+                }}
+                onKeyDown={(e) => {
+                    e.key == "Enter" ? searchHanlder() : null;
+                }}
+            />
+            <div style={{ display: "flex", gap: "0.3em" }}>
+                <NavButton onClick={() => MainSearchQuery.refetch()}>
+                    <FaSearch />
+                </NavButton>
+                <NavButton
+                    onClick={() => {
+                        searchConfig
+                            ? setSearchConfig(false)
+                            : setSearchConfig(true);
                     }}
-                    onKeyDown={(e) => {
-                        e.key == "Enter" ? searchHanlder() : null;
-                    }}
-                />
-                <div style={{ display: "flex", gap: "0.25em" }}>
-                    <NavButton onClick={() => MainSearchQuery.refetch()}>
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                scale: "0.8",
-                            }}
-                        >
-                            <FaSearch />
-                        </div>
-                    </NavButton>
-
-                    {isMainContainerFocus && (
-                        <NavButton
-                            onClick={() => {
-                                searchConfig
-                                    ? setSearchConfig(false)
-                                    : setSearchConfig(true);
-                            }}
-                        >
-                            <RiSettings5Fill />
-                        </NavButton>
-                    )}
-                </div>
-            </NavSearchBar>
+                >
+                    <RiSettings5Fill />
+                </NavButton>
+            </div>
             {/* drop down menu for suggestion and searchconfig */}
             {isMainContainerFocus &&
                 (suggestions !== undefined || searchConfig) && (
@@ -241,6 +221,6 @@ export default function NavSearch() {
                         )}
                     </DropDownMenu>
                 )}
-        </Container>
+        </AnimatedNavSearch>
     );
 }

@@ -5,7 +5,6 @@ import Button from "../../atoms/Button";
 import Link from "next/link";
 import styled from "styled-components";
 import { mediaQueryMax } from "../../../styles/mediaQuery";
-import { FcSettings } from "react-icons/fc";
 
 const LargeScreenAuthButtons = styled.div`
     display: flex;
