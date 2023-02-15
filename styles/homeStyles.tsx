@@ -1,9 +1,5 @@
 import styled from "styled-components";
-<<<<<<<< HEAD:styles/index.tsx
 import { mediaQueryMax, mediaQueryMin } from "./mediaQuery";
-========
-import { mediaQueryMax } from "./mediaQuery";
->>>>>>>> main:styles/homeStyles.tsx
 import Image from "next/image";
 
 interface IHighlightBenefitButton {

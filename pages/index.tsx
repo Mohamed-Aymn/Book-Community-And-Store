@@ -2,7 +2,7 @@ import Button from "../components/atoms/Button";
 import { useState } from "react";
 import mainPhoto from "../assets/mainPhoto.jpg";
 import secondaryPhoto from "../assets/secondaryPhoto.jpg";
-import * as styles from "../styles";
+import * as styles from "../styles/index";
 import * as feedbackStyles from "../components/organisms/CustomersFeedback/styles";
 import Logo from "../assets/Logo";
 import P from "../components/atoms/Paragraph";
