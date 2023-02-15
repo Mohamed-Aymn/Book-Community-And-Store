@@ -1,4 +1,4 @@
-import BookCard from "./BookCard";
+import BookCard, { BookCardSkeleton } from "../molecules/BookCard";
 import mainPhoto from "../../assets/mainPhoto.jpg";
 import styled from "styled-components";
 import { mediaQueryMax, mediaQueryMin } from "../../styles/mediaQuery";
@@ -29,42 +29,31 @@ const Container = styled.div`
     `}
     ${mediaQueryMax("smallHandset")`
         grid-template-columns: repeat(1, 1fr);
-    `} /* 
-    @include media("<=1250px") {
-        grid-template-columns: repeat(6, 1fr);
-    }
-    @include media("<=1080px") {
-        grid-template-columns: repeat(5, 1fr);
-    }
-    @include media("<=940px") {
-        grid-template-columns: repeat(4, 1fr);
-    }
-    @include media("<=755px") {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    @include media("<=590px") {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    @include media("<=390px") {
-        grid-template-columns: repeat(1, 1fr);
-    } */
+    `}
 `;
 
 export default function BookPage({ data }: IBookPage) {
     return (
         <Container>
-            {data?.items?.map((item: any) => {
-                return (
-                    <BookCard
-                        key={item.id}
-                        title={item.volumeInfo.title}
-                        author={item.volumeInfo.authors}
-                        img={item.volumeInfo.imageLinks?.thumbnail || mainPhoto}
-                        price={99.9}
-                        id={item.id}
-                    />
-                );
-            })}
+            {data ? (
+                data.items.map((item: any) => {
+                    return (
+                        <BookCard
+                            key={item.id}
+                            title={item.volumeInfo.title}
+                            author={item.volumeInfo.authors}
+                            img={
+                                item.volumeInfo.imageLinks?.thumbnail ||
+                                mainPhoto
+                            }
+                            price={99.9}
+                            id={item.id}
+                        />
+                    );
+                })
+            ) : (
+                <BookCardSkeleton count={50} />
+            )}
         </Container>
     );
 }

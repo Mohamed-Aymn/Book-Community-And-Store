@@ -3,8 +3,13 @@ import styled from "styled-components";
 const Container = styled.div`
     & div {
         padding: 0 0.7em;
+        text-overflow: ellipsis;
+        margin-right: 1em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         &:hover {
-            background-color: var(--Trial);
+            background-color: ${({ theme }) => theme.neutral2};
             cursor: pointer;
         }
     }

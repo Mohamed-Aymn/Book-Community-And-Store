@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 interface ILogo {
-    display?: "full" | "small" | "icon";
+    display?: "big" | "default" | "small" | "icon";
 }
 /*
 full:   full
@@ -15,6 +15,14 @@ const Container = styled.div<ILogo>`
     font-weight: 800;
     color: ${(props) => props.theme.text};
     line-height: 1.5ch;
+    ${(props) =>
+        props.display === "default"
+            ? `
+    font-size: 2.405rem;   
+        `
+            : `
+    font-size: 3.7rem;
+    `}
     div {
         font-weight: 800;
         line-height: 1.6ch;
@@ -23,12 +31,12 @@ const Container = styled.div<ILogo>`
         -webkit-text-stroke-color: ${(props) => props.theme.text};
 
         ${(props) =>
-            props.display === "icon"
+            props.display === "big"
                 ? `
-                    font-size: 2.3rem;
+                font-size: 3.5rem;
                 `
                 : `
-                    font-size: 3.5rem;
+                font-size: 2.3rem;
                 `}
     }
     span {
@@ -38,13 +46,11 @@ const Container = styled.div<ILogo>`
 `;
 
 export default function Logo(props: ILogo) {
-    const { display = "full" } = props;
+    const { display = "default" } = props;
     return (
         <Container display={display}>
-            <div>
-                B{display === "full" || display === "small" ? <>ook</> : null}
-            </div>
-            {display === "full" ? (
+            <div>B{display !== "icon" ? <>ook</> : null}</div>
+            {display === "big" || display === "default" ? (
                 <>
                     <span>Community</span>
                     <span>& Store</span>

@@ -11,32 +11,38 @@ import Suggestions from "./Suggestions";
 import Config from "./Config";
 import useOnClickOutside from "../../../../hooks/useClickOutside";
 import { env } from "../../../../environment";
-import { animated, useSpring } from "react-spring";
+import { mediaQueryMax, mediaQueryMin } from "../../../../styles/mediaQuery";
+import { Transition } from "react-transition-group";
 
 interface IInputBar {
-    suggestions: boolean;
+    suggestions: any;
     isFocused: boolean;
     ref: any;
-    style: any;
 }
 
+const NavSearchBarTransitionDuration = 500;
 const NavSearchBar = styled.div<IInputBar>`
+    position: relative;
     display: flex;
     justify-content: space-between;
-    background-color: ${(props) => props.theme.neutral3};
-    border: solid 0.05em ${(props) => props.theme.neutral3};
+    background-color: ${(props) => props.theme.neutral1};
+    border: solid 0.05em ${(props) => props.theme.neutral2};
     align-items: center;
     padding: 0.7em;
     border-radius: 1.7em;
-    transition: width ease-in-out 0.4s;
-    ${(props) =>
-        props.suggestions
+    ${({ suggestions }) =>
+        suggestions
             ? `
                 box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
                 border-radius: 1em 1em 0 0;
                 border-bottom: none;
             `
             : null}
+    transition: width ${NavSearchBarTransitionDuration}ms ease-in-out;
+    width: ${({ isFocused }) => (isFocused ? `40%` : `27%`)};
+    ${mediaQueryMax("largeTablet")`
+        width: 100%;
+    `}
 `;
 
 const Input = styled.input`
@@ -44,15 +50,20 @@ const Input = styled.input`
     border: none;
     outline: none;
     background-color: transparent;
-    color: ${(props) => props.theme.neutral1};
-
+    transition: 500ms ease-in-out;
+    color: ${(props) => props.theme.neutral3};
+    &:focus {
+        color: ${(props) => props.theme.text};
+    }
     &[placeholder] {
         text-overflow: ellipsis;
-        color: ${(props) => props.theme.neutral1};
         margin-right: 1em;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+    &::placeholder {
+        color: ${(props) => props.theme.neutral3};
     }
 `;
 
@@ -70,10 +81,10 @@ const NavButton = styled.div`
 
 const DropDownMenu = styled.div`
     position: absolute;
-    background-color: ${(props) => props.theme.body};
-    color: ${(props) => props.theme.neutral1};
+    background-color: ${(props) => props.theme.neutral1};
+    color: ${(props) => props.theme.neutral3};
     width: 100%;
-    border: solid 0.05em ${(props) => props.theme.neutral3};
+    border: solid 0.05em ${(props) => props.theme.neutral2};
     border-top: none;
     border-radius: 0 0 1em 1em;
     display: flex;
@@ -81,28 +92,13 @@ const DropDownMenu = styled.div`
     padding-bottom: 0.7em;
     box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
     padding-top: 0.5em;
+    top: 2.5em;
+    left: -0em;
+    transition: 300ms ease-in-out;
 `;
 
 export default function NavSearch() {
     let [isMainContainerFocus, setIsMainContainerFocus] = useState(false);
-
-    // nav search animation
-    const [navSearchAnimation, navSearchAnimationApi] = useSpring(() => ({
-        width: "17em",
-        config: { tension: 170, friction: 26 },
-    }));
-    useEffect(() => {
-        if (isMainContainerFocus) {
-            navSearchAnimationApi.start({
-                width: "27em",
-            });
-        } else {
-            navSearchAnimationApi.start({
-                width: "17em",
-            });
-        }
-    }, [isMainContainerFocus]);
-    const AnimatedNavSearch = animated(NavSearchBar);
 
     let router = useRouter();
     const searchPagination = layoutStore(
@@ -158,18 +154,18 @@ export default function NavSearch() {
         setIsMainContainerFocus(false);
         setSearchConfig(false);
     });
+
     return (
-        <AnimatedNavSearch
+        <NavSearchBar
             suggestions={
                 (suggestions !== undefined || searchConfig) &&
                 isMainContainerFocus
                     ? true
                     : false
             }
-            ref={mainContainerRef}
             isFocused={isMainContainerFocus}
             onFocus={() => setIsMainContainerFocus(true)}
-            style={navSearchAnimation}
+            ref={mainContainerRef}
         >
             <Input
                 type="text"
@@ -221,6 +217,6 @@ export default function NavSearch() {
                         )}
                     </DropDownMenu>
                 )}
-        </AnimatedNavSearch>
+        </NavSearchBar>
     );
 }

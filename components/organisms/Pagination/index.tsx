@@ -1,37 +1,33 @@
-import Button from "../atoms/Button";
 import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
 import styled from "styled-components";
+import { PaginationButton } from "./privateMolecules/PaginationButton";
+import { PaginationControllerButton } from "./privateMolecules/PaginationControllerButton";
 
 const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1.3em;
 `;
 
 export default function Pagination(props: any) {
-    let pageNumbers = [];
+    let pageNumbers = [1, 2, 3];
 
-    for (
-        let i = 1;
-        i <= Math.ceil(props.totalItems / props.itemsPerPage);
-        i++
-    ) {
-        pageNumbers.push(i);
-    }
+    // for (
+    //     let i = 1;
+    //     i <= Math.ceil(props.totalItems / props.itemsPerPage);
+    //     i++
+    // ) {
+    //     pageNumbers.push(i);
+    // }
 
     return (
         <Container>
-            <Button
-                icon={<MdOutlineNavigateBefore />}
-                approach="secondary"
-                text="prev"
-            />
+            <PaginationControllerButton icon={<MdOutlineNavigateBefore />} />
 
             {pageNumbers.map((number) => (
-                <Button
+                <PaginationButton
                     key={number}
-                    approach="secondary"
+                    index={number}
                     onClick={async () => {
                         await props.setPage(number);
                         props.fetchFunction();
@@ -39,11 +35,7 @@ export default function Pagination(props: any) {
                 />
             ))}
 
-            <Button
-                icon={<MdOutlineNavigateNext />}
-                approach="secondary"
-                text="next"
-            />
+            <PaginationControllerButton icon={<MdOutlineNavigateNext />} />
         </Container>
     );
 }

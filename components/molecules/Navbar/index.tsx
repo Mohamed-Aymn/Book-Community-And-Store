@@ -1,19 +1,19 @@
 import Link from "next/link";
-import { BiBookBookmark } from "react-icons/bi";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { mediaQueryMax } from "../../../styles/mediaQuery";
+import { mediaQueryMax, screens } from "../../../styles/mediaQuery";
 import { layoutStore } from "../../../clientState/layoutStore";
-import AuthButtons from "./AuthButtons";
 import { Route } from "./styles";
 import NavSearchBar from "./NavSearch";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import Button from "../../atoms/Button";
-import { FcSettings } from "react-icons/fc";
-import Divider from "../../atoms/Divider";
-import { useEffect, useState } from "react";
-import { animated, useSpring } from "react-spring";
 import Logo from "../../../assets/Logo";
+import { useSession } from "next-auth/react";
+import { SignedOutNavAuthButtons } from "./SignedOutNavAuthButtons";
+import { SignedInNavAuthButtons } from "./SignedInNavAuthButtons";
+import useVirticalScrollDirection from "../../../hooks/useYScrollDirection";
+import { Transition } from "react-transition-group";
+import { useEffect, useRef, useState } from "react";
+import LargeNavMenu from "./LargeNavMenu";
+import MobileNavMenu from "./MobileNavMenu";
 
 const RoutesContainer = styled.div`
     ${mediaQueryMax("largeTablet")`
@@ -21,12 +21,14 @@ const RoutesContainer = styled.div`
     `}
     display: flex;
     align-items: center;
-    margin: 0 auto;
+    justify-content: flex-end;
+    /* margin: 0 auto; */
     gap: 1em;
     width: fit-content;
 `;
 
-const Nav = styled.nav`
+const NavTransitionDuration = 500;
+const Nav = styled.nav<ITransitionState>`
     position: fixed;
     display: flex;
     justify-content: space-between;
@@ -38,71 +40,125 @@ const Nav = styled.nav`
     padding: 0 1.7em;
     padding-top: 1em;
     background-color: ${(props) => props.theme.body};
-    z-index: 2;
+    /* those shadow and border will be used all over the website */
+    border-bottom: solid 0.01em ${(props) => props.theme.neutral2};
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+    z-index: 3;
+    transition: ${NavTransitionDuration}ms ease-in-out;
+    transform: ${({ TransitionState }) => {
+        switch (TransitionState) {
+            case "entered":
+                return "translateY(-4em)";
+            case "exited":
+                return "translateY(0)";
+        }
+    }};
 `;
 
 export default function Navbar() {
-    let router = useRouter();
-    const theme = layoutStore((state: any) => state.theme);
+    const { vScrollDir, yOffset } = useVirticalScrollDirection();
+    const { data: session } = useSession();
 
-    // nav body animation
-    const [navAnimation, navAnimationApi] = useSpring(() => ({
-        y: "0em",
-        config: { tension: 170, friction: 26 },
-    }));
-    let [offset, setOffset] = useState(0);
-    const onScroll = () => {
-        setOffset(window.pageYOffset);
+    const isNavbarMenu = layoutStore((state: any) => state.isNavbarMenu);
+    let router = useRouter();
+    const nodeRef = useRef(null);
+
+    const [isLargeScreen, setLargeScreen] = useState(true);
+    const updateMedia = () => {
+        setLargeScreen(window.innerWidth > screens.largeTablet);
     };
     useEffect(() => {
-        window.removeEventListener("scroll", onScroll);
-        window.addEventListener("scroll", onScroll, { passive: true });
-        return () => window.removeEventListener("scroll", onScroll);
-    }, []);
-    if (offset >= 300) {
-        navAnimationApi.start({
-            y: "-4em",
-        });
-    } else {
-        navAnimationApi.start({
-            y: "0em",
-        });
-    }
-    const AnimatedNav = animated(Nav);
+        window.addEventListener("resize", updateMedia);
+        return () => window.removeEventListener("resize", updateMedia);
+    });
 
     return (
-        <AnimatedNav style={navAnimation}>
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "2em",
-                }}
-            >
-                <Link href="/" style={{ textDecoration: "none" }}>
-                    <Logo display="icon" />
-                </Link>
+        <Transition
+            in={
+                vScrollDir === "scrolling down" &&
+                yOffset >= 50 &&
+                !isNavbarMenu
+            }
+            timeout={NavTransitionDuration}
+            ref={nodeRef}
+        >
+            {(state) => (
+                <Nav TransitionState={state}>
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "2em",
+                            flexGrow: "3",
+                        }}
+                    >
+                        <Link href="/" style={{ textDecoration: "none" }}>
+                            <Logo display="icon" />
+                        </Link>
 
-                <NavSearchBar />
+                        <NavSearchBar />
 
-                <RoutesContainer>
-                    <Link href="/" style={{ textDecoration: "none" }}>
-                        <Route active={router.pathname === "/"}>Home</Route>
-                    </Link>
-                    <Link href="/store" style={{ textDecoration: "none" }}>
-                        <Route active={router.pathname.includes("/store")}>
-                            Store
-                        </Route>
-                    </Link>
-                    <Link href="/cart" style={{ textDecoration: "none" }}>
-                        <Route active={router.pathname.includes("/cart")}>
-                            Cart
-                        </Route>
-                    </Link>
-                </RoutesContainer>
-            </div>
+                        <RoutesContainer>
+                            <Link href="/" style={{ textDecoration: "none" }}>
+                                <Route active={router.pathname === "/"}>
+                                    Home
+                                </Route>
+                            </Link>
+                            <Link
+                                href="/store"
+                                style={{ textDecoration: "none" }}
+                            >
+                                <Route
+                                    active={router.pathname.includes("/store")}
+                                >
+                                    Store
+                                </Route>
+                            </Link>
+                            <Link
+                                href="/cart"
+                                style={{ textDecoration: "none" }}
+                            >
+                                <Route
+                                    active={router.pathname.includes("/cart")}
+                                >
+                                    Cart
+                                </Route>
+                            </Link>
+                        </RoutesContainer>
+                    </div>
 
-            <AuthButtons />
-        </AnimatedNav>
+                    {/* nav right-hand buttons */}
+                    <div>
+                        {session ? (
+                            <SignedInNavAuthButtons session={session} />
+                        ) : (
+                            <SignedOutNavAuthButtons />
+                        )}
+
+                        <Transition
+                            in={isNavbarMenu}
+                            timeout={300}
+                            unmountOnExit
+                        >
+                            {(state) => (
+                                <>
+                                    {isLargeScreen ? (
+                                        <LargeNavMenu
+                                            TransitionState={state}
+                                            session={session}
+                                        />
+                                    ) : (
+                                        <MobileNavMenu
+                                            TransitionState={state}
+                                            session={session}
+                                        />
+                                    )}
+                                </>
+                            )}
+                        </Transition>
+                    </div>
+                </Nav>
+            )}
+        </Transition>
     );
 }

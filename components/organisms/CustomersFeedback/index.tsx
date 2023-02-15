@@ -1,7 +1,7 @@
 import Image from "next/image";
-import P from "../components/atoms/Paragraph";
-import Stars from "../components/atoms/Stars";
-import * as feedbackStyles from "./feedbackStyles";
+import P from "../../atoms/Paragraph";
+import Stars from "../../atoms/Stars";
+import * as feedbackStyles from "./styles";
 
 export default function CustomersFeedback({
     img,
