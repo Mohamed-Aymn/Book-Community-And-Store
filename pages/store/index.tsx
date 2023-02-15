@@ -1,7 +1,6 @@
 import Pagination from "../../components/organisms/Pagination";
 import { useQuery } from "react-query";
 import BookSlider from "../../components/organisms/BookSlider";
-import styled from "styled-components";
 import BookPage from "../../components/organisms/BookPage";
 import { layoutStore } from "../../clientState/layoutStore";
 import MainSearch from "../../query_Functions/MainSearchQuery";
@@ -11,26 +10,12 @@ import {
 } from "../../query_Functions/CollectionsQueries";
 import BookDetailsModal from "../../components/organisms/BookDetailsModal";
 
-const MesssgeCard = styled.div`
-    margin-top: 1em;
-    height: calc(100vh - 11em);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: ${(props) => props.theme.primary} solid 0.05em;
-    border-radius: 1.7em;
-`;
-
 export default function Store() {
+    // (start) all of these logic will be typed in the custom hook, and eventually there will be not main search logic here in this component
     const isDisplayingBookDetails = layoutStore(
         (state: any) => state.isDisplayingBookDetails
     );
-
-    const searchResultsGlobalState = layoutStore(
-        (state: any) => state.searchResult
-    );
     const mainSearch = layoutStore((state: any) => state.mainSearch);
-    const setMainSearch = layoutStore((state: any) => state.setMainSearch);
     const searchPagination = layoutStore(
         (state: any) => state.searchPagination
     );
@@ -39,9 +24,6 @@ export default function Store() {
     );
     const searchQuery = layoutStore((state: any) => state.searchQuery);
     const searchFilters = layoutStore((state: any) => state.searchFilters);
-    const setSearchFilters = layoutStore(
-        (state: any) => state.setSearchFilters
-    );
 
     // main search query
     const MainSearchQuery = MainSearch(
@@ -59,45 +41,35 @@ export default function Store() {
         staleTime: 60 * 1000,
         enabled: !MainSearchQuery ? false : true,
     });
+    // (end) all of these logic will be typed in the custom hook, and eventually there will be not main search logic here in this component
 
-    let searchResults = () => {
-        return (
-            <>
-                {!MainSearchQuery.data && (
-                    <div>
-                        {!MainSearchQuery.isFetching && (
-                            <>
-                                <BookSlider data={ebooksData} title="E-Books" />
-                                <BookSlider
-                                    data={freeBooksData}
-                                    title="Free-Books"
-                                />
-                            </>
-                        )}
-
-                        {MainSearchQuery.isFetching && (
-                            <MesssgeCard>Loading ..</MesssgeCard>
-                        )}
-                    </div>
-                )}
-                {MainSearchQuery.data && (
-                    <>
-                        <BookPage data={MainSearchQuery.data} />
-                        <Pagination
-                            page={searchPagination}
-                            setPage={setSearchPagination}
-                            fetchFunction={MainSearchQuery.refetch}
-                            // total items are statically typed due to google books api totalItems error
-                            totalItems={300}
-                            itemsPerPage={28}
-                        />
-                    </>
-                )}
-                {isDisplayingBookDetails && <BookDetailsModal />}
-            </>
-        );
-    };
-
-    // TODO: convert this to react component instead of returning a function
-    return <main>{searchResults()}</main>;
+    return (
+        <main>
+            {/* make it render if the user hasn't searched before (custom hook logic) */}
+            {!MainSearchQuery.data && !MainSearchQuery.isFetching && (
+                <>
+                    <BookSlider data={ebooksData} title="E-Books" />
+                    <BookSlider data={freeBooksData} title="Free-Books" />
+                </>
+            )}
+            {(MainSearchQuery.data || MainSearchQuery.isFetching) && (
+                <>
+                    <BookPage
+                        data={
+                            MainSearchQuery.data ? MainSearchQuery.data : null
+                        }
+                    />
+                    <Pagination
+                        page={searchPagination}
+                        setPage={setSearchPagination}
+                        fetchFunction={MainSearchQuery.refetch}
+                        // total items are statically typed due to google books api totalItems error
+                        totalItems={300}
+                        itemsPerPage={28}
+                    />
+                </>
+            )}
+            {isDisplayingBookDetails && <BookDetailsModal />}
+        </main>
+    );
 }

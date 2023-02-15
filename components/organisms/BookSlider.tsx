@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Button from "../atoms/Button";
 import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
-import BookCard from "./BookCard";
+import BookCard, { BookCardSkeleton } from "../molecules/BookCard";
 import mainPhoto from "../../assets/mainPhoto.jpg";
 
 const SliderHeader = styled.div`
@@ -24,7 +24,6 @@ const SliderBody = styled.div`
     overflow: hidden;
     width: 100vw;
     width: 100%;
-    /* overflow-y: hidden; */
     scroll-behavior: smooth;
 `;
 
@@ -36,7 +35,6 @@ interface ISlider {
 export default function BookSlider({ title, data }: ISlider) {
     return (
         <div>
-            {/* <div style={{ width: "100vw", backgroundColor: "red" }}>d</div> */}
             <SliderHeader>
                 <h1>{title}</h1>
                 <SliderControlers>
@@ -68,7 +66,8 @@ export default function BookSlider({ title, data }: ISlider) {
                 </SliderControlers>
             </SliderHeader>
             <SliderBody id={`${title}Slider`}>
-                {data &&
+                {/* {
+                    data &&
                     data.map((item: any) => {
                         return (
                             <BookCard
@@ -83,7 +82,27 @@ export default function BookSlider({ title, data }: ISlider) {
                                 id={item.id}
                             />
                         );
-                    })}
+                    })
+                } */}
+                {data ? (
+                    data.map((item: any) => {
+                        return (
+                            <BookCard
+                                key={item.id}
+                                title={item.volumeInfo.title}
+                                author={item.volumeInfo.authors}
+                                price={99}
+                                img={
+                                    item.volumeInfo.imageLinks?.thumbnail ||
+                                    mainPhoto
+                                }
+                                id={item.id}
+                            />
+                        );
+                    })
+                ) : (
+                    <BookCardSkeleton count={10} />
+                )}
             </SliderBody>
         </div>
     );

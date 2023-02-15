@@ -20,6 +20,7 @@
 *.pem
 /caseStudy
 .http
+/docs
 
 # debug
 npm-debug.log*

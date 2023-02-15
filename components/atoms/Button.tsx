@@ -6,7 +6,7 @@ interface IButton {
     approach?: "primary" | "secondary" | "tertiary" | "danger" | "tag";
     isLoading?: boolean;
     iconPosition?: "right" | "left";
-    size?: "big" | "small";
+    size?: "big" | "default" | "small";
     width?: "fit" | "full";
     onClick?: () => void;
     style?: any;
@@ -22,6 +22,13 @@ const StyledButton = styled.button<IButton>`
     gap: 0.25em;
     font-weight: bold;
     height: 4.5ch;
+
+    font-size: ${(props) =>
+        props.size === "big"
+            ? "1.5rem"
+            : props.size === "small"
+            ? "0.9rem"
+            : "default"};
 
     ${(props) =>
         props.approach === "primary"
@@ -104,7 +111,7 @@ export default function Button(props: IButton) {
             approach={props.approach}
             isLoading={props.isLoading}
             iconPosition={props.iconPosition || "left"}
-            size={props.size || "small"}
+            size={props.size || "default"}
             onClick={props.onClick}
             width={props.width || "fit"}
             style={props.style}

@@ -6,14 +6,10 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint",
-        "storybook": "start-storybook -p 6006",
-        "build-storybook": "build-storybook -s public"
+        "lint": "next lint"
     },
     "dependencies": {
-        "@barba/core": "^2.9.7",
         "@next-auth/mongodb-adapter": "^1.1.1",
-        "@react-spring/parallax": "^9.6.1",
         "@types/mongoose": "^5.11.97",
         "@types/node": "18.11.9",
         "@types/react": "18.0.25",
@@ -31,34 +27,22 @@
         "react-dom": "18.2.0",
         "react-hook-form": "^7.42.1",
         "react-icons": "^4.7.1",
-        "react-motion": "^0.5.2",
+        "react-intersection-observer": "^9.4.2",
         "react-query": "^3.39.2",
         "react-query-devtools": "^2.6.3",
-        "react-spring": "^9.6.1",
-        "react-use-measure": "^2.1.1",
-        "storybook-addon-styled-component-theme": "^2.0.0",
-        "storybook-addon-styled-components-themes": "^0.0.2",
+        "react-transition-group": "^4.4.5",
         "styled-components": "^5.3.6",
         "typescript": "4.9.3",
         "zustand": "^4.1.5"
     },
     "devDependencies": {
         "@babel/core": "^7.20.2",
-        "@react-theming/storybook-addon": "^1.1.10",
-        "@storybook/addon-actions": "^6.5.13",
-        "@storybook/addon-essentials": "^6.5.13",
-        "@storybook/addon-interactions": "^6.5.13",
-        "@storybook/addon-links": "^6.5.13",
-        "@storybook/builder-webpack5": "^6.5.13",
-        "@storybook/manager-webpack5": "^6.5.13",
-        "@storybook/react": "^6.5.13",
-        "@storybook/testing-library": "^0.0.13",
         "@types/bcrypt": "^5.0.0",
+        "@types/react-transition-group": "^4.4.5",
         "@types/styled-components": "^5.1.26",
         "babel-loader": "^8.3.0",
         "babel-plugin-styled-components": "^2.0.7",
         "css-loader": "^5.2.7",
-        "eslint-plugin-storybook": "^0.6.7",
         "style-loader": "^2.0.0"
     }
 }

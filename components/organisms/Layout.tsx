@@ -6,6 +6,7 @@ import { lightTheme, darkTheme, GlobalStyles } from "../../styles/ThemeConfig";
 import { layoutStore } from "../../clientState/layoutStore";
 import FloatingComponents from "../molecules/FloatingComponents";
 import Modals from "../molecules/Modals";
+import FloatingButtons from "./FloaingButtons";
 
 export default function Layout({ children }: { children: JSX.Element }) {
     const { pathname } = useRouter();
@@ -18,9 +19,8 @@ export default function Layout({ children }: { children: JSX.Element }) {
             {children}
             {!pathname.includes("/auth") && <Footer />}
 
-            <FloatingComponents />
-            {/* i don't think that modals will ba handled like that */}
-            {/* {isModal && <Modals />} */}
+            <FloatingButtons />
+            {/* <FloatingComponents /> */}
             <GlobalStyles />
         </ThemeProvider>
     );

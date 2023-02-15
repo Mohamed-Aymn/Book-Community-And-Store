@@ -1,5 +1,5 @@
 import Link from "next/link";
-import CustomersFeedback from "../../stories/templates/Home/CustomersFeedback.stories";
+import CustomersFeedback from "../../components/organisms/CustomersFeedback";
 import { FcGoogle } from "react-icons/fc";
 import { GrFacebook } from "react-icons/gr";
 import Button from "../../components/atoms/Button";

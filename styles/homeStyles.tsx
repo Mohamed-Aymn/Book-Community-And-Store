@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { mediaQueryMax } from "./mediaQuery";
+import { mediaQueryMax, mediaQueryMin } from "./mediaQuery";
 import Image from "next/image";
 
 interface IHighlightBenefitButton {
@@ -8,20 +8,24 @@ interface IHighlightBenefitButton {
 
 export const UpperHeroSectionPart = styled.div`
     display: flex;
+    gap: 1em;
     justify-content: space-between;
     ${mediaQueryMax("largeTablet")`
     flex-direction: column;
 `}
 `;
 
-export const HeroSection = styled.div`
+export const HeroSection = styled.div<{ inView: boolean }>`
     display: flex;
     height: 100vh;
     gap: 1.3em;
     flex-direction: column;
-    padding-top: 4em;
-    padding-bottom: 2em;
+    padding-top: 4.5em;
+    padding-bottom: 1.7em;
     margin: 0 1.7em;
+    opacity: 0;
+    transition: 300ms ease-in-out;
+    ${({ inView }) => inView && "opacity: 1;"}
 `;
 
 export const UpperHeroSectionText = styled.div`
@@ -35,9 +39,18 @@ export const UpperHeroSectionText = styled.div`
 `}
 `;
 
+export const HeroSectionImageContainer = styled.div`
+    width: 100%;
+    height: 100%;
+    position: relative;
+`;
+
 export const ImageContainer = styled.div`
     width: 100%;
     height: 100%;
+    ${mediaQueryMax("largeTablet")`
+        height: 15em;
+    `}
     position: relative;
 `;
 
@@ -47,20 +60,32 @@ export const StyledMainImage = styled(Image)`
     object-fit: cover;
     object-position: center 65%;
     ${mediaQueryMax("largeTablet")`
-    object-position: right 65%;
-`}
+        object-position: right 65%;
+    `}
 `;
 
 export const KeyBenefitsSection = styled.div`
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
     gap: 3em;
+    max-height: calc(100vh - 5em);
+    ${mediaQueryMin("largeTablet")`
+        grid-template-columns: repeat(2, 1fr);
+    `}
+    ${mediaQueryMax("largeTablet")`
+        grid-template-row: 1fr 2fr;
+    `}
 `;
 
 export const StyledBenefitsImage = styled(Image)`
     width: 100%;
     height: 100%;
     object-fit: cover;
+`;
+
+export const KeyBenefitsButtonsContainer = styled.div<{ inView: boolean }>`
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 `;
 
 export const SectionHeading = styled.div`
@@ -73,14 +98,20 @@ export const HighlightBenefitButton = styled.button<IHighlightBenefitButton>`
     border: none;
     cursor: pointer;
     text-align: left;
-    padding: 0 0 0 1em;
-    ${(props) =>
-        props.active
+    transition: 300ms ease-in-out;
+    &:hover {
+        background-color: ${(props) => props.theme.neutral2};
+    }
+    ${({ active, theme }) =>
+        active
             ? `
-        border-left: solid 0.2em ${props.theme.text};
+        border-left: solid 0.2em ${theme.text};
+        background-color: ${theme.neutral2};
+        padding: 3em 1em;
         `
             : `
-            border-left: none;
+        border-left: solid 0.2em ${theme.body};
+        padding: 1em;
         `}
 `;
 

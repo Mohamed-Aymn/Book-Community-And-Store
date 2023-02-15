@@ -2,12 +2,16 @@ import Button from "../components/atoms/Button";
 import { useState } from "react";
 import mainPhoto from "../assets/mainPhoto.jpg";
 import secondaryPhoto from "../assets/secondaryPhoto.jpg";
-import * as styles from "../styles/homeStyles";
-import * as feedbackStyles from "../styles/feedbackStyles";
+import * as styles from "../styles/index";
+import * as feedbackStyles from "../components/organisms/CustomersFeedback/styles";
 import Logo from "../assets/Logo";
 import P from "../components/atoms/Paragraph";
-import Accordion from "../components/molecules/Accordion";
-import CustomersFeedback from "./CustomersFeedback";
+import Accordion, {
+    AccordionContainer,
+} from "../components/molecules/Accordion";
+import CustomersFeedback from "../components/organisms/CustomersFeedback";
+import { useInView } from "react-intersection-observer";
+import { FadeAndTranslateScrollAnimation } from "../components/atoms/ScrollAnimation";
 
 export default function Home() {
     let [highlightedImage, setHighlightedImage] = useState(mainPhoto);
@@ -16,13 +20,17 @@ export default function Home() {
         "Agatha Christie",
         "Houston Rickie",
     ];
+    const { ref: HeroSectionRef, inView: HeroSectionInView } = useInView({
+        threshold: 0,
+        triggerOnce: true,
+    });
 
     return (
         <>
             {/* hero section */}
-            <styles.HeroSection>
+            <styles.HeroSection ref={HeroSectionRef} inView={HeroSectionInView}>
                 <styles.UpperHeroSectionPart>
-                    <Logo />
+                    <Logo display="big" />
                     <styles.UpperHeroSectionText>
                         <P>
                             Lorem ipsum dolor sit amet consectetur adipisicing
@@ -35,19 +43,23 @@ export default function Home() {
                     </styles.UpperHeroSectionText>
                     {/* </div> */}
                 </styles.UpperHeroSectionPart>
-                <styles.ImageContainer>
+                <styles.HeroSectionImageContainer>
                     <styles.StyledMainImage
                         src={mainPhoto}
                         alt="Main photo"
                         layout="fill"
                     />
-                </styles.ImageContainer>
+                </styles.HeroSectionImageContainer>
             </styles.HeroSection>
 
             <main>
                 {/* section one */}
                 <styles.Section>
-                    <styles.SectionHeading>
+                    <FadeAndTranslateScrollAnimation
+                        translateValue={5}
+                        direction="top"
+                        as={styles.SectionHeading}
+                    >
                         <h1>
                             Highlight the key benefits of using your product
                         </h1>
@@ -55,14 +67,13 @@ export default function Home() {
                             Lorem, ipsum dolor sit amet consectetur adipisicing
                             elit. Porro accusantium in laboriosam,
                         </P>
-                    </styles.SectionHeading>
+                    </FadeAndTranslateScrollAnimation>
+
                     <styles.KeyBenefitsSection>
-                        <div
-                            style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: "1em",
-                            }}
+                        <FadeAndTranslateScrollAnimation
+                            translateValue={5}
+                            direction="left"
+                            as={styles.KeyBenefitsButtonsContainer}
                         >
                             <styles.HighlightBenefitButton
                                 active={
@@ -102,67 +113,84 @@ export default function Home() {
                                     at dignissimos iure facilis tempore?
                                 </P>
                             </styles.HighlightBenefitButton>
-                        </div>
-                        <styles.ImageContainer>
+                        </FadeAndTranslateScrollAnimation>
+                        <FadeAndTranslateScrollAnimation
+                            translateValue={5}
+                            direction="right"
+                            as={styles.ImageContainer}
+                        >
                             <styles.StyledBenefitsImage
                                 src={highlightedImage}
                                 alt="benefits"
-                                layout="fill"
+                                layout={"fill"}
                             />
-                        </styles.ImageContainer>
+                        </FadeAndTranslateScrollAnimation>
                     </styles.KeyBenefitsSection>
                 </styles.Section>
 
                 <styles.Section>
-                    <styles.SectionHeading>
+                    <FadeAndTranslateScrollAnimation
+                        translateValue={5}
+                        direction="top"
+                        as={styles.SectionHeading}
+                    >
                         <h1>Frequently asked questions</h1>
                         <P>
                             Lorem, ipsum dolor sit amet consectetur adipisicing
                             elit. Porro accusantium in laboriosam,
                         </P>
-                    </styles.SectionHeading>
+                    </FadeAndTranslateScrollAnimation>
                     <styles.AccordionContainer>
-                        <Accordion title="Question One">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Similique perferendis quisquam reprehenderit
-                            blanditiis, ullam corporis.
-                        </Accordion>
-                        <Accordion title="Question Two">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Similique perferendis quisquam reprehenderit
-                            blanditiis, ullam corporis.
-                        </Accordion>
-                        <Accordion title="Question Three">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Similique perferendis quisquam reprehenderit
-                            blanditiis, ullam corporis.
-                        </Accordion>
-                        <Accordion title="Question Four">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Similique perferendis quisquam reprehenderit
-                            blanditiis, ullam corporis.
-                        </Accordion>
-                        <Accordion title="Question Five">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Similique perferendis quisquam reprehenderit
-                            blanditiis, ullam corporis.
-                        </Accordion>
+                        <FadeAndTranslateScrollAnimation
+                            translateValue={5}
+                            as={AccordionContainer}
+                        >
+                            <Accordion title="Question One">
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Similique perferendis quisquam
+                                reprehenderit blanditiis, ullam corporis.
+                            </Accordion>
+                            <Accordion title="Question Two">
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Similique perferendis quisquam
+                                reprehenderit blanditiis, ullam corporis.
+                            </Accordion>
+                            <Accordion title="Question Three">
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Similique perferendis quisquam
+                                reprehenderit blanditiis, ullam corporis.
+                            </Accordion>
+                            <Accordion title="Question Four">
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Similique perferendis quisquam
+                                reprehenderit blanditiis, ullam corporis.
+                            </Accordion>
+                            <Accordion title="Question Five">
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Similique perferendis quisquam
+                                reprehenderit blanditiis, ullam corporis.
+                            </Accordion>
+                        </FadeAndTranslateScrollAnimation>
                     </styles.AccordionContainer>
                 </styles.Section>
 
                 <styles.Section>
-                    <styles.SectionHeading>
+                    <FadeAndTranslateScrollAnimation
+                        translateValue={5}
+                        direction="top"
+                        as={styles.SectionHeading}
+                    >
                         <h1>Customer testimonials</h1>
-                    </styles.SectionHeading>
+                    </FadeAndTranslateScrollAnimation>
                     <div style={{ overflow: "hidden" }}>
                         <feedbackStyles.CustomerFeedbackContainer>
                             {reviewersNames.map(
                                 (reviewer: string, i: number) => {
                                     return (
                                         <CustomersFeedback
+                                            key={i}
                                             img={mainPhoto}
                                             name={reviewer}
-                                            key={i}
                                         />
                                     );
                                 }
@@ -171,9 +199,9 @@ export default function Home() {
                                 (reviewer: string, i: number) => {
                                     return (
                                         <CustomersFeedback
+                                            key={i}
                                             img={mainPhoto}
                                             name={reviewer}
-                                            key={i}
                                         />
                                     );
                                 }

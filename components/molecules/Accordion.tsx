@@ -14,6 +14,12 @@ interface AccordionProps {
     isOpened?: boolean;
 }
 
+export const AccordionContainer = styled.div<{ children: JSX.Element[] }>`
+    display: flex;
+    gap: 0.5em;
+    flex-direction: column;
+`;
+
 const Chevron = styled.div<ChevronProps>`
     border-style: solid;
     border-width: 0.125rem 0.125rem 0 0;
@@ -27,16 +33,12 @@ const Chevron = styled.div<ChevronProps>`
     transform: ${(p) => p.direction === "left" && "rotate(-135deg)"};
 `;
 
-const Container = styled.div`
-    /* border: 0.125rem solid black; */
+const AccordtionItem = styled.div`
     padding: 0 1.25rem;
-
-    & + & {
-        margin-top: -0.125rem;
-    }
+    border: solid 0.01em ${(props) => props.theme.neutral3};
 `;
 
-const Title = styled.div`
+const Title = styled.div<{ isExpanded: boolean }>`
     display: flex;
     align-items: center;
     gap: 0.5em;
@@ -44,12 +46,17 @@ const Title = styled.div`
     font-size: 1.25rem;
     font-weight: 700;
     line-height: 1.25;
+    margin-bottom: 0.5em;
+    transition: 0.25s ease-in-out;
     cursor: pointer;
+    ${({ isExpanded, theme }) =>
+        isExpanded &&
+        `
+    border-bottom: solid 0.01em ${theme.text};
+    `}
 `;
 
 const ContentWrapper = styled.div<{ maxHeight: number }>`
-    background-color: ${(props) => props.theme.neutral2};
-    /* padding: 0 1em; */
     max-height: ${(p) => `${p.maxHeight}px`};
     transition: max-height 0.25s ease-in-out;
     overflow: hidden;
@@ -60,8 +67,7 @@ interface IContent {
 }
 
 const Content = styled.div<IContent>`
-    padding: 1.5em;
-    color: rgba(0, 0, 0, 0.75);
+    padding: 1.5em 0em;
     line-height: 1.5;
 `;
 
@@ -70,21 +76,21 @@ export default function Accordion(props: AccordionProps): JSX.Element {
 
     const contentRef = useRef<HTMLDivElement>();
     const contentHeight =
-        isExpanded && contentRef.current ? contentRef.current.scrollHeight : 0;
+        isExpanded && contentRef.current ? contentRef.current.clientHeight : 0;
 
     const handleExpandToggle = useCallback(() => {
         setExpand(!isExpanded);
     }, [isExpanded]);
 
     return (
-        <Container>
-            <Title onClick={handleExpandToggle}>
+        <AccordtionItem>
+            <Title onClick={handleExpandToggle} isExpanded={isExpanded}>
                 <Chevron direction={isExpanded ? "top" : "bottom"} />
                 {props.title}
             </Title>
             <ContentWrapper maxHeight={contentHeight}>
                 <Content ref={contentRef}>{props.children}</Content>
             </ContentWrapper>
-        </Container>
+        </AccordtionItem>
     );
 }
