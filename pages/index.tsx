@@ -193,6 +193,7 @@ export default function Home() {
                                 (reviewer: string, i: number) => {
                                     return (
                                         <CustomersFeedback
+                                            key={i}
                                             img={mainPhoto}
                                             name={reviewer}
                                         />
@@ -203,6 +204,7 @@ export default function Home() {
                                 (reviewer: string, i: number) => {
                                     return (
                                         <CustomersFeedback
+                                            key={i}
                                             img={mainPhoto}
                                             name={reviewer}
                                         />
