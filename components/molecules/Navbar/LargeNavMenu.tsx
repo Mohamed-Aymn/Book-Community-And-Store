@@ -1,7 +1,7 @@
 import { signOut } from "next-auth/react";
 import { useRef } from "react";
 import styled from "styled-components";
-import { layoutStore } from "../../../clientState/layoutStore";
+import useLayoutStore from "../../../client_state/useLayoutStore";
 import { CgProfile } from "react-icons/cg";
 import { GoSignOut } from "react-icons/go";
 import { useRouter } from "next/router";
@@ -90,9 +90,7 @@ interface INavItem {
 }
 
 export const NavItem = (props: INavItem) => {
-    const openNavbarMenu = layoutStore((state: any) => state.openNavbarMenu);
-    const closeNavbarMenu = layoutStore((state: any) => state.closeNavbarMenu);
-    const isNavbarMenu = layoutStore((state: any) => state.isNavbarMenu);
+    const { openNavbarMenu, closeNavbarMenu, isNavbarMenu } = useLayoutStore();
 
     const clickHanlder = () => {
         if (props.onClick) props.onClick();
@@ -108,8 +106,9 @@ export const NavItem = (props: INavItem) => {
 
 export default function LargeNavMenu(props: any) {
     const router = useRouter();
-    const closeNavbarMenu = layoutStore((state: any) => state.closeNavbarMenu);
-    const isNavbarMenu = layoutStore((state: any) => state.isNavbarMenu);
+
+    const { closeNavbarMenu, isNavbarMenu } = useLayoutStore();
+    // const isNavbarMenu = layoutStore((state: any) => state.isNavbarMenu);
 
     const mainContainerRef = useRef(null);
     useOnClickOutside(mainContainerRef, () => {

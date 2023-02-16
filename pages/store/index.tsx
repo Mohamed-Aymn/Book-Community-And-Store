@@ -2,29 +2,29 @@ import Pagination from "../../components/organisms/Pagination";
 import { useQuery } from "react-query";
 import BookSlider from "../../components/organisms/BookSlider";
 import BookPage from "../../components/organisms/BookPage";
-import { layoutStore } from "../../clientState/layoutStore";
-import MainSearch from "../../query_Functions/MainSearchQuery";
+import useLayoutStore from "../../client_state/useLayoutStore";
+import MainSearch from "../../query_functions/MainSearchQuery";
 import {
     getFreeBooks,
     getEbooks,
-} from "../../query_Functions/CollectionsQueries";
+} from "../../query_functions/CollectionsQueries";
 import BookDetailsModal from "../../components/organisms/BookDetailsModal";
+import useBookStore from "../../client_state/useBookStore";
 
 export default function Store() {
     // (start) all of these logic will be typed in the custom hook, and eventually there will be not main search logic here in this component
-    const isDisplayingBookDetails = layoutStore(
-        (state: any) => state.isDisplayingBookDetails
-    );
-    const mainSearch = layoutStore((state: any) => state.mainSearch);
-    const searchPagination = layoutStore(
-        (state: any) => state.searchPagination
-    );
-    const setSearchPagination = layoutStore(
-        (state: any) => state.setSearchPagination
-    );
-    const searchQuery = layoutStore((state: any) => state.searchQuery);
-    const searchFilters = layoutStore((state: any) => state.searchFilters);
-
+    // const isDisplayingBookDetails = layoutStore(
+    //     (state: any) => state.isDisplayingBookDetails
+    // );
+    // const {isDisplayingBookDetails} = useLayoutStore()
+    const {
+        mainSearch,
+        searchPagination,
+        setSearchPagination,
+        searchQuery,
+        searchFilters,
+        isDisplayingBookDetails,
+    } = useBookStore();
     // main search query
     const MainSearchQuery = MainSearch(
         mainSearch,
@@ -32,7 +32,7 @@ export default function Store() {
         searchFilters,
         searchPagination
     );
-
+    // (end) all of these logic will be typed in the custom hook, and eventually there will be not main search logic here in this component
     const { data: freeBooksData } = useQuery("free-books", getFreeBooks, {
         staleTime: 60 * 1000,
         enabled: !MainSearchQuery ? false : true,
@@ -41,7 +41,6 @@ export default function Store() {
         staleTime: 60 * 1000,
         enabled: !MainSearchQuery ? false : true,
     });
-    // (end) all of these logic will be typed in the custom hook, and eventually there will be not main search logic here in this component
 
     return (
         <main>

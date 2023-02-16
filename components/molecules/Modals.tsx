@@ -1,11 +1,11 @@
-import { layoutStore } from "../../clientState/layoutStore";
+import useLayoutStore from "../../client_state/useLayoutStore";
 // import BookDetailsModal from "../organisms/BookDetailsModal";
 
 export default function Modals() {
-    const isDisplayingBookDetails = layoutStore(
-        (state: any) => state.isDisplayingBookDetails
-    );
-    const isNavbarMenu = layoutStore((state: any) => state.isNavbarMenu);
+    // const isDisplayingBookDetails = layoutStore(
+    //     (state: any) => state.isDisplayingBookDetails
+    // );
+    // const isNavbarMenu = layoutStore((state: any) => state.isNavbarMenu);
 
     /* 
     now i have no idea how to handle modals if conidtion to be able 

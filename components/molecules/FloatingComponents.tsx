@@ -1,13 +1,12 @@
 import Button from "../atoms/Button";
 import { MdDarkMode } from "react-icons/md";
-import { layoutStore } from "../../clientState/layoutStore";
+import useLayoutStore from "../../client_state/useLayoutStore";
 import { BsFillSunFill } from "react-icons/bs";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import { useEffect, useState } from "react";
 
 export default function FloatingComponents() {
-    const toggleTheme = layoutStore((state: any) => state.toggleTheme);
-    const theme = layoutStore((state: any) => state.theme);
+    const { toggleTheme, theme } = useLayoutStore();
 
     let [isUpArrow, setUpArrow] = useState(false);
     const onScroll = () => {
@@ -53,9 +52,7 @@ export default function FloatingComponents() {
                     icon={
                         theme === "light" ? <MdDarkMode /> : <BsFillSunFill />
                     }
-                    onClick={() => {
-                        toggleTheme(theme);
-                    }}
+                    onClick={toggleTheme}
                 />
             </div>
         </>

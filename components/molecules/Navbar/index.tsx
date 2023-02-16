@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { mediaQueryMax, screens } from "../../../styles/mediaQuery";
-import { layoutStore } from "../../../clientState/layoutStore";
+import useLayoutStore from "../../../client_state/useLayoutStore";
 import { Route } from "./styles";
 import NavSearchBar from "./NavSearch";
 import Logo from "../../../assets/Logo";
@@ -58,8 +58,7 @@ const Nav = styled.nav<ITransitionState>`
 export default function Navbar() {
     const { vScrollDir, yOffset } = useVirticalScrollDirection();
     const { data: session } = useSession();
-
-    const isNavbarMenu = layoutStore((state: any) => state.isNavbarMenu);
+    const { isNavbarMenu } = useLayoutStore();
     let router = useRouter();
     const nodeRef = useRef(null);
 

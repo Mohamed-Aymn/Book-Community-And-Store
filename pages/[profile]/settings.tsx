@@ -2,7 +2,7 @@ import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { Controller, useForm } from "react-hook-form";
 import { dehydrate, QueryClient, useQuery } from "react-query";
-import getUserData from "../../query_Functions/getUserData";
+import getUserData from "../../query_functions/getUserData";
 import Button from "../../components/atoms/Button";
 import Input from "../../components/atoms/Input";
 import TextArea from "../../components/atoms/TextArea";

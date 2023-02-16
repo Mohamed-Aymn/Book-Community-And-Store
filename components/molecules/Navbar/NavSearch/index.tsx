@@ -2,17 +2,17 @@ import { useRouter } from "next/router";
 import { FaSearch } from "react-icons/fa";
 import { RiSettings5Fill } from "react-icons/ri";
 import styled from "styled-components";
-import { layoutStore } from "../../../../clientState/layoutStore";
+import useLayoutStore from "../../../../client_state/useLayoutStore";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
-import MainSearch from "../../../../query_Functions/MainSearchQuery";
+import MainSearch from "../../../../query_functions/MainSearchQuery";
 import Divider from "../../../atoms/Divider";
 import Suggestions from "./Suggestions";
 import Config from "./Config";
 import useOnClickOutside from "../../../../hooks/useClickOutside";
 import { env } from "../../../../environment";
 import { mediaQueryMax, mediaQueryMin } from "../../../../styles/mediaQuery";
-import { Transition } from "react-transition-group";
+import useBookStore from "../../../../client_state/useBookStore";
 
 interface IInputBar {
     suggestions: any;
@@ -99,21 +99,26 @@ const DropDownMenu = styled.div`
 
 export default function NavSearch() {
     let [isMainContainerFocus, setIsMainContainerFocus] = useState(false);
-
     let router = useRouter();
-    const searchPagination = layoutStore(
-        (state: any) => state.searchPagination
-    );
-    const mainSearch = layoutStore((state: any) => state.mainSearch);
-    const setMainSearch = layoutStore((state: any) => state.setMainSearch);
-    let [searchConfig, setSearchConfig] = useState(false);
 
-    const searchFilters = layoutStore((state: any) => state.searchFilters);
-    const setSearchFilters = layoutStore(
-        (state: any) => state.setSearchFilters
-    );
-    const searchQuery = layoutStore((state: any) => state.searchQuery);
-    const setSearchQuery = layoutStore((state: any) => state.setSearchQuery);
+    const {
+        searchPagination,
+        mainSearch,
+        setMainSearch,
+        searchFilters,
+        setSearchFilters,
+        searchQuery,
+        setSearchQuery,
+    } = useBookStore();
+
+    let [searchConfig, setSearchConfig] = useState(false);
+    // const searchPagination = bookStore((state: any) => state.searchPagination);
+    // const mainSearch = bookStore((state: any) => state.mainSearch);
+    // const setMainSearch = bookStore((state: any) => state.setMainSearch);
+    // const searchFilters = bookStore((state: any) => state.searchFilters);
+    // const setSearchFilters = bookStore((state: any) => state.setSearchFilters);
+    // const searchQuery = bookStore((state: any) => state.searchQuery);
+    // const setSearchQuery = bookStore((state: any) => state.setSearchQuery);
 
     // suggestions query
     const { data: suggestions, refetch: suggestionsRefetch } = useQuery(

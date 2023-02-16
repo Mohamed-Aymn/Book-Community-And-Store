@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { layoutStore } from "../../clientState/layoutStore";
+// import { layoutStore } from "../../client_state/layoutStore";
 import Logo from "../../assets/Logo";
 import { mediaQueryMax, screens } from "../../styles/mediaQuery";
 import { useEffect, useState } from "react";
@@ -70,7 +70,7 @@ const LastCol = styled.div`
 `;
 
 export default function Footer() {
-    const theme = layoutStore((state: any) => state.theme);
+    // const theme = layoutStore((state: any) => state.theme);
     const [isDesktopScreen, setDesktopScreen] = useState(true);
     const updateMedia = () => {
         setDesktopScreen(window.innerWidth < screens.desktop);

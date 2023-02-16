@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { layoutStore } from "../../clientState/layoutStore";
 import BookDetailsModal from "../organisms/BookDetailsModal";
 import styled from "styled-components";
 import { useRef, useState } from "react";
 import Skeleton from "../atoms/Skeleton";
+import useBookStore from "../../client_state/useBookStore";
 
 interface IBookCard {
     // any is temporary here
@@ -94,15 +94,7 @@ const Price = styled.div`
 export default function BookCard(props: Partial<IBookCard>) {
     let { img, title, price, author, id } = props;
 
-    const setDisplayingBookDetails = layoutStore(
-        (state: any) => state.setDisplayingBookDetails
-    );
-    const isDisplayingBookDetails = layoutStore(
-        (state: any) => state.isDisplayingBookDetails
-    );
-    const setDisplayedBookId = layoutStore(
-        (state: any) => state.setDisplayedBookId
-    );
+    const { setDisplayingBookDetails, setDisplayedBookId } = useBookStore();
 
     author === undefined
         ? (author = "Unknown")

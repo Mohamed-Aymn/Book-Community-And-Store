@@ -4,7 +4,7 @@ import styled, { css, keyframes } from "styled-components";
 import { screens } from "../../../styles/mediaQuery";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useEffect, useState } from "react";
-import { layoutStore } from "../../../clientState/layoutStore";
+import useLayoutStore from "../../../client_state/useLayoutStore";
 
 const Container = styled.div`
     gap: var(--space-xxs);
@@ -70,9 +70,7 @@ export const SignedInNavAuthButtons = ({ session }: any) => {
         photo = session.user?.image;
     }
 
-    const openNavbarMenu = layoutStore((state: any) => state.openNavbarMenu);
-    const closeNavbarMenu = layoutStore((state: any) => state.closeNavbarMenu);
-    const isNavbarMenu = layoutStore((state: any) => state.isNavbarMenu);
+    const { openNavbarMenu, closeNavbarMenu, isNavbarMenu } = useLayoutStore();
 
     const [isLargeScreen, setLargeScreen] = useState(true);
     const updateMedia = () => {

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { layoutStore } from "../../../clientState/layoutStore";
+import useLayoutStore from "../../../client_state/useLayoutStore";
 import FloatingButton from "./privateMolecules/FloatingButton";
 import { MdDarkMode } from "react-icons/md";
 import { BsFillSunFill } from "react-icons/bs";
@@ -19,8 +19,8 @@ const Container = styled.div`
 `;
 
 export default function FloatingButtons() {
-    const toggleTheme = layoutStore((state: any) => state.toggleTheme);
-    const theme = layoutStore((state: any) => state.theme);
+    const { toggleTheme, theme } = useLayoutStore();
+    // const theme = layoutStore((state: any) => state.theme);
 
     let [isUpArrow, setUpArrow] = useState(false);
     const onScroll = () => {
@@ -42,7 +42,7 @@ export default function FloatingButtons() {
                         <BsFillSunFill fill="#000" />
                     )
                 }
-                onClick={() => toggleTheme(theme)}
+                onClick={toggleTheme}
                 TransitionState={"none"}
                 order={1}
             />

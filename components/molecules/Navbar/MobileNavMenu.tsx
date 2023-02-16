@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { layoutStore } from "../../../clientState/layoutStore";
+import useLayoutStore from "../../../client_state/useLayoutStore";
 import styled from "styled-components";
 import { ImCross } from "react-icons/im";
 import { signOut } from "next-auth/react";
@@ -75,9 +75,9 @@ const NavItemStyles = styled.button<{ isActiveRoute?: boolean }>`
 `;
 
 export const NavItem = (props: INavItem) => {
-    const openNavbarMenu = layoutStore((state: any) => state.openNavbarMenu);
-    const closeNavbarMenu = layoutStore((state: any) => state.closeNavbarMenu);
-    const isNavbarMenu = layoutStore((state: any) => state.isNavbarMenu);
+    const { openNavbarMenu, closeNavbarMenu, isNavbarMenu } = useLayoutStore();
+    // const closeNavbarMenu = layoutStore((state: any) => state.closeNavbarMenu);
+    // const isNavbarMenu = layoutStore((state: any) => state.isNavbarMenu);
     const router = useRouter();
 
     const clickHanlder = () => {
@@ -96,7 +96,7 @@ export const NavItem = (props: INavItem) => {
 };
 
 export default function MobileNavMenu(props: any) {
-    const closeNavbarMenu = layoutStore((state: any) => state.closeNavbarMenu);
+    const { closeNavbarMenu } = useLayoutStore();
     return (
         <Container TransitionState={props.TransitionState}>
             <CloseNavButton>

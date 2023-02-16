@@ -6,7 +6,7 @@ import mainPhoto from "../../../assets/mainPhoto.jpg";
 import styled from "styled-components";
 import parse from "html-react-parser";
 import Button from "../../../components/atoms/Button";
-import { getSpecificBook } from "../../../query_Functions/SpecificBookQuery";
+import { getSpecificBook } from "../../../query_functions/SpecificBookQuery";
 
 const InformationSection = styled.div`
     display: flex;

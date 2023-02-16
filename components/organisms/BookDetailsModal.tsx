@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import Button from "../atoms/Button";
-import { layoutStore } from "../../clientState/layoutStore";
 import styled from "styled-components";
 import { mediaQueryMin } from "../../styles/mediaQuery";
 import { useQuery } from "react-query";
-import { getSpecificBook } from "../../query_Functions/SpecificBookQuery";
+import { getSpecificBook } from "../../query_functions/SpecificBookQuery";
 import TagList from "../molecules/TagList";
 import parse from "html-react-parser";
+import bookStore from "../../client_state/useBookStore";
 
 const ModalBackground = styled.div`
     position: fixed;
@@ -72,13 +72,13 @@ const ModalBody = styled.div`
 const Price = styled.div``;
 
 export default function BookDetailsModal() {
-    const setDisplayingBookDetails = layoutStore(
+    const setDisplayingBookDetails = bookStore(
         (state: any) => state.setDisplayingBookDetails
     );
-    const setDisplayedBookId = layoutStore(
+    const setDisplayedBookId = bookStore(
         (state: any) => state.setDisplayedBookId
     );
-    const displayedBookId = layoutStore((state: any) => state.displayedBookId);
+    const displayedBookId = bookStore((state: any) => state.displayedBookId);
     const { data: bookDetails } = useQuery(
         ["specific-book", displayedBookId],
         () => getSpecificBook(displayedBookId)

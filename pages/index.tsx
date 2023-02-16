@@ -12,6 +12,9 @@ import Accordion, {
 import CustomersFeedback from "../components/organisms/CustomersFeedback";
 import { useInView } from "react-intersection-observer";
 import { FadeAndTranslateScrollAnimation } from "../components/atoms/ScrollAnimation";
+import useBookStore from "../client_state/useBookStore";
+// import { layoutStore } from "../client_state/useLayoutStore";
+// import { usebookStore } from "../client_state/useBookStore";
 
 export default function Home() {
     let [highlightedImage, setHighlightedImage] = useState(mainPhoto);
@@ -24,6 +27,9 @@ export default function Home() {
         threshold: 0,
         triggerOnce: true,
     });
+
+    // const setSearchQuery = bookStore((state: any) => state.setSearchQuery);
+    const { setSearchQuery } = useBookStore();
 
     return (
         <>

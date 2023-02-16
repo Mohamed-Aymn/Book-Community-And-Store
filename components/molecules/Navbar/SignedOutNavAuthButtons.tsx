@@ -1,4 +1,4 @@
-import { layoutStore } from "../../../clientState/layoutStore";
+import useLayoutStore from "../../../client_state/useLayoutStore";
 import { BiMenu } from "react-icons/bi";
 import { HamburgerButton, NavButton } from "./styles";
 import Button from "../../atoms/Button";
@@ -24,11 +24,7 @@ export const SignedOutNavAuthButtons = (props: any) => {
         window.addEventListener("resize", updateMedia);
         return () => window.removeEventListener("resize", updateMedia);
     });
-
-    const toggleNavbarMenu = layoutStore(
-        (state: any) => state.toggleNavbarMenu
-    );
-    const isNavbarMenu = layoutStore((state: any) => state.isNavbarMenu);
+    const { isNavbarMenu, openNavbarMenu, closeNavbarMenu } = useLayoutStore();
     return (
         <>
             {isLargeScreen ? (
@@ -49,8 +45,7 @@ export const SignedOutNavAuthButtons = (props: any) => {
             ) : (
                 <HamburgerButton
                     onClick={() => {
-                        toggleNavbarMenu();
-                        console.log(isNavbarMenu);
+                        isNavbarMenu ? closeNavbarMenu : openNavbarMenu;
                     }}
                 >
                     <BiMenu fill="#000" />
