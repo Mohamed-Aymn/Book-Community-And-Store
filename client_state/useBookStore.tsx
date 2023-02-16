@@ -5,20 +5,22 @@ interface IBookStore {
     modal: boolean;
     searchResult: any;
     searchPagination: number;
-    mainSearch: string;
     searchQuery: "search" | "intitle" | "inauthor";
     searchFilters: any;
     isDisplayingBookDetails: boolean;
     displayedBookId: any;
+    instantlyChangingMainSearchValue: string;
+    onClickChangingMainSearchValue: string;
 
     setSearchFilters: (newValue: any) => void;
     setSearchQuery: (newValue: "search" | "intitle" | "inauthor") => void;
-    setMainSearch: (newValue: string) => void;
     setSearchPagination: (pageNumber: number) => void;
     setSearchResult: (data: any) => void;
     setId: (newId: any) => void;
     setDisplayedBookId: (id: any) => void;
     setDisplayingBookDetails: (newValue: boolean) => void;
+    setOnClickChangingMainSearchValue: (newValue: string) => void;
+    setInstantlyChangingMainSearchValue: (suggestion: string) => void;
 }
 
 const useBookStore = create<IBookStore>()((set) => ({
@@ -26,7 +28,8 @@ const useBookStore = create<IBookStore>()((set) => ({
     modal: false,
     searchResult: null,
     searchPagination: 1,
-    mainSearch: "",
+    onClickChangingMainSearchValue: "",
+    instantlyChangingMainSearchValue: "",
     // it should be (search, intitle, inauthor or genre)
     searchQuery: "search",
     searchFilters: {
@@ -42,8 +45,8 @@ const useBookStore = create<IBookStore>()((set) => ({
     setSearchQuery: (newValue) => {
         set(() => ({ searchQuery: newValue }));
     },
-    setMainSearch: (newValue: any) => {
-        set(() => ({ mainSearch: newValue }));
+    setOnClickChangingMainSearchValue: (newValue) => {
+        set(() => ({ onClickChangingMainSearchValue: newValue }));
     },
     setSearchPagination: (pageNumber: any) => {
         set(() => ({ searchPagination: pageNumber }));
@@ -68,6 +71,11 @@ const useBookStore = create<IBookStore>()((set) => ({
         newValue
             ? (document.body.style.overflowY = "hidden")
             : (document.body.style.overflowY = "scroll");
+    },
+    setInstantlyChangingMainSearchValue: (suggestion: string) => {
+        set(() => ({
+            instantlyChangingMainSearchValue: suggestion,
+        }));
     },
 }));
 

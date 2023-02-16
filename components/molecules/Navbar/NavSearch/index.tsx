@@ -13,6 +13,7 @@ import useOnClickOutside from "../../../../hooks/useClickOutside";
 import { env } from "../../../../environment";
 import { mediaQueryMax, mediaQueryMin } from "../../../../styles/mediaQuery";
 import useBookStore from "../../../../client_state/useBookStore";
+import useMainSearch from "../../../../hooks/useMainSearch";
 
 interface IInputBar {
     suggestions: any;
@@ -100,32 +101,24 @@ const DropDownMenu = styled.div`
 export default function NavSearch() {
     let [isMainContainerFocus, setIsMainContainerFocus] = useState(false);
     let router = useRouter();
-
     const {
-        searchPagination,
-        mainSearch,
-        setMainSearch,
+        onClickChangingMainSearchValue,
+        setOnClickChangingMainSearchValue,
         searchFilters,
         setSearchFilters,
         searchQuery,
         setSearchQuery,
+        setInstantlyChangingMainSearchValue,
+        instantlyChangingMainSearchValue,
     } = useBookStore();
-
+    const { refetch } = useMainSearch();
     let [searchConfig, setSearchConfig] = useState(false);
-    // const searchPagination = bookStore((state: any) => state.searchPagination);
-    // const mainSearch = bookStore((state: any) => state.mainSearch);
-    // const setMainSearch = bookStore((state: any) => state.setMainSearch);
-    // const searchFilters = bookStore((state: any) => state.searchFilters);
-    // const setSearchFilters = bookStore((state: any) => state.setSearchFilters);
-    // const searchQuery = bookStore((state: any) => state.searchQuery);
-    // const setSearchQuery = bookStore((state: any) => state.setSearchQuery);
-
-    // suggestions query
-    const { data: suggestions, refetch: suggestionsRefetch } = useQuery(
-        ["suggestions", mainSearch],
+    // suggestions search query
+    const { data: suggestionsData, refetch: suggestionsRefetch } = useQuery(
+        ["suggestions", instantlyChangingMainSearchValue],
         async () => {
             return await fetch(
-                `${env.BASE_URL}/api/books?search=${mainSearch}`
+                `${env.BASE_URL}/api/books?search=${instantlyChangingMainSearchValue}`
             ).then(async (res) => {
                 let data = await res.json();
                 return data.data.items;
@@ -133,27 +126,13 @@ export default function NavSearch() {
         },
         { enabled: false }
     );
-
-    // mains search result query
-    const MainSearchQuery = MainSearch(
-        mainSearch,
-        searchQuery,
-        searchFilters,
-        searchPagination
-    );
-
-    // useEffect(() => {
-    //     setSearchResultsGlobalState(MainSearchQuery.data);
-    // }, [MainSearchQuery.data]);
-    // FIXME: search for react query function to type this searchHanlder function logic inside it, something like refetch() but acceptes typing code inside it.
     const searchHanlder = async () => {
-        await MainSearchQuery.refetch();
+        await refetch();
         router.push({
             pathname: "/store",
-            query: { search: mainSearch },
+            query: { search: onClickChangingMainSearchValue },
         });
     };
-
     const mainContainerRef = useRef();
     useOnClickOutside(mainContainerRef, () => {
         setIsMainContainerFocus(false);
@@ -163,7 +142,7 @@ export default function NavSearch() {
     return (
         <NavSearchBar
             suggestions={
-                (suggestions !== undefined || searchConfig) &&
+                (suggestionsData !== undefined || searchConfig) &&
                 isMainContainerFocus
                     ? true
                     : false
@@ -175,17 +154,19 @@ export default function NavSearch() {
             <Input
                 type="text"
                 placeholder={`Search by book title or author name`}
-                value={mainSearch}
+                value={instantlyChangingMainSearchValue}
                 onChange={async (e) => {
-                    await setMainSearch(e.target.value);
-                    mainSearch !== "" ? suggestionsRefetch() : null;
+                    await setInstantlyChangingMainSearchValue(e.target.value);
+                    instantlyChangingMainSearchValue !== ""
+                        ? suggestionsRefetch()
+                        : null;
                 }}
                 onKeyDown={(e) => {
                     e.key == "Enter" ? searchHanlder() : null;
                 }}
             />
             <div style={{ display: "flex", gap: "0.3em" }}>
-                <NavButton onClick={() => MainSearchQuery.refetch()}>
+                <NavButton onClick={() => refetch()}>
                     <FaSearch />
                 </NavButton>
                 <NavButton
@@ -200,7 +181,7 @@ export default function NavSearch() {
             </div>
             {/* drop down menu for suggestion and searchconfig */}
             {isMainContainerFocus &&
-                (suggestions !== undefined || searchConfig) && (
+                (suggestionsData !== undefined || searchConfig) && (
                     <DropDownMenu>
                         {searchConfig && (
                             <Config
@@ -210,16 +191,16 @@ export default function NavSearch() {
                                 searchFilters={searchFilters}
                             />
                         )}
-                        {suggestions !== undefined &&
+                        {suggestionsData !== undefined &&
                             searchConfig &&
                             isMainContainerFocus && <Divider />}
-                        {suggestions !== undefined && isMainContainerFocus && (
-                            <Suggestions
-                                suggestions={suggestions}
-                                refetch={MainSearchQuery.refetch}
-                                setMainSearch={setMainSearch}
-                            />
-                        )}
+                        {suggestionsData !== undefined &&
+                            isMainContainerFocus && (
+                                <Suggestions
+                                    suggestions={suggestionsData}
+                                    refetch={refetch}
+                                />
+                            )}
                     </DropDownMenu>
                 )}
         </NavSearchBar>

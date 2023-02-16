@@ -20,7 +20,6 @@ export default function Layout({ children }: { children: JSX.Element }) {
             {!pathname.includes("/auth") && <Footer />}
 
             <FloatingButtons />
-            {/* <FloatingComponents /> */}
             <GlobalStyles />
         </ThemeProvider>
     );

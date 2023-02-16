@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import useBookStore from "../../../../client_state/useBookStore";
 
 const Container = styled.div`
     & div {
@@ -17,22 +18,30 @@ const Container = styled.div`
 
 export default function Suggestions(props: {
     suggestions: [];
-    setMainSearch: (data: any) => void;
     refetch: () => void;
 }) {
+    const {
+        setInstantlyChangingMainSearchValue,
+        setOnClickChangingMainSearchValue,
+        instantlyChangingMainSearchValue,
+    } = useBookStore();
+    let clickHandler = async (suggestion: any) => {
+        await setInstantlyChangingMainSearchValue(suggestion.volumeInfo.title);
+        await setOnClickChangingMainSearchValue(
+            instantlyChangingMainSearchValue
+        );
+        props.refetch();
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    };
+
     return (
         <Container>
             {props.suggestions.map((suggestion: any, i: number) => {
                 return (
-                    <div
-                        key={i}
-                        onClick={async () => {
-                            await props.setMainSearch(
-                                suggestion.volumeInfo.title
-                            );
-                            props.refetch();
-                        }}
-                    >
+                    <div key={i} onClick={() => clickHandler(suggestion)}>
                         {suggestion.volumeInfo.title}
                     </div>
                 );

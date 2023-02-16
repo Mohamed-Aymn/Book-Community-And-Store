@@ -11,7 +11,7 @@ import { mediaQueryMax } from "../../styles/mediaQuery";
 import Accordion, {
     AccordionContainer,
 } from "../../components/molecules/Accordion";
-import getUserData from "../../query_Functions/getUserData";
+import getUserData from "../../query_functions/getUserData";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { env } from "../../environment";
