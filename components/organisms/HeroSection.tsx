@@ -4,6 +4,7 @@ import styled from "styled-components";
 import MainPhoto from "../../assets/mainPhoto.jpg";
 import Button from "../atoms/Button";
 import { BsArrowUpRight } from "react-icons/bs";
+import Logo from "../../assets/Logo";
 
 const ImageContainer = styled.div`
     width: 100%;
@@ -116,7 +117,7 @@ export default function HeroSection() {
         <div
             style={{
                 minHeight: "100vh",
-                paddingTop: "4em",
+                paddingTop: "5em",
                 margin: "0 1.7em",
             }}
         >
@@ -128,11 +129,11 @@ export default function HeroSection() {
                     consequatur vero quod ab Lorem, sit amet consectetur
                     adipisicing elit.
                 </TitleSecondaryElement>
-                <TitleMainElement>
+                <Logo display="big" />
+                {/* <TitleMainElement>
                     <div>Book</div>
                     Community <span>& Store</span>
-                    {/* Focused Community On Your Cravings */}
-                </TitleMainElement>
+                </TitleMainElement> */}
                 <HeroButton>
                     <BsArrowUpRight color="#fff" />
                 </HeroButton>

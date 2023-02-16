@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { layoutStore } from "../../clientState/layoutStore";
-import BookDetailsModal from "./BookDetailsModal";
+import BookDetailsModal from "../organisms/BookDetailsModal";
 import styled from "styled-components";
+import { useRef, useState } from "react";
+import Skeleton from "../atoms/Skeleton";
 
 interface IBookCard {
     // any is temporary here
@@ -15,7 +17,6 @@ interface IBookCard {
 
 const Conatiner = styled.button`
     padding: 1.5em 1em 1em 1em;
-    margin: 0 auto;
     border: none;
     background-color: transparent;
     cursor: pointer;
@@ -139,4 +140,32 @@ export default function BookCard(props: Partial<IBookCard>) {
             </DetailsInfo>
         </Conatiner>
     );
+}
+
+const SkeletonContainer = styled.div`
+    width: 173px;
+    height: 307px;
+    padding: 1.5em 1em 1em 1em;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+`;
+
+function ComponentSkeleton() {
+    return (
+        <SkeletonContainer>
+            <Skeleton height={15} />
+            <Skeleton height={2} />
+            <Skeleton height={1.5} />
+        </SkeletonContainer>
+    );
+}
+
+export function BookCardSkeleton({ count }: { count: number }) {
+    const fields: JSX.Element[] = [];
+    for (let i = 1; i <= count; i++) {
+        fields.push(<ComponentSkeleton key={i} />);
+    }
+    return <>{fields}</>;
 }

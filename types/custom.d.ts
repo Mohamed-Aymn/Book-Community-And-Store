@@ -8,3 +8,7 @@ declare global {
         conn: Mongoose | null;
     };
 }
+
+interface ITransitionState {
+    TransitionState: TransitionStatus;
+}

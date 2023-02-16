@@ -2,6 +2,7 @@ import create from "zustand";
 
 export const layoutStore = create((set) => ({
     isDisplayingBookDetails: false,
+    isDisplayingHeroSection: false,
 
     displayedBookId: null,
     setDisplayedBookId: (id: any) => {
@@ -39,9 +40,14 @@ export const layoutStore = create((set) => ({
     setSearchResult: (data: any) => {
         set(() => ({ searchResult: data }));
     },
-    toggleNavbarMenu: () => {
-        set((state: any) => ({ isNavbarMenu: !state.isNavbarMenu }));
+
+    closeNavbarMenu: () => {
+        set(() => ({ isNavbarMenu: false }));
     },
+    openNavbarMenu: () => {
+        set(() => ({ isNavbarMenu: true }));
+    },
+
     toggleTheme: (theme: string) => {
         theme === "light"
             ? set(() => ({

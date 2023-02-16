@@ -2,13 +2,15 @@ import Button from "../../components/atoms/Button";
 import Image from "next/image";
 import img from "../../assets/mainPhoto.jpg";
 import Reviews from "../../components/organisms/Reviews";
-import BookCard from "../../components/organisms/BookCard";
+import BookCard from "../../components/molecules/BookCard";
 import mainPhoto from "../../assets/mainPhoto.jpg";
 import { useQuery, dehydrate, QueryClient } from "react-query";
 import { getSession, useSession } from "next-auth/react";
 import styled from "styled-components";
 import { mediaQueryMax } from "../../styles/mediaQuery";
-import Accordion from "../../components/molecules/Accordion";
+import Accordion, {
+    AccordionContainer,
+} from "../../components/molecules/Accordion";
 import getUserData from "../../query_Functions/getUserData";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -198,60 +200,62 @@ export default function Profile({ isOwner = false }: { isOwner: boolean }) {
                 </ProfileHeaderContent>
             </ProfileHeaderBackground>
             <main>
-                <Accordion title="Info" isOpened={true}>
-                    <TwoColumnsInfo>
+                <AccordionContainer>
+                    <Accordion title="Info" isOpened={true}>
+                        <TwoColumnsInfo>
+                            <div>
+                                <h3>Community</h3>
+                                <div>
+                                    Followers:{" "}
+                                    {data?.followers && data.followers.length}
+                                </div>
+                                <div>
+                                    Following:{" "}
+                                    {data?.following && data.following.length}
+                                </div>
+                                <Button text="View All" approach="secondary" />
+                            </div>
+                            <div>
+                                <h3>Favourite genres</h3>
+                                {data?.favouriteGenres &&
+                                data?.favouriteGenres.length !== 0 ? (
+                                    data.favouriteGenres.map(
+                                        (genre: any, i: number) => {
+                                            <Button
+                                                approach="tag"
+                                                text="scientific"
+                                                key={i}
+                                            />;
+                                        }
+                                    )
+                                ) : (
+                                    <span>there is no favourite genres</span>
+                                )}
+                            </div>
+                        </TwoColumnsInfo>
                         <div>
-                            <h3>Community</h3>
-                            <div>
-                                Followers:{" "}
-                                {data?.followers && data.followers.length}
-                            </div>
-                            <div>
-                                Following:{" "}
-                                {data?.following && data.following.length}
-                            </div>
+                            <h3>Books read</h3>
+                            {data?.readBooks && data?.readBooks.length !== 0 ? (
+                                data.readBooks.map((book: any, i: number) => {
+                                    return <BookCard img={mainPhoto} key={i} />;
+                                })
+                            ) : (
+                                <span>user didn&apos;t read any book yet</span>
+                            )}
+
                             <Button text="View All" approach="secondary" />
                         </div>
-                        <div>
-                            <h3>Favourite genres</h3>
-                            {data?.favouriteGenres &&
-                            data?.favouriteGenres.length !== 0 ? (
-                                data.favouriteGenres.map(
-                                    (genre: any, i: number) => {
-                                        <Button
-                                            approach="tag"
-                                            text="scientific"
-                                            key={i}
-                                        />;
-                                    }
-                                )
-                            ) : (
-                                <span>there is no favourite genres</span>
-                            )}
-                        </div>
-                    </TwoColumnsInfo>
-                    <div>
-                        <h3>Books read</h3>
-                        {data?.readBooks && data?.readBooks.length !== 0 ? (
-                            data.readBooks.map((book: any, i: number) => {
-                                return <BookCard img={mainPhoto} key={i} />;
+                    </Accordion>
+                    <Accordion title="Reviews" isOpened={false}>
+                        {data?.reviews && data?.reviews.length !== 0 ? (
+                            data.reviews.map((review: any, i: number) => {
+                                return <Reviews key={i} />;
                             })
                         ) : (
-                            <span>user didn&apos;t read any book yet</span>
+                            <span>there is no reviews</span>
                         )}
-
-                        <Button text="View All" approach="secondary" />
-                    </div>
-                </Accordion>
-                <Accordion title="Reviews" isOpened={false}>
-                    {data?.reviews && data?.reviews.length !== 0 ? (
-                        data.reviews.map((review: any, i: number) => {
-                            return <Reviews key={i} />;
-                        })
-                    ) : (
-                        <span>there is no reviews</span>
-                    )}
-                </Accordion>
+                    </Accordion>
+                </AccordionContainer>
             </main>
         </>
     );
