@@ -22,28 +22,55 @@ export default async function handler(
     switch (method) {
         case "DELETE" /* Delete a model by its ID */:
             try {
+                const existanceCheck = await User.findById(accountId).select(
+                    "following"
+                );
+                if (!existanceCheck.following.includes(remoteAccountId)) {
+                    throw new Error(
+                        "user already doesn't exist in the followig list"
+                    );
+                }
+
                 // add remote account to following list
                 await User.findByIdAndUpdate(
                     { _id: accountId },
                     {
-                        $pull: {
-                            following: { $each: [remoteAccountId] },
+                        $pullAll: {
+                            following: [remoteAccountId],
                         },
                     }
                 );
+
+                const followingCheck = await User.findById(accountId).select(
+                    "following"
+                );
+                if (followingCheck.following.includes(remoteAccountId)) {
+                    throw new Error(
+                        "user is not removed form the following list"
+                    );
+                }
 
                 // add account id to remote account followers
                 await User.findByIdAndUpdate(
                     { _id: remoteAccountId },
                     {
-                        $pull: {
-                            followers: { $each: [accountId] },
+                        $pullAll: {
+                            followers: [accountId],
                         },
                     }
                 );
 
+                const followersCheck = await User.findById(
+                    remoteAccountId
+                ).select("followers");
+                if (followersCheck.followers.includes(accountId)) {
+                    throw new Error(
+                        "user is not removed form the follower list of the remote account"
+                    );
+                }
+
                 res.status(200).json({
-                    message: "delete a user",
+                    message: "user removed from the follwers list",
                 });
             } catch (error) {
                 let message = (error as Error).message;

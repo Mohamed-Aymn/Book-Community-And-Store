@@ -79,6 +79,21 @@ export default async function handler(
                     user[key] = req.body[key as keyof Partial<IUser>];
                 }
 
+                // reject data that can't be updated from this endpoint
+                for (const key of Object.keys(req.body)) {
+                    if (
+                        key !== "name" &&
+                        key !== "email" &&
+                        key !== "password" &&
+                        key !== "title" &&
+                        key !== "bio"
+                    ) {
+                        throw new Error(
+                            `${key} filed cannot be updated from this api endpoint`
+                        );
+                    }
+                }
+
                 await user.save();
                 res.status(200).json({
                     message: "user is updated successfully",

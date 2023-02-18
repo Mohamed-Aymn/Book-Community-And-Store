@@ -9,22 +9,19 @@ interface Data {
     message?: string;
 }
 
-// post get delete
-
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<Data>
 ) {
     const { query, method } = req;
 
-    let accountId;
-    if (query.id) accountId = query.id;
-
+    let accountId = query.id;
     let remoteAccountId;
     if (req.body) remoteAccountId = req.body.id;
 
+    console.log(accountId);
+    // console.log(req.body);
     console.log(query);
-    console.log(req.body);
 
     await dbConnect();
 
@@ -32,9 +29,19 @@ export default async function handler(
         // get a single user by id
         case "GET":
             try {
-                res.status(200).json({
-                    message: "get all followers",
-                });
+                const user = await User.findById(accountId)
+                    .select("followers")
+                    .populate({
+                        path: "followers",
+                        model: User,
+                    })
+                    .exec();
+                let data = {
+                    count: user.followers.length,
+                    data: user.followers,
+                };
+
+                res.status(200).json({ data });
             } catch (error) {
                 let message = (error as Error).message;
                 let name = (error as Error).name;
@@ -66,7 +73,7 @@ export default async function handler(
                 );
 
                 res.status(200).json({
-                    message: "create a user",
+                    message: "add to following list",
                 });
             } catch (error) {
                 let message = (error as Error).message;

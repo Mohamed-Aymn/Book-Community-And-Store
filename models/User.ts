@@ -57,8 +57,13 @@ const UserSchema = new mongoose.Schema({
     ],
     cart: [
         {
-            type: String,
-            ref: "Book",
+            book: {
+                type: String,
+                ref: "Book",
+            },
+            count: {
+                type: Number,
+            },
         },
     ],
 });

@@ -13,9 +13,11 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<Data>
 ) {
-    const { method } = req;
-
     await dbConnect();
+    const {
+        query: { name, email },
+        method,
+    } = req;
 
     // const handleErrors = (err) => {
     //     console.log(err.message, err.code);
@@ -44,7 +46,18 @@ export default async function handler(
         // find all users
         case "GET":
             try {
-                const users = await User.find({});
+                // error message needs to be handled here
+                let users;
+                if (name) {
+                    const regex = new RegExp(`${name}`, "i");
+                    users = await User.find({ name: { $regex: regex } });
+                } else if (email) {
+                    const regex = new RegExp(`${email}`);
+                    users = await User.find({ email: { $regex: regex } });
+                } else {
+                    users = await User.find({});
+                }
+
                 res.status(200).json({ data: users });
             } catch (error) {
                 let result = (error as Error).message;
