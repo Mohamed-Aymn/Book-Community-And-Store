@@ -7,19 +7,23 @@ import styled from "styled-components";
 import parse from "html-react-parser";
 import Button from "../../../components/atoms/Button";
 import { getSpecificBook } from "../../../query_functions/SpecificBookQuery";
+import Divider from "../../../components/atoms/Divider";
+import { mediaQueryMax } from "../../../styles/mediaQuery";
 
 const InformationSection = styled.div`
     display: flex;
     gap: 2em;
+    ${mediaQueryMax("largeTablet")`
+        flex-direction: column;
+    `}
 `;
 
 const ImageContainer = styled.div`
-    width: 30em;
-    height: 40em;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: ${(props) => props.theme.neutral3};
+    ${mediaQueryMax("largeTablet")`
+        justify-content: center;
+        align-items: center;
+    `}
 `;
 
 const Title = styled.div`
@@ -46,7 +50,7 @@ export default function Details({ img }: any) {
     let author;
     if (bookDetails) {
         bookDetails.author === undefined
-            ? (author = "Unknown")
+            ? (author = "Unknown Author")
             : typeof bookDetails.author == "object"
             ? (author = `${bookDetails.author[0]} and more`)
             : null;
@@ -82,6 +86,7 @@ export default function Details({ img }: any) {
                             </div>
                             <div>{bookDetails?.volumeInfo?.lang}</div>
 
+                            <Divider />
                             <div>Discription</div>
                             <p>
                                 {(bookDetails?.volumeInfo.description &&
@@ -90,7 +95,14 @@ export default function Details({ img }: any) {
                                     )) ||
                                     "There is not description provided"}
                             </p>
-                            <Button approach="primary" text="Add to cart" />
+                            <div style={{ margin: "1em 0" }}>
+                                <Button
+                                    approach="primary"
+                                    text="Add to cart"
+                                    size="big"
+                                    width="full"
+                                />
+                            </div>
                         </>
                     )}
                 </div>

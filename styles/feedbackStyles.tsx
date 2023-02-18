@@ -26,7 +26,7 @@ export const CustomerFeedbackContainer = styled.div`
 `;
 
 export const Container = styled.div`
-    background-color: ${(props) => props.theme.neutral3};
+    background-color: ${(props) => props.theme.neutral2};
     padding: 1.7em;
     width: 30em;
     margin: 0 0.5em;

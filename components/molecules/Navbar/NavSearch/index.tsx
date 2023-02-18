@@ -1,19 +1,17 @@
 import { useRouter } from "next/router";
-import { FaSearch } from "react-icons/fa";
 import { RiSettings5Fill } from "react-icons/ri";
 import styled from "styled-components";
-import useLayoutStore from "../../../../client_state/useLayoutStore";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
-import MainSearch from "../../../../query_functions/MainSearchQuery";
 import Divider from "../../../atoms/Divider";
 import Suggestions from "./Suggestions";
 import Config from "./Config";
 import useOnClickOutside from "../../../../hooks/useClickOutside";
 import { env } from "../../../../environment";
-import { mediaQueryMax, mediaQueryMin } from "../../../../styles/mediaQuery";
+import { mediaQueryMax } from "../../../../styles/mediaQuery";
 import useBookStore from "../../../../client_state/useBookStore";
 import useMainSearch from "../../../../hooks/useMainSearch";
+import { BsSearch } from "react-icons/bs";
 
 interface IInputBar {
     suggestions: any;
@@ -99,18 +97,20 @@ const DropDownMenu = styled.div`
 `;
 
 export default function NavSearch() {
-    let [isMainContainerFocus, setIsMainContainerFocus] = useState(false);
     let router = useRouter();
     const {
         onClickChangingMainSearchValue,
-        setOnClickChangingMainSearchValue,
         searchFilters,
         setSearchFilters,
         searchQuery,
         setSearchQuery,
         setInstantlyChangingMainSearchValue,
         instantlyChangingMainSearchValue,
+        setOnClickChangingMainSearchValue,
     } = useBookStore();
+
+    let [isMainContainerFocus, setIsMainContainerFocus] = useState(false);
+
     const { refetch } = useMainSearch();
     let [searchConfig, setSearchConfig] = useState(false);
     // suggestions search query
@@ -167,7 +167,7 @@ export default function NavSearch() {
             />
             <div style={{ display: "flex", gap: "0.3em" }}>
                 <NavButton onClick={() => refetch()}>
-                    <FaSearch />
+                    <BsSearch />
                 </NavButton>
                 <NavButton
                     onClick={() => {

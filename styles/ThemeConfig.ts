@@ -57,6 +57,13 @@ export const GlobalStyles = createGlobalStyle`
     --space-xxl:  calc(5.25 * var(--space-unit));
 
 }
+html{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    margin: 0;
+    padding: 0;
+}
 body {
     background: ${({ theme }: { theme: ITheme }) => theme.body};
     transition: all 0.50s linear;
@@ -65,6 +72,9 @@ body {
     margin: 0;
     overflow-y: scroll;
     overflow-x: hidden;
+    width: 100vw;
+    height: 100%;
+    /* background-color: red; */
 }
 *{
     -webkit-box-sizing: border-box;
@@ -81,7 +91,7 @@ h1,h2,h3,h4,h5,h6{
 main {
     max-width: 140ch;
     margin: 0 auto;
-    padding-top: 4em;
+    padding-top: 5em;
     // 5em navbar height, 10em footer height, 1,7 footer margin
     min-height: calc(100vh - (5em + 10em) + 1.7em + 1.7em);
     ${mediaQueryMax("desktop")`

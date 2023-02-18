@@ -2,28 +2,84 @@ import Image from "next/image";
 import Link from "next/link";
 import Button from "../atoms/Button";
 import styled from "styled-components";
-import { mediaQueryMin } from "../../styles/mediaQuery";
+import { mediaQueryMax, mediaQueryMin } from "../../styles/mediaQuery";
 import { useQuery } from "react-query";
 import { getSpecificBook } from "../../query_functions/SpecificBookQuery";
 import TagList from "../molecules/TagList";
 import parse from "html-react-parser";
 import bookStore from "../../client_state/useBookStore";
+import LoadingSpinner from "../atoms/LoadingSpinner";
 
-const ModalBackground = styled.div`
+const ModalBackground = styled.div<ITransitionState>`
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.055);
+    background-color: rgba(0, 0, 0, 0.342);
     z-index: 4;
+    transition: 300ms ease-in-out;
+    ${({ TransitionState }) => {
+        switch (TransitionState) {
+            case "entering":
+                return `
+                    opacity: 1;
+                    `;
+            case "entered":
+                return `
+                    opacity: 1;
+                `;
+            case "exiting":
+                return `
+                    opacity: 0;
+                `;
+            case "exited":
+                return `
+                    opacity: 0;
+                `;
+        }
+    }};
 `;
 
-const Modal = styled.div`
+const Modal = styled.div<ITransitionState>`
     position: fixed;
-    inset: 0;
+    top: 50px;
+    height: 100vh;
+    overflow: scroll;
+
+    transition: 300ms 500ms ease-in-out;
     background-color: ${(props) => props.theme.body};
     z-index: 5;
+    ${mediaQueryMax("largeTablet")`
+        width: 100%; 
+    `}
     ${mediaQueryMin("largeTablet")`
         inset: 0 0 0 35%;
     `}
+
+    ${({ TransitionState }) => {
+        switch (TransitionState) {
+            case "entering":
+                return `
+                    transform: translateX(0);
+                    `;
+            case "entered":
+                return `
+                    transform: translateX(0);
+                `;
+            case "exiting":
+                return `
+                transform: translateX(100%);
+                ${mediaQueryMax("largeTablet")`
+                    transform: translateY(100%);
+                `}
+                `;
+            case "exited":
+                return `
+                    transform: translateX(100%);
+                    ${mediaQueryMax("largeTablet")`
+                        transform: translateY(100%);
+                    `}
+                `;
+        }
+    }};
 `;
 
 const ModalHeader = styled.div`
@@ -31,10 +87,6 @@ const ModalHeader = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 1em 2em;
-`;
-
-const About = styled.div`
-    text-align: center;
 `;
 
 const ImageContainer = styled.div`
@@ -60,24 +112,23 @@ const Author = styled.div`
     font-size: 0.8rem;
 `;
 
-const SubDetailsContainer = styled.div`
-    margin: 1em 0;
-`;
-
 const ModalBody = styled.div`
+    display: flex;
+    flex-direction: column;
     padding: 0 2em;
-    height: 100%;
 `;
 
-const Price = styled.div``;
+const DescriptionBody = styled.div`
+    overflow: hidden;
+`;
 
-export default function BookDetailsModal() {
+export default function BookDetailsModal({
+    TransitionState,
+}: ITransitionState) {
     const setDisplayingBookDetails = bookStore(
         (state: any) => state.setDisplayingBookDetails
     );
-    const setDisplayedBookId = bookStore(
-        (state: any) => state.setDisplayedBookId
-    );
+
     const displayedBookId = bookStore((state: any) => state.displayedBookId);
     const { data: bookDetails } = useQuery(
         ["specific-book", displayedBookId],
@@ -94,86 +145,101 @@ export default function BookDetailsModal() {
     }
 
     return (
-        <ModalBackground>
-            {bookDetails && (
-                <Modal>
-                    <ModalHeader>
-                        <Button
-                            approach="tertiary"
-                            text="X"
-                            onClick={() => {
-                                setDisplayingBookDetails(false);
-                            }}
-                        />
-                        <Link href={`/store/${displayedBookId}`}>
+        <ModalBackground TransitionState={TransitionState}>
+            <Modal TransitionState={TransitionState}>
+                {bookDetails ? (
+                    <>
+                        <ModalHeader>
                             <Button
                                 approach="tertiary"
-                                text="open in a new window to display full detials"
-                                onClick={() => setDisplayingBookDetails(false)}
-                            />
-                        </Link>
-                    </ModalHeader>
-                    <ModalBody>
-                        <ImageContainer>
-                            <Image
-                                style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    objectFit: "cover",
-                                    objectPosition: "center center",
+                                text="X"
+                                onClick={() => {
+                                    setDisplayingBookDetails(false);
                                 }}
-                                src={
-                                    bookDetails.volumeInfo.imageLinks.thumbnail
-                                }
-                                alt="Picture of the author"
-                                width={500}
-                                height={500}
                             />
-                        </ImageContainer>
-                        <Title>{bookDetails.volumeInfo.title}</Title>
-                        <Author>{bookDetails.volumeInfo.authors}</Author>
-                        <div style={{ textAlign: "center" }}>stars</div>
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                            }}
-                        >
-                            {bookDetails.volumeInfo.categories && (
-                                <TagList
-                                    list={bookDetails.volumeInfo.categories}
+                            <Link href={`/store/${displayedBookId}`}>
+                                <Button
+                                    approach="tertiary"
+                                    text="open in a new window to display full detials"
+                                    onClick={() =>
+                                        setDisplayingBookDetails(false)
+                                    }
                                 />
-                            )}
-                        </div>
-                        <SubDetailsContainer>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                }}
-                            >
-                                <h3>Discription</h3>
-                                <Price>$99</Price>
+                            </Link>
+                        </ModalHeader>
+                        <ModalBody>
+                            <div>
+                                <ImageContainer>
+                                    <Image
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                            objectFit: "cover",
+                                            objectPosition: "center center",
+                                        }}
+                                        src={
+                                            bookDetails?.volumeInfo?.imageLinks
+                                                ?.thumbnail
+                                        }
+                                        alt="Book photo"
+                                        width={500}
+                                        height={500}
+                                    />
+                                </ImageContainer>
+                                <Title>{bookDetails.volumeInfo?.title}</Title>
+                                <Author>
+                                    {bookDetails.volumeInfo?.authors}
+                                </Author>
+                                <div style={{ textAlign: "center" }}>stars</div>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    {bookDetails.volumeInfo?.categories && (
+                                        <TagList
+                                            list={
+                                                bookDetails.volumeInfo
+                                                    ?.categories
+                                            }
+                                        />
+                                    )}
+                                </div>
                             </div>
-                            <p>
-                                {(bookDetails.volumeInfo.description &&
-                                    parse(
-                                        bookDetails.volumeInfo.description
-                                    )) ||
-                                    "There is not description provided"}
-                            </p>
-                        </SubDetailsContainer>
-
-                        <Button
-                            approach="primary"
-                            text="Add to cart"
-                            width="full"
-                        />
-                    </ModalBody>
-                </Modal>
-            )}
+                            <div>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <h3>Discription</h3>
+                                    <div>$99</div>
+                                </div>
+                                <DescriptionBody>
+                                    {(bookDetails.volumeInfo?.description &&
+                                        parse(
+                                            bookDetails.volumeInfo.description
+                                        )) ||
+                                        "There is no provided description"}
+                                </DescriptionBody>
+                                <div style={{ margin: "1em 0" }}>
+                                    <Button
+                                        approach="primary"
+                                        text="Add to cart"
+                                        width="full"
+                                    />
+                                </div>
+                            </div>
+                        </ModalBody>
+                    </>
+                ) : (
+                    <LoadingSpinner />
+                )}
+            </Modal>
         </ModalBackground>
     );
 }

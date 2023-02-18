@@ -1,7 +1,6 @@
 import Image from "next/image";
 import BookDetailsModal from "../organisms/BookDetailsModal";
 import styled from "styled-components";
-import { useRef, useState } from "react";
 import Skeleton from "../atoms/Skeleton";
 import useBookStore from "../../client_state/useBookStore";
 

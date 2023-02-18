@@ -104,6 +104,18 @@ export default function Navbar() {
                                 </Route>
                             </Link>
                             <Link
+                                href="/community"
+                                style={{ textDecoration: "none" }}
+                            >
+                                <Route
+                                    active={router.pathname.includes(
+                                        "/community"
+                                    )}
+                                >
+                                    Community
+                                </Route>
+                            </Link>
+                            <Link
                                 href="/store"
                                 style={{ textDecoration: "none" }}
                             >

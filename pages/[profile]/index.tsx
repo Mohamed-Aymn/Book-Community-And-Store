@@ -6,8 +6,7 @@ import BookCard from "../../components/molecules/BookCard";
 import mainPhoto from "../../assets/mainPhoto.jpg";
 import { useQuery, dehydrate, QueryClient } from "react-query";
 import { getSession, useSession } from "next-auth/react";
-import styled from "styled-components";
-import { mediaQueryMax } from "../../styles/mediaQuery";
+import * as styles from "../../styles/profileStyles";
 import Accordion, {
     AccordionContainer,
 } from "../../components/molecules/Accordion";
@@ -41,67 +40,10 @@ export async function getServerSideProps(context: any) {
     };
 }
 
-const ProfileHeaderBackground = styled.div`
-    background-color: ${(props) => props.theme.neutral3};
-`;
-
-const ProfileHeaderContent = styled.div`
-    max-width: 140ch;
-    padding-top: calc(4em + 3em);
-    padding-bottom: 3em;
-    margin: 0 auto;
-    ${mediaQueryMax("desktop")`
-        margin: 0 1.7em;
-    `}
-`;
-
-const About = styled.p`
-    margin-left: 3.7em;
-`;
-
-const MainInfo = styled.div`
-    display: flex;
-    /* justify-content: center; */
-    align-items: center;
-    gap: 0.3em;
-`;
-
-const ImageContainer = styled.div`
-    width: 3.7em;
-    height: 3.7em;
-`;
-
-const NameAndTitleContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    /* gap: 0.3em; */
-`;
-
-const UserName = styled.div`
-    color: var(--neutral-white-color);
-    font-size: 1.1rem;
-`;
-
-const UserTitle = styled.div`
-    color: var(--neutral-dark-grey-color);
-    font-size: 0.8rem;
-    margin-top: -0.1em;
-`;
-
-const TwoColumnsInfo = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2em;
-    margin-left: 0.5em;
-    ${mediaQueryMax("smallDesktop")`
-        grid-template-columns: repeat(1, 100%);
-    `}
-`;
-
 export default function Profile({ isOwner = false }: { isOwner: boolean }) {
     let router = useRouter();
     const { data: session, status } = useSession();
-    const { data, isFetching, refetch } = useQuery(
+    const { data, isFetching } = useQuery(
         ["user data", router.query.profile],
         async () => await getUserData(router.query.profile)
     );
@@ -134,16 +76,16 @@ export default function Profile({ isOwner = false }: { isOwner: boolean }) {
 
     return (
         <>
-            <ProfileHeaderBackground>
-                <ProfileHeaderContent>
+            <styles.ProfileHeaderBackground>
+                <styles.ProfileHeaderContent>
                     <div
                         style={{
                             display: "flex",
                             justifyContent: "space-between",
                         }}
                     >
-                        <MainInfo>
-                            <ImageContainer>
+                        <styles.MainInfo>
+                            <styles.ImageContainer>
                                 <Image
                                     className="image"
                                     style={{
@@ -157,17 +99,26 @@ export default function Profile({ isOwner = false }: { isOwner: boolean }) {
                                     width={500}
                                     height={500}
                                 />
-                            </ImageContainer>
-                            <NameAndTitleContainer>
-                                {data?.name && <UserName>{data.name}</UserName>}
-                                {data?.title && (
-                                    <UserTitle>{data.title}</UserTitle>
+                            </styles.ImageContainer>
+                            <styles.NameAndTitleContainer>
+                                {data?.name && (
+                                    <styles.UserName>
+                                        {data.name}
+                                    </styles.UserName>
                                 )}
-                            </NameAndTitleContainer>
-                        </MainInfo>
+                                {data?.title && (
+                                    <styles.UserTitle>
+                                        {data.title}
+                                    </styles.UserTitle>
+                                )}
+                            </styles.NameAndTitleContainer>
+                        </styles.MainInfo>
                         <div style={{ alignSelf: "flex-end" }}>
                             {isOwner ? (
-                                <Link href={`${session?.user._id}/settings`}>
+                                <Link
+                                    href={`${session?.user._id}/settings`}
+                                    style={{ textDecoration: "none" }}
+                                >
                                     <Button
                                         text="Profile settings"
                                         approach="primary"
@@ -196,24 +147,44 @@ export default function Profile({ isOwner = false }: { isOwner: boolean }) {
                         </div>
                     </div>
 
-                    {data?.bio && <About>{data.bio}</About>}
-                </ProfileHeaderContent>
-            </ProfileHeaderBackground>
+                    {data?.bio && <styles.About>{data.bio}</styles.About>}
+                </styles.ProfileHeaderContent>
+            </styles.ProfileHeaderBackground>
             <main>
                 <AccordionContainer>
                     <Accordion title="Info" isOpened={true}>
-                        <TwoColumnsInfo>
+                        <styles.TwoColumnsInfo>
                             <div>
                                 <h3>Community</h3>
-                                <div>
-                                    Followers:{" "}
-                                    {data?.followers && data.followers.length}
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        gap: "1em",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <div>
+                                        Followers:{" "}
+                                        {data?.followers &&
+                                            data.followers.length}
+                                    </div>
+                                    <div>
+                                        Following:{" "}
+                                        {data?.following &&
+                                            data.following.length}
+                                    </div>
+                                    <Link
+                                        href={`/${session?.user._id}/community`}
+                                        style={{
+                                            textDecoration: "none",
+                                        }}
+                                    >
+                                        <Button
+                                            text="View All"
+                                            approach="tertiary"
+                                        />
+                                    </Link>
                                 </div>
-                                <div>
-                                    Following:{" "}
-                                    {data?.following && data.following.length}
-                                </div>
-                                <Button text="View All" approach="secondary" />
                             </div>
                             <div>
                                 <h3>Favourite genres</h3>
@@ -232,7 +203,7 @@ export default function Profile({ isOwner = false }: { isOwner: boolean }) {
                                     <span>there is no favourite genres</span>
                                 )}
                             </div>
-                        </TwoColumnsInfo>
+                        </styles.TwoColumnsInfo>
                         <div>
                             <h3>Books read</h3>
                             {data?.readBooks && data?.readBooks.length !== 0 ? (

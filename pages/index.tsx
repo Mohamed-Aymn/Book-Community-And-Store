@@ -2,7 +2,7 @@ import Button from "../components/atoms/Button";
 import { useState } from "react";
 import mainPhoto from "../assets/mainPhoto.jpg";
 import secondaryPhoto from "../assets/secondaryPhoto.jpg";
-import * as styles from "../styles/index";
+import * as styles from "../styles/indexStyles";
 import * as feedbackStyles from "../components/organisms/CustomersFeedback/styles";
 import Logo from "../assets/Logo";
 import P from "../components/atoms/Paragraph";
@@ -12,6 +12,7 @@ import Accordion, {
 import CustomersFeedback from "../components/organisms/CustomersFeedback";
 import { useInView } from "react-intersection-observer";
 import { FadeAndTranslateScrollAnimation } from "../components/atoms/ScrollAnimation";
+import LoadingSpinner from "../components/atoms/LoadingSpinner";
 
 export default function Home() {
     let [highlightedImage, setHighlightedImage] = useState(mainPhoto);

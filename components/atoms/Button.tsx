@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface IButton {
     text?: string;
@@ -19,7 +20,7 @@ const StyledButton = styled.button<IButton>`
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.25em;
+    gap: 1em;
     font-weight: bold;
     height: 4.5ch;
 
@@ -77,7 +78,12 @@ const StyledButton = styled.button<IButton>`
     // ------------------------- misc
         // isLodaing
         ${(props) =>
-        props.isLoading ? `cursor: not-allowed;` : `cursor: pointer;`}
+        props.isLoading
+            ? `
+        cursor: not-allowed;
+        background-color: ${props.theme.neutral3};
+        `
+            : `cursor: pointer;`}
             
         // iconsPostion
         ${(props) =>
@@ -116,6 +122,7 @@ export default function Button(props: IButton) {
             width={props.width || "fit"}
             style={props.style}
         >
+            {props.isLoading ? <LoadingSpinner size="small" /> : null}
             {props.icon ? <>{props.icon} </> : null}
             {props.text}
         </StyledButton>

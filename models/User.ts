@@ -55,6 +55,12 @@ const UserSchema = new mongoose.Schema({
             type: String,
         },
     ],
+    cart: [
+        {
+            type: String,
+            ref: "Book",
+        },
+    ],
 });
 
 export default mongoose.models.User || mongoose.model("User", UserSchema);

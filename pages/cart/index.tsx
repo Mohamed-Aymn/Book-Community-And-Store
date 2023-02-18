@@ -1,8 +1,9 @@
 import Button from "../../components/atoms/Button";
-import Image from "next/image";
-import img from "../../assets/mainPhoto.jpg";
-import { Table, Th, Tr, Td } from "../../components/atoms/Table";
+import { Table, Th, Tr, Td, Tbody, Thead } from "../../components/atoms/Table";
 import styled from "styled-components";
+import { BsFillTrashFill } from "react-icons/bs";
+import { mediaQueryMax } from "../../styles/mediaQuery";
+import Divider from "../../components/atoms/Divider";
 
 const OrderDetails = styled.div`
     display: flex;
@@ -10,40 +11,38 @@ const OrderDetails = styled.div`
     align-items: center;
 `;
 
-const ImageContainer = styled.div`
-    width: 2em;
-    height: 2.5em;
+const BookName = styled(Td)`
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+`;
+
+const CheckoutButtonContainer = styled.div`
+    margin: 1em 0 1em 50em;
+    ${mediaQueryMax("smallDesktop")`
+        margin: 1em 0;
+    `};
+`;
+
+const TotalPrice = styled.div`
+    font-size: 2.5rem;
 `;
 
 export default function Cart() {
     return (
         <main>
             <Table>
-                <thead>
-                    <tr>
+                <Thead>
+                    <Tr>
                         <Th>product</Th>
                         <Th>price</Th>
                         <Th>count</Th>
-                    </tr>
-                </thead>
-                <tbody>
+                    </Tr>
+                </Thead>
+                <Tbody>
                     <Tr>
-                        <Td>
-                            <ImageContainer>
-                                <Image
-                                    style={{
-                                        width: "100%",
-                                        height: "100%",
-                                        borderRadius: "0.7em",
-                                    }}
-                                    src={img}
-                                    alt="Product Image"
-                                    width={500}
-                                    height={500}
-                                />
-                            </ImageContainer>
-                            book name
-                        </Td>
+                        <BookName>book name</BookName>
                         <Td>99</Td>
                         <Td>3</Td>
                         <Td
@@ -55,11 +54,16 @@ export default function Cart() {
                         >
                             <Button approach="secondary" text="+" />
                             <Button approach="secondary" text="-" />
-                            <Button approach="danger" text="remove" />
+                            <Button
+                                approach="danger"
+                                icon={<BsFillTrashFill />}
+                            />
                         </Td>
                     </Tr>
-                </tbody>
+                </Tbody>
             </Table>
+
+            <Divider />
 
             <OrderDetails>
                 <div>
@@ -68,11 +72,16 @@ export default function Cart() {
                     <div>Shipping : x</div>
                 </div>
 
-                <div>
-                    <div>Total: x</div>
-                    <Button text="Checkout" approach="primary" />
-                </div>
+                <TotalPrice>Total: x</TotalPrice>
             </OrderDetails>
+            <CheckoutButtonContainer>
+                <Button
+                    text="Checkout"
+                    width="full"
+                    size="big"
+                    approach="primary"
+                />
+            </CheckoutButtonContainer>
         </main>
     );
 }

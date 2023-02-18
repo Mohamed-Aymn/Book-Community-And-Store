@@ -6,14 +6,23 @@ import {
     getFreeBooks,
     getEbooks,
 } from "../../query_functions/CollectionsQueries";
-import BookDetailsModal from "../../components/organisms/BookDetailsModal";
 import useBookStore from "../../client_state/useBookStore";
 import useMainSearch from "../../hooks/useMainSearch";
 
-export default function Store() {
-    const { searchPagination, setSearchPagination, isDisplayingBookDetails } =
-        useBookStore();
-    const { data, refetch, isFetching } = useMainSearch();
+export async function getServerSideProps(context: any) {
+    return {
+        props: {
+            searchQuery: context.query.search ? context.query.search : null,
+        },
+    };
+}
+
+export default function Store(props: any) {
+    const { data, refetch, isFetching } = useMainSearch(
+        props.searchQuery ? (props.searchQuery as string) : undefined
+    );
+
+    const { searchPagination, setSearchPagination } = useBookStore();
     const { data: freeBooksData } = useQuery("free-books", getFreeBooks, {
         staleTime: 60 * 1000,
         enabled: data ? false : true,
@@ -44,7 +53,6 @@ export default function Store() {
                     />
                 </>
             )}
-            {isDisplayingBookDetails && <BookDetailsModal />}
         </main>
     );
 }

@@ -8,6 +8,7 @@ import Input from "../../components/atoms/Input";
 import TextArea from "../../components/atoms/TextArea";
 import FormItem from "../../components/molecules/FormItem";
 import { env } from "../../environment";
+import { useEffect, useRef, useState } from "react";
 
 export async function getServerSideProps({ req }: any) {
     const session = await getSession({ req });
@@ -35,28 +36,21 @@ export async function getServerSideProps({ req }: any) {
 
 export default function Settings() {
     let router = useRouter();
-    // console.log(router.asPath);
-    const {
-        register,
-        handleSubmit,
-        control,
-        watch,
-        setValue,
-        formState: { errors },
-    } = useForm({});
     const { data: session, status } = useSession();
     const { data, isFetching, refetch } = useQuery(
         ["user data", session?.user._id],
         async () => await getUserData(session?.user._id)
     );
+    let [isLoading, setLoading] = useState(false);
+    let [name, setName] = useState(data.name);
+    let [title, setTitle] = useState(data.title);
+    let [bio, setBio] = useState(data.bio);
 
     let onSubmit = async (formData: any) => {
         console.log(formData);
-        // router.push(`/${data.name}`);
-
         const { name, title, bio } = formData;
-
         try {
+            setLoading(true);
             const res = await fetch(
                 `${env.BASE_URL}/api/users/${session?.user._id}`,
                 {
@@ -74,10 +68,28 @@ export default function Settings() {
             }
 
             router.push(`/${session?.user._id}`);
+            setLoading(false);
         } catch (error) {
+            setLoading(false);
             console.log((error as Error).message);
         }
     };
+
+    const {
+        register,
+        handleSubmit,
+        control,
+        watch,
+        setValue,
+        getValues,
+        formState: { errors },
+    } = useForm({
+        defaultValues: {
+            name: name,
+            title: title,
+            bio: bio,
+        },
+    });
 
     return (
         <main>
@@ -95,12 +107,13 @@ export default function Settings() {
                             rules={{
                                 required: "this field is requried",
                             }}
-                            defaultValue={data.name}
+                            // defaultValue={data.name}
                             name="name"
-                            render={({ field: { onChange, onBlur } }) => (
+                            render={({ field: { onChange, onBlur, ref } }) => (
                                 <Input
                                     reactHookForm={{ onBlur, onChange }}
-                                    state={data.name}
+                                    state={name}
+                                    setState={setName}
                                 />
                             )}
                         />
@@ -116,12 +129,13 @@ export default function Settings() {
                             rules={{
                                 required: "this field is requried",
                             }}
-                            defaultValue={data.title}
+                            // defaultValue={data.title}
                             name="title"
                             render={({ field: { onChange, onBlur } }) => (
                                 <Input
                                     reactHookForm={{ onBlur, onChange }}
-                                    state={data.title}
+                                    state={title}
+                                    setState={setTitle}
                                 />
                             )}
                         />
@@ -132,12 +146,13 @@ export default function Settings() {
                             // rules={{
                             //     required: "this field is requried",
                             // }}
-                            defaultValue={data.bio}
+                            // defaultValue={data.bio}
                             name="bio"
                             render={({ field: { onChange, onBlur } }) => (
                                 <TextArea
                                     reactHookForm={{ onBlur, onChange }}
-                                    state={data.bio}
+                                    state={bio}
+                                    setState={setBio}
                                 />
                             )}
                         />
@@ -146,6 +161,7 @@ export default function Settings() {
                         approach="primary"
                         onClick={handleSubmit(onSubmit)}
                         text="Save"
+                        isLoading={isLoading}
                     />
                 </>
             )}

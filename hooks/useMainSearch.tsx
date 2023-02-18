@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import useBookStore from "../client_state/useBookStore";
 import { env } from "../environment";
@@ -27,7 +28,7 @@ let searchResult = async (
     });
 };
 
-export default function useMainSearch() {
+export default function useMainSearch(postValue?: string) {
     const {
         setOnClickChangingMainSearchValue,
         instantlyChangingMainSearchValue,
@@ -35,7 +36,20 @@ export default function useMainSearch() {
         searchPagination,
         searchQuery,
         searchFilters,
+        setInstantlyChangingMainSearchValue,
     } = useBookStore();
+
+    let [isMainSearch, setMainSearch] = useState(false);
+    useEffect(() => {
+        const urlQuery = async () => {
+            if (postValue) {
+                await setInstantlyChangingMainSearchValue(postValue);
+                await setOnClickChangingMainSearchValue(postValue);
+                setMainSearch(true);
+            }
+        };
+        urlQuery();
+    }, []);
 
     const {
         data,
@@ -56,12 +70,14 @@ export default function useMainSearch() {
                 searchFilters,
                 searchPagination
             ),
-        { enabled: false }
+        { enabled: postValue && isMainSearch ? true : false }
     );
 
-    const refetch = () => {
-        setOnClickChangingMainSearchValue(instantlyChangingMainSearchValue);
-        reactQueryRefetch();
+    const refetch = async () => {
+        await setOnClickChangingMainSearchValue(
+            instantlyChangingMainSearchValue
+        );
+        await reactQueryRefetch();
     };
 
     return { data, refetch, isFetching };
