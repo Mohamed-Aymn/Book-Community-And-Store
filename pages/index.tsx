@@ -60,6 +60,7 @@ export default function Home() {
                         translateValue={5}
                         direction="top"
                         as={styles.SectionHeading}
+                        triggerOnce
                     >
                         <h1>
                             Highlight the key benefits of using your product
@@ -75,6 +76,7 @@ export default function Home() {
                             translateValue={5}
                             direction="left"
                             as={styles.KeyBenefitsButtonsContainer}
+                            triggerOnce
                         >
                             <styles.HighlightBenefitButton
                                 active={
@@ -119,6 +121,7 @@ export default function Home() {
                             translateValue={5}
                             direction="right"
                             as={styles.ImageContainer}
+                            triggerOnce
                         >
                             <styles.StyledBenefitsImage
                                 src={highlightedImage}
@@ -134,6 +137,7 @@ export default function Home() {
                         translateValue={5}
                         direction="top"
                         as={styles.SectionHeading}
+                        triggerOnce
                     >
                         <h1>Frequently asked questions</h1>
                         <P>
@@ -145,6 +149,7 @@ export default function Home() {
                         <FadeAndTranslateScrollAnimation
                             translateValue={5}
                             as={AccordionContainer}
+                            triggerOnce
                         >
                             <Accordion title="Question One">
                                 Lorem ipsum dolor sit amet consectetur
@@ -180,6 +185,7 @@ export default function Home() {
                         translateValue={5}
                         direction="top"
                         as={styles.SectionHeading}
+                        triggerOnce
                     >
                         <h1>Customer testimonials</h1>
                     </FadeAndTranslateScrollAnimation>
