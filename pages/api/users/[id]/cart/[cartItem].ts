@@ -21,16 +21,15 @@ export default async function handler(
 
     switch (method) {
         case "DELETE":
-            let user = await User.findById(id);
-
-            user.cart.map((item: { book: string; count: number }) => {
-                if (item.book === book) {
-                    user.cart.pop(item);
-                }
-            });
-            user.save();
-
             try {
+                let user = await User.findById(id);
+
+                user.cart.map((item: { book: string; count: number }) => {
+                    if (item.book === book) {
+                        user.cart.pop(item);
+                    }
+                });
+                user.save();
                 res.status(200).json({
                     message: "cart Item deleted successfully",
                 });
