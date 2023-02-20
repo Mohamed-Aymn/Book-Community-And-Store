@@ -13,6 +13,10 @@ import CustomersFeedback from "../components/organisms/CustomersFeedback";
 import { useInView } from "react-intersection-observer";
 import { FadeAndTranslateScrollAnimation } from "../components/atoms/ScrollAnimation";
 import LoadingSpinner from "../components/atoms/LoadingSpinner";
+import { useTheme } from "styled-components";
+import Box from "../components/atoms/Box";
+import useMinScreenWidth from "../hooks/useScreenWidth";
+import { screens } from "../styles/mediaQuery";
 
 export default function Home() {
     let [highlightedImage, setHighlightedImage] = useState(mainPhoto);
@@ -25,6 +29,8 @@ export default function Home() {
         threshold: 0,
         triggerOnce: true,
     });
+    const theme = useTheme();
+    const width = useMinScreenWidth();
 
     return (
         <>
@@ -148,34 +154,40 @@ export default function Home() {
                     <styles.AccordionContainer>
                         <FadeAndTranslateScrollAnimation
                             translateValue={5}
-                            as={AccordionContainer}
                             triggerOnce
                         >
-                            <Accordion title="Question One">
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Similique perferendis quisquam
-                                reprehenderit blanditiis, ullam corporis.
-                            </Accordion>
-                            <Accordion title="Question Two">
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Similique perferendis quisquam
-                                reprehenderit blanditiis, ullam corporis.
-                            </Accordion>
-                            <Accordion title="Question Three">
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Similique perferendis quisquam
-                                reprehenderit blanditiis, ullam corporis.
-                            </Accordion>
-                            <Accordion title="Question Four">
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Similique perferendis quisquam
-                                reprehenderit blanditiis, ullam corporis.
-                            </Accordion>
-                            <Accordion title="Question Five">
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Similique perferendis quisquam
-                                reprehenderit blanditiis, ullam corporis.
-                            </Accordion>
+                            <AccordionContainer>
+                                <Accordion title="Question One">
+                                    Lorem ipsum dolor sit amet consectetur
+                                    adipisicing elit. Similique perferendis
+                                    quisquam reprehenderit blanditiis, ullam
+                                    corporis.
+                                </Accordion>
+                                <Accordion title="Question Two">
+                                    Lorem ipsum dolor sit amet consectetur
+                                    adipisicing elit. Similique perferendis
+                                    quisquam reprehenderit blanditiis, ullam
+                                    corporis.
+                                </Accordion>
+                                <Accordion title="Question Three">
+                                    Lorem ipsum dolor sit amet consectetur
+                                    adipisicing elit. Similique perferendis
+                                    quisquam reprehenderit blanditiis, ullam
+                                    corporis.
+                                </Accordion>
+                                <Accordion title="Question Four">
+                                    Lorem ipsum dolor sit amet consectetur
+                                    adipisicing elit. Similique perferendis
+                                    quisquam reprehenderit blanditiis, ullam
+                                    corporis.
+                                </Accordion>
+                                <Accordion title="Question Five">
+                                    Lorem ipsum dolor sit amet consectetur
+                                    adipisicing elit. Similique perferendis
+                                    quisquam reprehenderit blanditiis, ullam
+                                    corporis.
+                                </Accordion>
+                            </AccordionContainer>
                         </FadeAndTranslateScrollAnimation>
                     </styles.AccordionContainer>
                 </styles.Section>

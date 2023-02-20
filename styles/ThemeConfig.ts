@@ -1,28 +1,74 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, DefaultTheme } from "styled-components";
 import { mediaQueryMax } from "./mediaQuery";
 
-interface ITheme {
-    body: string;
-    text: string;
-    neutral1: string;
-    neutral2: string;
-    neutral3: string;
-}
+// all used colors
+// primary color
+const Primary = "#4a81f0";
 
-export const lightTheme: ITheme = {
-    body: "var(--white-color)",
-    text: "var(--black-color)",
-    neutral1: "var(--lightest-neutral-color)",
-    neutral2: "var(--light-neutral-color)",
-    neutral3: "var(--grey-neutral-color)",
+// secondary colors
+const White = "#fff";
+const Black = "#000";
+
+// neutrals colors
+const DarkestNeutralColor = "#222222";
+const DarkNeutralColor = "#303030";
+const GreyNeutralColor = "#8f8f8f";
+const LightNeutralColor = "#e5e5e5";
+const LightestNeutralColor = "#eeeeee";
+
+// interactivity colors
+const SuccessInteractionColor = "#386f5e";
+const DangerInteractionColor = "#b95573";
+
+const SpaceUnit = 1;
+
+const defaults = {
+    // breakpoints: [
+    //     "1920 px",
+    //     "1280 px",
+    //     "1024 px",
+    //     "768 px",
+    //     "480 px",
+    //     "360 px",
+    //     "320 px",
+    // ],
+    space: {
+        xs: `${SpaceUnit * 0.5}em`,
+        sm: `${SpaceUnit}em`,
+        md: `${SpaceUnit * 2}em`,
+        lg: `${SpaceUnit * 4}em`,
+        xl: `${SpaceUnit * 8}em`,
+    },
 };
 
-export const darkTheme: ITheme = {
-    body: "var(--black-color)",
-    text: "var(--white-color)",
-    neutral1: "var(--darkest-neutral-color)",
-    neutral2: "var(--dark-neutral-color)",
-    neutral3: "var(--grey-neutral-color)",
+const defaultColors = {
+    primary: Primary,
+    success: SuccessInteractionColor,
+    danger: DangerInteractionColor,
+};
+
+export const lightTheme: DefaultTheme = {
+    ...defaults,
+    colors: {
+        ...defaultColors,
+        body: White,
+        text: Black,
+        neutral1: LightestNeutralColor,
+        neutral2: LightNeutralColor,
+        neutral3: GreyNeutralColor,
+    },
+};
+
+export const darkTheme: DefaultTheme = {
+    ...defaults,
+    colors: {
+        ...defaultColors,
+        body: Black,
+        text: White,
+        neutral1: DarkestNeutralColor,
+        neutral2: DarkNeutralColor,
+        neutral3: GreyNeutralColor,
+    },
 };
 
 export const GlobalStyles = createGlobalStyle`
@@ -65,9 +111,9 @@ html{
     padding: 0;
 }
 body {
-    background: ${({ theme }: { theme: ITheme }) => theme.body};
+    background: ${({ theme }: { theme: DefaultTheme }) => theme.colors.body};
     transition: all 0.50s linear;
-    color: ${({ theme }) => theme.text};
+    color: ${({ theme }) => theme.colors.text};
     padding: 0;
     margin: 0;
     overflow-y: scroll;
@@ -84,7 +130,7 @@ body {
     margin: 0;
 }
 h1,h2,h3,h4,h5,h6{
-    color: ${({ theme }) => theme.text};
+    color: ${({ theme }) => theme.colors.text};
     margin: var(--space-sm) 0;
     padding: 0;
 }

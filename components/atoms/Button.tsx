@@ -61,8 +61,8 @@ const StyledButton = styled.button<IButton>`
                         color: var(--white-color);
                     }
                     &:active{
-                        background-color: ${props.theme.tertiary};
-                        outline: solid 0.1em ${props.theme.tertiary};
+                        background-color: ${props.theme.neutral3};
+                        outline: solid 0.1em ${props.theme.neutral3};
                     }
                 `
             : props.approach === "tag"

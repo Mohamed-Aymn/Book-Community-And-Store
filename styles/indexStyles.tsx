@@ -100,17 +100,17 @@ export const HighlightBenefitButton = styled.button<IHighlightBenefitButton>`
     text-align: left;
     transition: 300ms ease-in-out;
     &:hover {
-        background-color: ${(props) => props.theme.neutral2};
+        background-color: ${(props) => props.theme.colors.neutral2};
     }
     ${({ active, theme }) =>
         active
             ? `
-        border-left: solid 0.2em ${theme.text};
-        background-color: ${theme.neutral2};
+        border-left: solid 0.2em ${theme.colors.text};
+        background-color: ${theme.colors.neutral2};
         padding: 3em 1em;
         `
             : `
-        border-left: solid 0.2em ${theme.body};
+        border-left: solid 0.2em ${theme.colors.body};
         padding: 1em;
         `}
 `;

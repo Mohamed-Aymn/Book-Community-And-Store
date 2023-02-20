@@ -14,6 +14,7 @@ import { Transition } from "react-transition-group";
 import { useEffect, useRef, useState } from "react";
 import LargeNavMenu from "./LargeNavMenu";
 import MobileNavMenu from "./MobileNavMenu";
+import useScreenWidth from "../../../hooks/useScreenWidth";
 
 const RoutesContainer = styled.div`
     ${mediaQueryMax("largeTablet")`
@@ -62,14 +63,7 @@ export default function Navbar() {
     let router = useRouter();
     const nodeRef = useRef(null);
 
-    const [isLargeScreen, setLargeScreen] = useState(true);
-    const updateMedia = () => {
-        setLargeScreen(window.innerWidth > screens.largeTablet);
-    };
-    useEffect(() => {
-        window.addEventListener("resize", updateMedia);
-        return () => window.removeEventListener("resize", updateMedia);
-    });
+    const { isBig: isLargeTablet } = useScreenWidth(screens.largeTablet);
 
     return (
         <Transition
@@ -153,7 +147,7 @@ export default function Navbar() {
                         >
                             {(state) => (
                                 <>
-                                    {isLargeScreen ? (
+                                    {isLargeTablet ? (
                                         <LargeNavMenu
                                             TransitionState={state}
                                             session={session}
