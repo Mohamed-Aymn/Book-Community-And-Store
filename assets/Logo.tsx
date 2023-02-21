@@ -13,7 +13,7 @@ const Container = styled.div<ILogo>`
     font-size: 3.7rem;
     margin-left: -0.07em;
     font-weight: 800;
-    color: ${(props) => props.theme.text};
+    color: ${(props) => props.theme.colors.text};
     line-height: 1.5ch;
     ${(props) =>
         props.display === "default"
@@ -28,7 +28,7 @@ const Container = styled.div<ILogo>`
         line-height: 1.6ch;
         color: transparent;
         -webkit-text-stroke-width: 0.03em;
-        -webkit-text-stroke-color: ${(props) => props.theme.text};
+        -webkit-text-stroke-color: ${(props) => props.theme.colors.text};
 
         ${(props) =>
             props.display === "big"

@@ -7,7 +7,7 @@ declare global {
     };
 }
 
-interface ITransitionState {
+export interface ITransitionState {
     TransitionState: TransitionStatus;
 }
 

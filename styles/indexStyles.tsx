@@ -6,44 +6,45 @@ interface IHighlightBenefitButton {
     active: boolean;
 }
 
-export const UpperHeroSectionPart = styled.div`
-    display: flex;
-    gap: 1em;
-    justify-content: space-between;
-    ${mediaQueryMax("largeTablet")`
-    flex-direction: column;
-`}
-`;
+// export const HeroSection = styled.div<{ inView: boolean }>`
+//     display: flex;
+//     height: 100vh;
+//     gap: 1.3em;
+//     flex-direction: column;
+//     padding-top: 4.5em;
+//     padding-bottom: 1.7em;
+//     margin: 0 1.7em;
 
-export const HeroSection = styled.div<{ inView: boolean }>`
-    display: flex;
-    height: 100vh;
-    gap: 1.3em;
-    flex-direction: column;
-    padding-top: 4.5em;
-    padding-bottom: 1.7em;
-    margin: 0 1.7em;
-    opacity: 0;
-    transition: 300ms ease-in-out;
-    ${({ inView }) => inView && "opacity: 1;"}
-`;
+//     opacity: 0;
+//     transition: 300ms ease-in-out;
+//     ${({ inView }) => inView && "opacity: 1;"}
+// `;
 
-export const UpperHeroSectionText = styled.div`
-    align-self: flex-end;
-    p {
-        margin-bottom: 0.7em;
-    }
-    max-width: 50%;
-    ${mediaQueryMax("largeTablet")`
-    max-width: 100%;
-`}
-`;
+// export const UpperHeroSectionPart = styled.div`
+//     display: flex;
+//     gap: 1em;
+//     justify-content: space-between;
+//     ${mediaQueryMax("largeTablet")`
+//     flex-direction: column;
+// `}
+// `;
 
-export const HeroSectionImageContainer = styled.div`
-    width: 100%;
-    height: 100%;
-    position: relative;
-`;
+// export const UpperHeroSectionText = styled.div`
+//     align-self: flex-end;
+//     p {
+//         margin-bottom: 0.7em;
+//     }
+//     max-width: 50%;
+//     ${mediaQueryMax("largeTablet")`
+//     max-width: 100%;
+// `}
+// `;
+
+// export const HeroSectionImageContainer = styled.div`
+//     width: 100%;
+//     height: 100%;
+//     position: relative;
+// `;
 
 export const ImageContainer = styled.div`
     width: 100%;
@@ -54,15 +55,15 @@ export const ImageContainer = styled.div`
     position: relative;
 `;
 
-export const StyledMainImage = styled(Image)`
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 65%;
-    ${mediaQueryMax("largeTablet")`
-        object-position: right 65%;
-    `}
-`;
+// export const StyledMainImage = styled(Image)`
+//     width: 100%;
+//     height: 100%;
+//     object-fit: cover;
+//     object-position: center 65%;
+//     ${mediaQueryMax("largeTablet")`
+//         object-position: right 65%;
+//     `}
+// `;
 
 export const KeyBenefitsSection = styled.div`
     display: grid;

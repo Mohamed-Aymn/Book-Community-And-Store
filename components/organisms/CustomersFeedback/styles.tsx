@@ -26,7 +26,7 @@ export const CustomerFeedbackContainer = styled.div`
 `;
 
 export const Container = styled.div`
-    background-color: ${(props) => props.theme.neutral2};
+    background-color: ${(props) => props.theme.colors.neutral2};
     padding: 1.7em;
     width: 30em;
     margin: 0 0.5em;
@@ -44,11 +44,11 @@ export const ImageContainer = styled.div`
 `;
 
 export const UserName = styled.div`
-    color: ${(props) => props.theme.primaryText};
+    color: ${(props) => props.theme.colors.text};
     font-weight: 600;
 `;
 
 export const UserTitle = styled.div`
     font-size: 0.9rem;
-    color: ${(props) => props.theme.neutral1};
+    color: ${(props) => props.theme.colors.neutral3};
 `;

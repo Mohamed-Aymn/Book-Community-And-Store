@@ -3,15 +3,15 @@ import useBookStore from "../../../../client_state/useBookStore";
 
 const Container = styled.div`
     & div {
+        overflow: hidden;
         padding: 0 0.7em;
-        text-overflow: ellipsis;
+        /* text-overflow: ellipsis; */
         margin-right: 1em;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        cursor: pointer;
+        /* text-overflow: ellipsis; */
         &:hover {
-            background-color: ${({ theme }) => theme.neutral2};
-            cursor: pointer;
+            background-color: ${({ theme }) => theme.colors.neutral2};
         }
     }
 `;
@@ -25,6 +25,7 @@ export default function Suggestions(props: {
         setOnClickChangingMainSearchValue,
         instantlyChangingMainSearchValue,
     } = useBookStore();
+
     let clickHandler = async (suggestion: any) => {
         await setInstantlyChangingMainSearchValue(suggestion.volumeInfo.title);
         await setOnClickChangingMainSearchValue(

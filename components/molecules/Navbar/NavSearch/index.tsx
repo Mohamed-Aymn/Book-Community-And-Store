@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { RiSettings5Fill } from "react-icons/ri";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import Divider from "../../../atoms/Divider";
@@ -8,41 +8,12 @@ import Suggestions from "./Suggestions";
 import Config from "./Config";
 import useOnClickOutside from "../../../../hooks/useClickOutside";
 import { env } from "../../../../environment";
-import { mediaQueryMax } from "../../../../styles/mediaQuery";
+import { screens } from "../../../../styles/mediaQuery";
 import useBookStore from "../../../../client_state/useBookStore";
 import useMainSearch from "../../../../hooks/useMainSearch";
 import { BsSearch } from "react-icons/bs";
-
-interface IInputBar {
-    suggestions: any;
-    isFocused: boolean;
-    ref: any;
-}
-
-const NavSearchBarTransitionDuration = 500;
-const NavSearchBar = styled.div<IInputBar>`
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    background-color: ${(props) => props.theme.neutral1};
-    border: solid 0.05em ${(props) => props.theme.neutral2};
-    align-items: center;
-    padding: 0.7em;
-    border-radius: 1.7em;
-    ${({ suggestions }) =>
-        suggestions
-            ? `
-                box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
-                border-radius: 1em 1em 0 0;
-                border-bottom: none;
-            `
-            : null}
-    transition: width ${NavSearchBarTransitionDuration}ms ease-in-out;
-    width: ${({ isFocused }) => (isFocused ? `40%` : `27%`)};
-    ${mediaQueryMax("largeTablet")`
-        width: 100%;
-    `}
-`;
+import Box from "../../../atoms/Box";
+import useScreenWidth from "../../../../hooks/useScreenWidth";
 
 const Input = styled.input`
     width: 100%;
@@ -50,9 +21,9 @@ const Input = styled.input`
     outline: none;
     background-color: transparent;
     transition: 500ms ease-in-out;
-    color: ${(props) => props.theme.neutral3};
+    color: ${(props) => props.theme.colors.neutral3};
     &:focus {
-        color: ${(props) => props.theme.text};
+        color: ${(props) => props.theme.colors.text};
     }
     &[placeholder] {
         text-overflow: ellipsis;
@@ -62,42 +33,29 @@ const Input = styled.input`
         text-overflow: ellipsis;
     }
     &::placeholder {
-        color: ${(props) => props.theme.neutral3};
+        color: ${(props) => props.theme.colors.neutral3};
     }
 `;
 
-const NavButton = styled.div`
+const NavButton = styled.button`
     background-color: transparent;
-    color: ${(props) => props.theme.text};
+    color: ${(props) => props.theme.colors.text};
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: none;
+    scale: 1.1;
     &:hover {
         text-decoration: underline;
     }
 `;
 
-const DropDownMenu = styled.div`
-    position: absolute;
-    background-color: ${(props) => props.theme.neutral1};
-    color: ${(props) => props.theme.neutral3};
-    width: 100%;
-    border: solid 0.05em ${(props) => props.theme.neutral2};
-    border-top: none;
-    border-radius: 0 0 1em 1em;
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 0.7em;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
-    padding-top: 0.5em;
-    top: 2.5em;
-    left: -0em;
-    transition: 300ms ease-in-out;
-`;
-
 export default function NavSearch() {
-    let router = useRouter();
+    const theme = useTheme();
+    const width = useScreenWidth();
+    const router = useRouter();
+    const { refetch } = useMainSearch();
     const {
         onClickChangingMainSearchValue,
         searchFilters,
@@ -106,13 +64,13 @@ export default function NavSearch() {
         setSearchQuery,
         setInstantlyChangingMainSearchValue,
         instantlyChangingMainSearchValue,
-        setOnClickChangingMainSearchValue,
     } = useBookStore();
+    const mainContainerRef = useRef();
+    useOnClickOutside(mainContainerRef, () => {
+        setIsMainContainerFocus(false);
+        setSearchConfig(false);
+    });
 
-    let [isMainContainerFocus, setIsMainContainerFocus] = useState(false);
-
-    const { refetch } = useMainSearch();
-    let [searchConfig, setSearchConfig] = useState(false);
     // suggestions search query
     const { data: suggestionsData, refetch: suggestionsRefetch } = useQuery(
         ["suggestions", instantlyChangingMainSearchValue],
@@ -126,6 +84,7 @@ export default function NavSearch() {
         },
         { enabled: false }
     );
+
     const searchHanlder = async () => {
         await refetch();
         router.push({
@@ -133,23 +92,60 @@ export default function NavSearch() {
             query: { search: onClickChangingMainSearchValue },
         });
     };
-    const mainContainerRef = useRef();
-    useOnClickOutside(mainContainerRef, () => {
-        setIsMainContainerFocus(false);
-        setSearchConfig(false);
-    });
 
-    return (
-        <NavSearchBar
-            suggestions={
+    let [isMainContainerFocus, setIsMainContainerFocus] = useState(false);
+    let [searchConfig, setSearchConfig] = useState(false);
+    let [isSuggestions, setSuggestions] = useState(
+        (suggestionsData !== undefined || searchConfig) && isMainContainerFocus
+            ? true
+            : false
+    );
+    useEffect(() => {
+        if (suggestionsData) {
+            setSuggestions(
                 (suggestionsData !== undefined || searchConfig) &&
-                isMainContainerFocus
+                    isMainContainerFocus
                     ? true
                     : false
-            }
-            isFocused={isMainContainerFocus}
+            );
+        } else {
+            setSuggestions(
+                (suggestionsData !== undefined || searchConfig) &&
+                    isMainContainerFocus
+                    ? true
+                    : false
+            );
+        }
+    }, [suggestionsData, isMainContainerFocus]);
+
+    return (
+        <Box
             onFocus={() => setIsMainContainerFocus(true)}
             ref={mainContainerRef}
+            // styels
+            position="relative"
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            bg={theme.colors.neutral1}
+            border="solid 0.05em"
+            borderBottom="none"
+            borderColor={theme.colors.neutral2}
+            p={theme.space.sm}
+            borderRadius={
+                isSuggestions
+                    ? `${theme.space.sm} ${theme.space.sm} 0 0`
+                    : theme.space.xl
+            }
+            width={
+                isMainContainerFocus
+                    ? "40%"
+                    : width < screens.largeTablet
+                    ? "100%"
+                    : "27%"
+            }
+            transition="width 500ms ease-in-out"
+            boxShadow={isSuggestions ? "0 2px 4px rgb(0 0 0 / 20%)" : undefined}
         >
             <Input
                 type="text"
@@ -165,7 +161,7 @@ export default function NavSearch() {
                     e.key == "Enter" ? searchHanlder() : null;
                 }}
             />
-            <div style={{ display: "flex", gap: "0.3em" }}>
+            <Box display="flex" flexGap={theme.space.xs}>
                 <NavButton onClick={() => refetch()}>
                     <BsSearch />
                 </NavButton>
@@ -178,11 +174,27 @@ export default function NavSearch() {
                 >
                     <RiSettings5Fill />
                 </NavButton>
-            </div>
-            {/* drop down menu for suggestion and searchconfig */}
+            </Box>
+            {/* drop down menu for suggestions*/}
             {isMainContainerFocus &&
                 (suggestionsData !== undefined || searchConfig) && (
-                    <DropDownMenu>
+                    <Box
+                        position="absolute"
+                        top="2.5em"
+                        left={0}
+                        width="100%"
+                        bg={theme.colors.neutral1}
+                        border="solild 0.05em"
+                        color={theme.colors.neutral3}
+                        borderColor={theme.colors.neutral2}
+                        borderTop="none"
+                        borderRadius={`0 0 ${theme.space.sm} ${theme.space.sm}`}
+                        boxShadow="0 2px 4px rgb(0 0 0 / 20%)"
+                        display="felx"
+                        flexDirection="column"
+                        pb={theme.space.xs}
+                        pt={theme.space.sm}
+                    >
                         {searchConfig && (
                             <Config
                                 setSearchQuery={setSearchQuery}
@@ -201,8 +213,8 @@ export default function NavSearch() {
                                     refetch={refetch}
                                 />
                             )}
-                    </DropDownMenu>
+                    </Box>
                 )}
-        </NavSearchBar>
+        </Box>
     );
 }

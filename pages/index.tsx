@@ -17,6 +17,9 @@ import { useTheme } from "styled-components";
 import Box from "../components/atoms/Box";
 import useMinScreenWidth from "../hooks/useScreenWidth";
 import { screens } from "../styles/mediaQuery";
+import ImageContainer from "../components/atoms/ImageContainer";
+import Image from "next/image";
+import Section from "../components/atoms/Section";
 
 export default function Home() {
     let [highlightedImage, setHighlightedImage] = useState(mainPhoto);
@@ -35,10 +38,35 @@ export default function Home() {
     return (
         <>
             {/* hero section */}
-            <styles.HeroSection ref={HeroSectionRef} inView={HeroSectionInView}>
-                <styles.UpperHeroSectionPart>
+            <Box
+                ref={HeroSectionRef}
+                // styles
+                height="100vh"
+                display="flex"
+                flexGap={theme.space.md}
+                flexDirection="column"
+                pt="4.5em" // it's value is set according to nav height
+                pb={theme.space.md}
+                m={`0 ${theme.space.md}`}
+                transition="300ms ease-in-out"
+                opacity={HeroSectionInView ? "1" : "0"}
+            >
+                <Box
+                    display="flex"
+                    flexGap={theme.space.sm}
+                    justifyContent="space-between"
+                    flexDirection={
+                        width < screens.largeTablet ? "column" : "row"
+                    }
+                >
                     <Logo display="big" />
-                    <styles.UpperHeroSectionText>
+                    <Box
+                        display="flex"
+                        flexGap={theme.space.sm}
+                        flexDirection="column"
+                        alignSelf="flex-end"
+                        maxWidth={width < screens.largeTablet ? "100%" : "50%"}
+                    >
                         <P>
                             Lorem ipsum dolor sit amet consectetur adipisicing
                             elit. Aliquam neque laborum harum adipisci
@@ -47,21 +75,27 @@ export default function Home() {
                             quaerat.
                         </P>
                         <Button approach="primary" text="Join Us!" />
-                    </styles.UpperHeroSectionText>
-                    {/* </div> */}
-                </styles.UpperHeroSectionPart>
-                <styles.HeroSectionImageContainer>
-                    <styles.StyledMainImage
+                    </Box>
+                </Box>
+                <ImageContainer>
+                    <Image
+                        priority
                         src={mainPhoto}
                         alt="Main photo"
                         layout="fill"
+                        objectFit="cover"
+                        objectPosition={
+                            width < screens.largeTablet
+                                ? "right 65%"
+                                : "center 65%"
+                        }
                     />
-                </styles.HeroSectionImageContainer>
-            </styles.HeroSection>
+                </ImageContainer>
+            </Box>
 
             <main>
                 {/* section one */}
-                <styles.Section>
+                <Section isMarginBottom>
                     <FadeAndTranslateScrollAnimation
                         translateValue={5}
                         direction="top"
@@ -77,7 +111,17 @@ export default function Home() {
                         </P>
                     </FadeAndTranslateScrollAnimation>
 
-                    <styles.KeyBenefitsSection>
+                    <Box
+                        display="grid"
+                        flexGap="3em"
+                        // maxHeight="calc(100vh - 5em)"
+                        gridTemplateColumns={
+                            width > screens.largeTablet ? "1fr 1fr" : undefined
+                        }
+                        gridTemplateRows={
+                            width < screens.largeTablet ? "1fr auto" : undefined
+                        }
+                    >
                         <FadeAndTranslateScrollAnimation
                             translateValue={5}
                             direction="left"
@@ -129,16 +173,19 @@ export default function Home() {
                             as={styles.ImageContainer}
                             triggerOnce
                         >
-                            <styles.StyledBenefitsImage
-                                src={highlightedImage}
-                                alt="benefits"
-                                layout={"fill"}
-                            />
+                            <ImageContainer>
+                                <Image
+                                    src={highlightedImage}
+                                    alt="benefits"
+                                    layout="fill"
+                                    objectFit="cover"
+                                />
+                            </ImageContainer>
                         </FadeAndTranslateScrollAnimation>
-                    </styles.KeyBenefitsSection>
-                </styles.Section>
+                    </Box>
+                </Section>
 
-                <styles.Section>
+                <Section isMarginBottom>
                     <FadeAndTranslateScrollAnimation
                         translateValue={5}
                         direction="top"
@@ -151,7 +198,10 @@ export default function Home() {
                             elit. Porro accusantium in laboriosam,
                         </P>
                     </FadeAndTranslateScrollAnimation>
-                    <styles.AccordionContainer>
+                    <Box
+                        width={width < screens.largeHandset ? "100%" : "70%"}
+                        m="auto"
+                    >
                         <FadeAndTranslateScrollAnimation
                             translateValue={5}
                             triggerOnce
@@ -189,10 +239,10 @@ export default function Home() {
                                 </Accordion>
                             </AccordionContainer>
                         </FadeAndTranslateScrollAnimation>
-                    </styles.AccordionContainer>
-                </styles.Section>
+                    </Box>
+                </Section>
 
-                <styles.Section>
+                <Section>
                     <FadeAndTranslateScrollAnimation
                         translateValue={5}
                         direction="top"
@@ -203,6 +253,8 @@ export default function Home() {
                     </FadeAndTranslateScrollAnimation>
                     <div style={{ overflow: "hidden" }}>
                         <feedbackStyles.CustomerFeedbackContainer>
+                            {/* <Box display="flex"> */}
+
                             {reviewersNames.map(
                                 (reviewer: string, i: number) => {
                                     return (
@@ -225,9 +277,10 @@ export default function Home() {
                                     );
                                 }
                             )}
+                            {/* </Box> */}
                         </feedbackStyles.CustomerFeedbackContainer>
                     </div>
-                </styles.Section>
+                </Section>
             </main>
         </>
     );

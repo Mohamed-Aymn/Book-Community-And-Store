@@ -1,12 +1,14 @@
 import { useInView } from "react-intersection-observer";
 import styled from "styled-components";
 
-export const ScrollAnimationStyles = styled.div<{
+interface IScrollAnimation {
     inView: boolean;
     direction: "top" | "bottom" | "right" | "left" | "none";
     translateValue: number;
     duration: number;
-}>`
+}
+
+export const ScrollAnimationStyles = styled.div<IScrollAnimation>`
     transition: ${({ duration }) => duration}ms ease-in-out;
     opacity: 0;
 

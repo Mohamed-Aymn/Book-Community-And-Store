@@ -21,21 +21,17 @@ const SuccessInteractionColor = "#386f5e";
 const DangerInteractionColor = "#b95573";
 
 const SpaceUnit = 1;
-
 const defaults = {
-    // breakpoints: [
-    //     "1920 px",
-    //     "1280 px",
-    //     "1024 px",
-    //     "768 px",
-    //     "480 px",
-    //     "360 px",
-    //     "320 px",
-    // ],
     space: {
         xs: `${SpaceUnit * 0.5}em`,
         sm: `${SpaceUnit}em`,
+        /*
+        sm is used for space between containers content
+        */
         md: `${SpaceUnit * 2}em`,
+        /*
+        md is used for space between containers
+        */
         lg: `${SpaceUnit * 4}em`,
         xl: `${SpaceUnit * 8}em`,
     },
@@ -72,6 +68,7 @@ export const darkTheme: DefaultTheme = {
 };
 
 export const GlobalStyles = createGlobalStyle`
+
 :root {
     // ------------------------------------- colors
     --primary-color: #4a81f0;
@@ -103,13 +100,7 @@ export const GlobalStyles = createGlobalStyle`
     --space-xxl:  calc(5.25 * var(--space-unit));
 
 }
-html{
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    margin: 0;
-    padding: 0;
-}
+
 body {
     background: ${({ theme }: { theme: DefaultTheme }) => theme.colors.body};
     transition: all 0.50s linear;
@@ -118,9 +109,6 @@ body {
     margin: 0;
     overflow-y: scroll;
     overflow-x: hidden;
-    width: 100vw;
-    height: 100%;
-    /* background-color: red; */
 }
 *{
     -webkit-box-sizing: border-box;

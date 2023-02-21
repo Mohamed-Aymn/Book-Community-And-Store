@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { ImCross } from "react-icons/im";
 import { signOut } from "next-auth/react";
 import Divider from "../../atoms/Divider";
+import { ITransitionState } from "../../../types/custom";
 
 const Container = styled.div<ITransitionState>`
     position: fixed;
@@ -12,7 +13,7 @@ const Container = styled.div<ITransitionState>`
     right: 0;
     height: 100vh;
     width: 100vw;
-    background-color: ${(props) => props.theme.body};
+    background-color: ${(props) => props.theme.colors.body};
     z-index: 100;
     display: flex;
     flex-direction: column;
@@ -71,7 +72,7 @@ const NavItemStyles = styled.button<{ isActiveRoute?: boolean }>`
     border: none;
     transition: 300ms ease-in-out;
     ${({ isActiveRoute, theme }) =>
-        isActiveRoute && `background-color: ${theme.neutral3};`}
+        isActiveRoute && `background-color: ${theme.colors.neutral3};`}
 `;
 
 export const NavItem = (props: INavItem) => {

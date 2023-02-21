@@ -15,18 +15,10 @@ import { useEffect, useRef, useState } from "react";
 import LargeNavMenu from "./LargeNavMenu";
 import MobileNavMenu from "./MobileNavMenu";
 import useScreenWidth from "../../../hooks/useScreenWidth";
-
-const RoutesContainer = styled.div`
-    ${mediaQueryMax("largeTablet")`
-        display: none;
-    `}
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    /* margin: 0 auto; */
-    gap: 1em;
-    width: fit-content;
-`;
+import { ITransitionState } from "../../../types/custom";
+import Box from "../../atoms/Box";
+import NextLink from "../../atoms/NextLink";
+import RouteLinkButton from "../../atoms/RouteLinkButton";
 
 const NavTransitionDuration = 500;
 const Nav = styled.nav<ITransitionState>`
@@ -40,9 +32,9 @@ const Nav = styled.nav<ITransitionState>`
     translate: 0 -1em;
     padding: 0 1.7em;
     padding-top: 1em;
-    background-color: ${(props) => props.theme.body};
+    background-color: ${(props) => props.theme.colors.body};
     /* those shadow and border will be used all over the website */
-    border-bottom: solid 0.01em ${(props) => props.theme.neutral2};
+    border-bottom: solid 0.01em ${(props) => props.theme.colors.neutral2};
     box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
     z-index: 3;
     transition: ${NavTransitionDuration}ms ease-in-out;
@@ -62,8 +54,7 @@ export default function Navbar() {
     const { isNavbarMenu } = useLayoutStore();
     let router = useRouter();
     const nodeRef = useRef(null);
-
-    const { isBig: isLargeTablet } = useScreenWidth(screens.largeTablet);
+    const width = useScreenWidth();
 
     return (
         <Transition
@@ -77,60 +68,57 @@ export default function Navbar() {
         >
             {(state) => (
                 <Nav TransitionState={state}>
-                    <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "2em",
-                            flexGrow: "3",
-                        }}
+                    <Box
+                        display="flex"
+                        alignItems="center"
+                        flexGap="2em"
+                        flexGrow="3"
                     >
-                        <Link href="/" style={{ textDecoration: "none" }}>
+                        <NextLink href="/">
                             <Logo display="icon" />
-                        </Link>
+                        </NextLink>
 
                         <NavSearchBar />
 
-                        <RoutesContainer>
-                            <Link href="/" style={{ textDecoration: "none" }}>
-                                <Route active={router.pathname === "/"}>
-                                    Home
-                                </Route>
-                            </Link>
-                            <Link
-                                href="/community"
-                                style={{ textDecoration: "none" }}
+                        {width > screens.largeTablet && (
+                            <Box
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="flex-end"
+                                flexGap="1em"
+                                width="fit-content"
                             >
-                                <Route
-                                    active={router.pathname.includes(
+                                <RouteLinkButton
+                                    href="/"
+                                    isActive={router.pathname === "/"}
+                                >
+                                    Home
+                                </RouteLinkButton>
+                                <RouteLinkButton
+                                    href="/community"
+                                    isActive={router.pathname.includes(
                                         "/community"
                                     )}
                                 >
                                     Community
-                                </Route>
-                            </Link>
-                            <Link
-                                href="/store"
-                                style={{ textDecoration: "none" }}
-                            >
-                                <Route
-                                    active={router.pathname.includes("/store")}
+                                </RouteLinkButton>
+                                <RouteLinkButton
+                                    href="/store"
+                                    isActive={router.pathname.includes(
+                                        "/store"
+                                    )}
                                 >
                                     Store
-                                </Route>
-                            </Link>
-                            <Link
-                                href="/cart"
-                                style={{ textDecoration: "none" }}
-                            >
-                                <Route
-                                    active={router.pathname.includes("/cart")}
+                                </RouteLinkButton>
+                                <RouteLinkButton
+                                    href="/cart"
+                                    isActive={router.pathname.includes("/cart")}
                                 >
                                     Cart
-                                </Route>
-                            </Link>
-                        </RoutesContainer>
-                    </div>
+                                </RouteLinkButton>
+                            </Box>
+                        )}
+                    </Box>
 
                     {/* nav right-hand buttons */}
                     <div>
@@ -147,7 +135,7 @@ export default function Navbar() {
                         >
                             {(state) => (
                                 <>
-                                    {isLargeTablet ? (
+                                    {width > screens.largeTablet ? (
                                         <LargeNavMenu
                                             TransitionState={state}
                                             session={session}
