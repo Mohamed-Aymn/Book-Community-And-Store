@@ -38,6 +38,7 @@ type Box = ColorProps &
         transition?: string;
         animation?: string;
         opacity?: string;
+        transform?: string;
     };
 
 const Box = styled.div<Box>`
@@ -45,6 +46,7 @@ const Box = styled.div<Box>`
     ${({ transition }) => transition && `transition: ${transition};`}
     ${({ opacity }) => opacity && `opacity: ${opacity};`}
     ${({ animation }) => animation && `animation: ${animation};`}
+    ${({ transform }) => transform && `transform: ${transform};`}
     ${compose(
         color,
         position,

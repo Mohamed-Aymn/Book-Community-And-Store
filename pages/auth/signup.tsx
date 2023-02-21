@@ -4,7 +4,6 @@ import { FcGoogle } from "react-icons/fc";
 import { GrFacebook } from "react-icons/gr";
 import Button from "../../components/atoms/Button";
 import { signIn } from "next-auth/react";
-import * as styles from "../../styles/SignupStyles";
 import { useRouter } from "next/router";
 import mainPhoto from "../../assets/mainPhoto.jpg";
 import FormItem from "../../components/molecules/FormItem";
@@ -12,6 +11,32 @@ import Input from "../../components/atoms/Input";
 import { useForm, Controller } from "react-hook-form";
 import { env } from "../../environment";
 import { useState } from "react";
+import Box from "../../components/atoms/Box";
+import styled, { useTheme } from "styled-components";
+import Logo from "../../assets/Logo";
+
+export const OAuthButton = styled.button<{
+    brandColor: string;
+    logoBackgroundColor?: string;
+}>`
+    padding: 1em 2em;
+    background-color: ${(props) => props.brandColor};
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 0.2em;
+    cursor: pointer;
+    span {
+        position: absolute;
+        left: 1em;
+        top: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: ${(props) => props.logoBackgroundColor};
+        padding: 0.2em;
+    }
+`;
 
 export default function Signup() {
     let [isLoading, setLoading] = useState(false);
@@ -67,35 +92,41 @@ export default function Signup() {
         }
     };
 
+    const theme = useTheme();
+
     return (
-        <div style={{ display: "grid", gridTemplateColumns: "0.75fr 1fr" }}>
-            <styles.InspiringCardContainer>
-                <styles.InspiringCard>
-                    <styles.Title>
-                        <div>Book</div>
-                        Community <span>& Store</span>
-                    </styles.Title>
-                    <styles.InspiringTitle></styles.InspiringTitle>
-                    <styles.InspiringText>
+        <Box display="grid" gridTemplateColumns="0.75fr 1fr">
+            <Box
+                display="flex"
+                justifyContent="space-between"
+                flexDirection="column"
+                bg={theme.colors.neutral1}
+                height="100vh"
+                p={theme.space.md}
+            >
+                <Box p={theme.space.md} bg={theme.colors.neutral2}>
+                    <Logo display="default" />
+
+                    <Box fontWeight="100" color={theme.colors.neutral3}>
                         <b>Start your journey with us,</b> Discover the
                         worlds&apos;s best comuunity of freelancers and business
                         owners.
-                    </styles.InspiringText>
-                </styles.InspiringCard>
+                    </Box>
+                </Box>
                 <CustomersFeedback img={mainPhoto} name="Agatha Christie" />
-            </styles.InspiringCardContainer>
+            </Box>
 
-            <styles.FormContainer>
+            <Box m="auto" width="20em">
                 <h1>Sign up</h1>
-                <div
-                    style={{
-                        display: "flex",
-                        gap: "0.5em",
-                        flexDirection: "column",
-                    }}
-                >
-                    <styles.OAuthContainer>
-                        <styles.OAuthButton
+                <Box display="flex" flexGap="0.5em" flexDirection="column">
+                    <Box
+                        display="flex"
+                        flexDirection="column"
+                        alignContent="center"
+                        flexGap={theme.space.xs}
+                        position="relative"
+                    >
+                        <OAuthButton
                             brandColor="#517be9"
                             logoBackgroundColor="#fff"
                             onClick={async () => {
@@ -109,9 +140,9 @@ export default function Signup() {
                                 <FcGoogle />
                             </span>
                             Continue with gmail
-                        </styles.OAuthButton>
+                        </OAuthButton>
 
-                        <styles.OAuthButton
+                        <OAuthButton
                             brandColor="#4962aa"
                             onClick={() => {
                                 signIn("facebook", {
@@ -124,8 +155,8 @@ export default function Signup() {
                                 <GrFacebook />
                             </span>
                             Continue with facebook
-                        </styles.OAuthButton>
-                    </styles.OAuthContainer>
+                        </OAuthButton>
+                    </Box>
 
                     {/* OR */}
 
@@ -242,8 +273,8 @@ export default function Signup() {
                             have an account?
                         </div>
                     </Link>
-                </div>
-            </styles.FormContainer>
-        </div>
+                </Box>
+            </Box>
+        </Box>
     );
 }

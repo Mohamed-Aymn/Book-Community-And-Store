@@ -1,22 +1,47 @@
 import Link from "next/link";
-import { BiBookBookmark } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { GrFacebook } from "react-icons/gr";
 import { useState } from "react";
 import Button from "../../components/atoms/Button";
 import { signIn } from "next-auth/react";
-import * as styles from "../../styles/Loginstyles";
 import { useRouter } from "next/router";
 import { useForm, Controller } from "react-hook-form";
 import FormItem from "../../components/molecules/FormItem";
 import Input from "../../components/atoms/Input";
 import Logo from "../../assets/Logo";
-import { Transition } from "react-transition-group";
+import { Transition, TransitionStatus } from "react-transition-group";
+import Box from "../../components/atoms/Box";
+import styled, { useTheme } from "styled-components";
+import NextLink from "../../components/atoms/NextLink";
+
+export const OAuthButton = styled.button<{
+    brandColor: string;
+    logoBackgroundColor?: string;
+}>`
+    padding: 1em 2em;
+    background-color: ${(props) => props.brandColor};
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 0.2em;
+    cursor: pointer;
+    span {
+        position: absolute;
+        left: 1em;
+        top: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: ${(props) => props.logoBackgroundColor};
+        padding: 0.2em;
+    }
+`;
 
 export default function Login() {
     const router = useRouter();
     let [email, setEmail] = useState("");
     let [errorAlert, setErrorAlert] = useState("");
+    const theme = useTheme();
 
     const loginUser = async (data: any) => {
         const { email, password } = data;
@@ -46,24 +71,44 @@ export default function Login() {
     } = useForm({});
 
     return (
-        <styles.LoginPage>
-            <styles.FormContainer>
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "baseline",
-                        marginBottom: "1em",
-                    }}
+        <Box
+            height="100vh"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+        >
+            <Box
+                p={theme.space.md}
+                border="0.1em solid"
+                borderColor={theme.colors.neutral2}
+                transition="300ms ease-in-out"
+            >
+                <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="baseline"
+                    mb={theme.space.md}
                 >
-                    <Link href="/" style={{ textDecoration: "none" }}>
+                    <NextLink href="/">
                         <Logo display="icon" />
-                    </Link>
+                    </NextLink>
                     <div>Welcome Back !!</div>
-                </div>
-                <styles.BodyContainer>
-                    <styles.OAuthContainer>
-                        <styles.OAuthButton
+                </Box>
+
+                <Box
+                    display="flex"
+                    flexGap={theme.space.xs}
+                    flexDirection="column"
+                    maxHeight="fit-content"
+                >
+                    <Box
+                        display="flex"
+                        flexDirection="column"
+                        flexGap={theme.space.sm}
+                        position="relative"
+                        alignContent="center"
+                    >
+                        <OAuthButton
                             brandColor="#517be9"
                             logoBackgroundColor="#fff"
                             onClick={async () => {
@@ -77,8 +122,8 @@ export default function Login() {
                                 <FcGoogle />
                             </span>
                             Continue with gmail
-                        </styles.OAuthButton>
-                        <styles.OAuthButton
+                        </OAuthButton>
+                        <OAuthButton
                             brandColor="#4962aa"
                             onClick={() => {
                                 signIn("facebook", {
@@ -91,8 +136,8 @@ export default function Login() {
                                 <GrFacebook />
                             </span>
                             Continue with facebook
-                        </styles.OAuthButton>
-                    </styles.OAuthContainer>
+                        </OAuthButton>
+                    </Box>
                     <div style={{ textAlign: "center" }}>OR</div>
                     {errorAlert !== "" && <div>{errorAlert}</div>}
                     <FormItem
@@ -118,8 +163,20 @@ export default function Login() {
                         />
                     </FormItem>
                     <Transition in={email !== ""} timeout={300} unmountOnExit>
-                        {(state) => (
-                            <styles.PasswordField TransitionState={state}>
+                        {(state: TransitionStatus) => (
+                            <Box
+                                transition="300ms ease-in-out"
+                                opacity={
+                                    state === "entering" || state === "entered"
+                                        ? "1"
+                                        : "0"
+                                }
+                                transform={
+                                    state === "entering" || state === "entered"
+                                        ? "translateY(0em)"
+                                        : "translateY(-0.5em)"
+                                }
+                            >
                                 <FormItem
                                     label="Password"
                                     labelPosition="above"
@@ -145,7 +202,7 @@ export default function Login() {
                                         )}
                                     />
                                 </FormItem>
-                            </styles.PasswordField>
+                            </Box>
                         )}
                     </Transition>
                     <Button
@@ -164,8 +221,8 @@ export default function Login() {
                         <Link href="/security">Security</Link>
                         <Link href="/contact">Contact Book Store</Link>
                     </div>
-                </styles.BodyContainer>
-            </styles.FormContainer>
-        </styles.LoginPage>
+                </Box>
+            </Box>
+        </Box>
     );
 }

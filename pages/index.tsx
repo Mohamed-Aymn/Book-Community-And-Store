@@ -2,7 +2,6 @@ import Button from "../components/atoms/Button";
 import { useState } from "react";
 import mainPhoto from "../assets/mainPhoto.jpg";
 import secondaryPhoto from "../assets/secondaryPhoto.jpg";
-import * as styles from "../styles/indexStyles";
 import * as feedbackStyles from "../components/organisms/CustomersFeedback/styles";
 import Logo from "../assets/Logo";
 import P from "../components/atoms/Paragraph";
@@ -12,14 +11,50 @@ import Accordion, {
 import CustomersFeedback from "../components/organisms/CustomersFeedback";
 import { useInView } from "react-intersection-observer";
 import { FadeAndTranslateScrollAnimation } from "../components/atoms/ScrollAnimation";
-import LoadingSpinner from "../components/atoms/LoadingSpinner";
-import { useTheme } from "styled-components";
+import styled, { useTheme } from "styled-components";
 import Box from "../components/atoms/Box";
 import useMinScreenWidth from "../hooks/useScreenWidth";
 import { screens } from "../styles/mediaQuery";
 import ImageContainer from "../components/atoms/ImageContainer";
 import Image from "next/image";
 import Section from "../components/atoms/Section";
+
+interface IHighlightBenefitButton {
+    active: boolean;
+}
+
+export const KeyBenefitsButtonsContainer = styled.div<{ inView: boolean }>`
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+`;
+
+export const SectionHeading = styled.div`
+    text-align: center;
+    margin-bottom: 2em;
+`;
+
+export const HighlightBenefitButton = styled.button<IHighlightBenefitButton>`
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: 300ms ease-in-out;
+    &:hover {
+        background-color: ${(props) => props.theme.colors.neutral2};
+    }
+    ${({ active, theme }) =>
+        active
+            ? `
+        border-left: solid 0.2em ${theme.colors.text};
+        background-color: ${theme.colors.neutral2};
+        padding: 3em 1em;
+        `
+            : `
+        border-left: solid 0.2em ${theme.colors.body};
+        padding: 1em;
+        `}
+`;
 
 export default function Home() {
     let [highlightedImage, setHighlightedImage] = useState(mainPhoto);
@@ -99,7 +134,7 @@ export default function Home() {
                     <FadeAndTranslateScrollAnimation
                         translateValue={5}
                         direction="top"
-                        as={styles.SectionHeading}
+                        as={SectionHeading}
                         triggerOnce
                     >
                         <h1>
@@ -125,10 +160,10 @@ export default function Home() {
                         <FadeAndTranslateScrollAnimation
                             translateValue={5}
                             direction="left"
-                            as={styles.KeyBenefitsButtonsContainer}
+                            as={KeyBenefitsButtonsContainer}
                             triggerOnce
                         >
-                            <styles.HighlightBenefitButton
+                            <HighlightBenefitButton
                                 active={
                                     highlightedImage === mainPhoto
                                         ? true
@@ -145,8 +180,8 @@ export default function Home() {
                                     nostrum voluptatum! Temporibus ad molestiae
                                     at dignissimos iure facilis tempore?
                                 </P>
-                            </styles.HighlightBenefitButton>
-                            <styles.HighlightBenefitButton
+                            </HighlightBenefitButton>
+                            <HighlightBenefitButton
                                 active={
                                     highlightedImage === secondaryPhoto
                                         ? true
@@ -165,12 +200,12 @@ export default function Home() {
                                     nostrum voluptatum! Temporibus ad molestiae
                                     at dignissimos iure facilis tempore?
                                 </P>
-                            </styles.HighlightBenefitButton>
+                            </HighlightBenefitButton>
                         </FadeAndTranslateScrollAnimation>
                         <FadeAndTranslateScrollAnimation
                             translateValue={5}
                             direction="right"
-                            as={styles.ImageContainer}
+                            as={ImageContainer}
                             triggerOnce
                         >
                             <ImageContainer>
@@ -189,7 +224,7 @@ export default function Home() {
                     <FadeAndTranslateScrollAnimation
                         translateValue={5}
                         direction="top"
-                        as={styles.SectionHeading}
+                        as={SectionHeading}
                         triggerOnce
                     >
                         <h1>Frequently asked questions</h1>
@@ -246,7 +281,7 @@ export default function Home() {
                     <FadeAndTranslateScrollAnimation
                         translateValue={5}
                         direction="top"
-                        as={styles.SectionHeading}
+                        as={SectionHeading}
                         triggerOnce
                     >
                         <h1>Customer testimonials</h1>

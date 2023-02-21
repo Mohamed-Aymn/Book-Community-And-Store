@@ -20,9 +20,8 @@ const Container = styled.div`
 
 export default function FloatingButtons() {
     const { toggleTheme, theme } = useLayoutStore();
-    // const theme = layoutStore((state: any) => state.theme);
-
     let [isUpArrow, setUpArrow] = useState(false);
+
     const onScroll = () => {
         setUpArrow(window.pageYOffset > 500);
     };
@@ -43,7 +42,6 @@ export default function FloatingButtons() {
                     )
                 }
                 onClick={toggleTheme}
-                TransitionState={"none"}
                 order={1}
             />
             <Transition in={isUpArrow} timeout={500}>
@@ -56,7 +54,6 @@ export default function FloatingButtons() {
                                 behavior: "smooth",
                             })
                         }
-                        TransitionState={state}
                         order={2}
                     />
                 )}

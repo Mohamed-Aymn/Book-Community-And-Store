@@ -6,7 +6,6 @@ import BookCard from "../../components/molecules/BookCard";
 import mainPhoto from "../../assets/mainPhoto.jpg";
 import { useQuery, dehydrate, QueryClient } from "react-query";
 import { getSession, useSession } from "next-auth/react";
-import * as styles from "../../styles/profileStyles";
 import Accordion, {
     AccordionContainer,
 } from "../../components/molecules/Accordion";
@@ -14,6 +13,10 @@ import getUserData from "../../query_functions/getUserData";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { env } from "../../environment";
+import Box from "../../components/atoms/Box";
+import { useTheme } from "styled-components";
+import useScreenWidth from "../../hooks/useScreenWidth";
+import { screens } from "../../styles/mediaQuery";
 
 export async function getServerSideProps(context: any) {
     let req = context.req;
@@ -42,6 +45,9 @@ export async function getServerSideProps(context: any) {
 
 export default function Profile({ isOwner = false }: { isOwner: boolean }) {
     let router = useRouter();
+    const theme = useTheme();
+    const width = useScreenWidth();
+
     const { data: session, status } = useSession();
     const { data, isFetching } = useQuery(
         ["user data", router.query.profile],
@@ -76,54 +82,62 @@ export default function Profile({ isOwner = false }: { isOwner: boolean }) {
 
     return (
         <>
-            <styles.ProfileHeaderBackground>
-                <styles.ProfileHeaderContent>
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                        }}
-                    >
-                        <styles.MainInfo>
-                            <styles.ImageContainer>
+            <Box bg={theme.colors.neutral1}>
+                <Box
+                    maxWidth="140ch"
+                    pt="calc(4em + 3em)"
+                    pb="3em"
+                    margin={width < screens.desktop ? "0 1.7em" : "0 auto"}
+                >
+                    <Box display="flex" justifyContent="space-between">
+                        <Box
+                            display="flex"
+                            alignItems="center"
+                            flexGap={theme.space.xs}
+                        >
+                            <Box width="3.7em" height="3.7em">
                                 <Image
                                     className="image"
                                     style={{
                                         width: "100%",
                                         height: "100%",
                                         borderRadius: "100%",
-                                        border: "solid 0.15em #9e9e9e",
+                                        border: "solid 0.05em black",
                                     }}
                                     src={img}
                                     alt="Picture of the author"
                                     width={500}
                                     height={500}
                                 />
-                            </styles.ImageContainer>
-                            <styles.NameAndTitleContainer>
+                            </Box>
+                            <Box display="flex" flexDirection="column">
                                 {data?.name && (
-                                    <styles.UserName>
+                                    <Box color={theme.colors.text}>
                                         {data.name}
-                                    </styles.UserName>
+                                    </Box>
                                 )}
                                 {data?.title && (
-                                    <styles.UserTitle>
+                                    <Box
+                                        color={theme.colors.neutral1}
+                                        mt="-0.1em"
+                                        fontSize={"0.8rem"}
+                                    >
                                         {data.title}
-                                    </styles.UserTitle>
+                                    </Box>
                                 )}
-                            </styles.NameAndTitleContainer>
-                        </styles.MainInfo>
-                        <div style={{ alignSelf: "flex-end" }}>
+                            </Box>
+                        </Box>
+                        <Box alignSelf="flex-end">
                             {isOwner ? (
-                                <Link
-                                    href={`${session?.user._id}/settings`}
-                                    style={{ textDecoration: "none" }}
-                                >
-                                    <Button
-                                        text="Profile settings"
-                                        approach="primary"
-                                    />
-                                </Link>
+                                <Button
+                                    text="Profile settings"
+                                    approach="primary"
+                                    onClick={() =>
+                                        router.push(
+                                            `${session?.user._id}/settings`
+                                        )
+                                    }
+                                />
                             ) : !isOwner &&
                               data?.followers?.includes(session?.user._id) ? (
                                 <Button
@@ -140,20 +154,30 @@ export default function Profile({ isOwner = false }: { isOwner: boolean }) {
                                     onClick={followUser}
                                 />
                             ) : !isOwner && session == null ? (
-                                <Link href="/auth/login">
-                                    <Button text="Follow" approach="primary" />
-                                </Link>
+                                <Button
+                                    text="Follow"
+                                    approach="primary"
+                                    onClick={() => router.push("/auth/login")}
+                                />
                             ) : null}
-                        </div>
-                    </div>
+                        </Box>
+                    </Box>
 
-                    {data?.bio && <styles.About>{data.bio}</styles.About>}
-                </styles.ProfileHeaderContent>
-            </styles.ProfileHeaderBackground>
+                    {data?.bio && <Box ml={theme.space.md}>{data.bio}</Box>}
+                </Box>
+            </Box>
             <main>
                 <AccordionContainer>
                     <Accordion title="Info" isOpened={true}>
-                        <styles.TwoColumnsInfo>
+                        <Box
+                            display="grid"
+                            gridGap={theme.space.md}
+                            gridTemplateColumns={
+                                width < screens.smallDesktop
+                                    ? "100%"
+                                    : "1fr 1fr"
+                            }
+                        >
                             <div>
                                 <h3>Community</h3>
                                 <div
@@ -203,7 +227,7 @@ export default function Profile({ isOwner = false }: { isOwner: boolean }) {
                                     <span>there is no favourite genres</span>
                                 )}
                             </div>
-                        </styles.TwoColumnsInfo>
+                        </Box>
                         <div>
                             <h3>Books read</h3>
                             {data?.readBooks && data?.readBooks.length !== 0 ? (
